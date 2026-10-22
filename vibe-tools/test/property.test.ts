@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { DETERMINISM, PRODUCES, sharingOf, tierAllows, type Determinism, type Produces, type Tier, type Effect } from '../src/axes.js';
-import { canonicalize, integrityOf, sha256HexOfText, type Edge, type ModuleDescriptor, type ModuleNode, type Port, type ToolDescriptor } from '../src/contract.js';
+import { canonicalize } from '../src/canonical.js';
+import { sha256HexOfText } from '../src/hash.js';
+import { integrityOf, type Edge, type ModuleDescriptor, type ModuleNode, type Port, type ToolDescriptor } from '../src/contract.js';
 import { validate, REJECT_CODES } from '../src/graph.js';
 import { Rng } from './rng.js';
 

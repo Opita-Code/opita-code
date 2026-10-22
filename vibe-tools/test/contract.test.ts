@@ -1,15 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
+import { canonicalize, CanonicalError } from '../src/canonical.js';
+import { sha256HexOfText } from '../src/hash.js';
 import {
-  canonicalize,
   integrityOf,
-  sha256HexOfText,
-  CanonicalError,
-  parseRef,
   deliveries,
   inputPort,
   outputPort,
+  parseRef,
   type Port,
   type ToolDescriptor,
 } from '../src/contract.js';

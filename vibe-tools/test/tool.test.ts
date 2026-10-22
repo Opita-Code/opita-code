@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import type { Port, ToolDescriptor } from '../src/contract.js';
-import { ToolRegistry, emptyContext, sealContext, type ToolContext } from '../src/tool.js';
+import { ToolRegistry } from '../src/tool.js';
+import { emptyContext, sealContext, type ToolContext } from '../src/context.js';
 
 const p = (name: string, produces: Port['produces'], artifact = false): Port => ({ name, produces, artifact });
 
