@@ -72,6 +72,17 @@ export function integrityOf(value: unknown): string {
   return sha256HexOfText(canonicalize(value));
 }
 
+/**
+ * Lo que una herramienta devuelve por un puerto.
+ *
+ * Vive en el contrato y no en la magia porque es dato: el plan de una corrida
+ * tiene que poder describirse sin el codigo que la produjo.
+ */
+export interface ToolOutput {
+  readonly port: string;
+  readonly value: unknown;
+}
+
 /** Puertos que el modulo entrega a un humano. Debe haber al menos uno. */
 export function deliveries(tool: ToolDescriptor): Port[] {
   return tool.outputs.filter((p) => p.artifact);

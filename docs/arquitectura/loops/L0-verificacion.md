@@ -59,4 +59,4 @@ Decisión del operador (opción A): ningún artefacto juzgable supera **4096 byt
 
 Unidades: cada archivo de `src/`, cada doc de `docs/arquitectura/loops/`, y el README. Los documentos de la fase 1 están clasificados **no juzgables** con motivo explícito, impreso en cada corrida para que la clasificación no se pudra.
 
-**Presupuesto ajustado:** `graph.ts` en 3569 B. L2 le mete orden topológico y detección de ciclos, así que probablemente haya que partirlo.
+**Presupuesto al cierre de L0:** el más ajustado era `graph.ts` en 3569 B, y L2 le mete orden topológico y detección de ciclos, así que probablemente haya que partirlo. *(Tras L1 el más ajustado del repo pasó a ser `hash.ts` en 3716 B; `graph.ts` sigue en 3569 B, sin cambios.)*

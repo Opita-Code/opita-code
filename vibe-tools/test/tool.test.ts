@@ -119,7 +119,7 @@ test('L0-T1 · una tool que intenta escribir devuelve fallo en vez de corromper 
   });
   const r = reg.run('exec', '0.1.0', {}, { profile: 'minimal', injected: {}, actorId: 'a', deadlineMs: 1 });
   assert.equal(r.ok, false);
-  if (!r.ok) assert.match(r.error, /escritura rechazada/);
+  if (!r.ok) assert.match(r.detail, /escritura rechazada/);
 });
 
 test('L0-T1 · la tool recibe el contexto inyectado tal cual', () => {
@@ -193,16 +193,19 @@ test('L0-T1 · una tool determinista da el mismo resultado con la misma entrada'
   assert.equal(b.ok && b.outputs[0]?.value, 2, 'el contador avanza: la tool de prueba es con-estado, no determinista');
 });
 
-test('L0-T1 · el MVP solo ejecuta T0: una tool T2 se rechaza con mensaje claro', () => {
+test('L1 · el host por defecto (cliente) no sostiene T2, y dice que le falta', () => {
   const reg = new ToolRegistry().register(HEAVY, () => ({ ok: true, outputs: [] }));
   const r = reg.run('heavy', '1.0.0', {}, emptyContext('a'));
   assert.equal(r.ok, false);
-  if (!r.ok) assert.match(r.error, /fuera de T0/);
+  if (!r.ok) {
+    assert.equal(r.code, 'E_HOST_UNSUPPORTED');
+    assert.match(r.detail, /falta microvm/);
+  }
 });
 
 test('L0-T1 · un fallo de la tool se reporta como fallo, no como excepcion', () => {
   const reg = new ToolRegistry().register(EXEC, () => ({ ok: false, error: 'entrada invalida' }));
   const r = reg.run('exec', '0.1.0', {}, emptyContext('a'));
   assert.equal(r.ok, false);
-  if (!r.ok) assert.equal(r.error, 'entrada invalida');
+  if (!r.ok) assert.equal(r.detail, 'entrada invalida');
 });

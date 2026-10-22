@@ -13,8 +13,8 @@
  * reforzar los tests antes de confiar en sus PASS.
  *
  * Un patron que no aparece en el compilado se reporta como `no-aplicable` y
- * CUENTA como hueco, no como sobreviviente. Dos de ellos aparecieron durante L0
- * y revelaron que el sellado profundo no estaba realmente verificado.
+ * CUENTA como hueco, no como sobreviviente. Cuatro de ellos aparecieron durante
+ * L0 y cuatro mas en L1, y todos revelaron huecos reales de verificacion.
  */
 
 import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -82,17 +82,12 @@ const MUTANTS = [
     'if (artifacts === 0) {', 'if (false) {'],
 
   // ---- graph.ts : el orden y el contador --------------------------------
-  ['src/graph.js', 'orden: sacar R4..R6 del pipeline',
-    "['R2..R6', ruleEdges],", '// fuera'],
-  ['src/graph.js', 'orden: sacar R8 del pipeline',
-    "['R8', ruleTerminalsDeclared],", '// fuera'],
-  ['src/graph.js', 'orden: sacar R9 del pipeline',
-    "['R9', ruleDeliversArtifact],", '// fuera'],
-  ['src/graph.js', 'orden: sacar R11 (dejarlo ultimo)',
-    "['R11', ruleTierAllowsEffect],", '// fuera'],
-  ['src/graph.js', 'orden: R1 antes que R0',
-    "['R1', ruleNoDuplicates],\n        ['R11', ruleTierAllowsEffect],\n        ['R2..R6', ruleEdges],",
-    "['R1', ruleNoDuplicates],\n        ['R11', ruleTierAllowsEffect],\n        ['R2..R6', ruleEdges],\n        ['R0', ruleNames],"],
+  ['src/graph.js', 'orden: sacar R4..R6 del pipeline', "['R2..R6', ruleEdges],", '// fuera'],
+  ['src/graph.js', 'orden: sacar R8 del pipeline', "['R8', ruleTerminalsDeclared],", '// fuera'],
+  ['src/graph.js', 'orden: sacar R9 del pipeline', "['R9', ruleDeliversArtifact],", '// fuera'],
+  ['src/graph.js', 'orden: sacar R11 (dejarlo ultimo)', "['R11', ruleTierAllowsEffect],", '// fuera'],
+  ['src/graph.js', 'orden: R0 al final en vez de primero',
+    "['R0', ruleNames],", '// fuera'],
   ['src/rules/types.js', 'contador: el pipeline no cuenta verificaciones',
     'count(k = 1) {\n        this.n += k;', 'count(k = 1) {\n        this.n += 0;'],
   ['src/rules/types.js', 'contador: multiplicar por diez',
@@ -110,19 +105,131 @@ const MUTANTS = [
   ['src/context.js', 'boundary: emptyContext sin sellar',
     'const ctx = Object.freeze({', 'const ctx = ({'],
 
-  // ---- tool.ts : el registry --------------------------------------------
-  ['src/tool.js', 'MVP: permitir ejecutar una tool fuera de T0',
-    "if (binding.descriptor.tier !== 'T0') {", 'if (false) {'],
-  ['src/tool.js', 'resolucion: ignorar la version al resolver',
-    'this.#key(id, version)', 'id'],
+  // ---- tool.ts : el registry y la delegacion ----------------------------
   ['src/tool.js', 'registro: permitir sobreescribir id@version',
-    'if (this.#byKey.has(k))\n            throw new Error(`herramienta ya registrada: ${k}`);',
-    'if (false)\n            throw new Error(`herramienta ya registrada: ${k}`);'],
-  ['src/tool.js', 'tool inexistente: devolver excepcion en vez de fallo tipado',
-    'if (binding === undefined)\n            return { ok: false, error: `no resuelta: ${id}@${version}` };',
-    'if (binding === undefined)\n            throw new Error(`no resuelta: ${id}@${version}`);'],
-  ['src/tool.js', 'boundary: entregar el contexto sin sellar a la tool',
-    'return binding.impl(input, sealContext(ctx));', 'return binding.impl(input, ctx);'],
+    'if (this.#byKey.has(k))', 'if (false)'],
+  ['src/tool.js', 'resolucion: ignorar la version al resolver', 'this.#key(id, version)', 'id'],
+  ['src/tool.js', 'tool inexistente: ejecutar en vez de fallar tipado',
+    'if (binding === undefined) {', 'if (false) {'],
+  ['src/tool.js', 'host: ignorar el que pide el llamador',
+    'env: opts.env ?? HOSTS.client', 'env: HOSTS.client'],
+  ['src/tool.js', 'host: usar el de backend siempre',
+    'env: opts.env ?? HOSTS.client', 'env: HOSTS.backend'],
+  ['src/tool.js', 'capa estatica: no pasar el binario al runner',
+    'module: opts.module,', 'module: undefined,'],
+
+  // ---- sandbox/capability.ts : que concede cada tier --------------------
+  ['src/sandbox/capability.js', 'T0 concede red: se rompe el tier entero',
+    'T0: [],', "T0: ['net'],"],
+  ['src/sandbox/capability.js', 'T1 concede proceso sin kernel',
+    "T1: ['net', 'fs'],", "T1: ['net', 'fs', 'process'],"],
+  ['src/sandbox/capability.js', 'escribir ya no exige red',
+    "write: ['fs', 'net'],", "write: ['fs'],"],
+  ['src/sandbox/capability.js', 'leer ya no exige archivo',
+    "read: ['fs'],", 'read: [],'],
+  ['src/sandbox/capability.js', 'missingFor nunca encuentra lo que falta',
+    'if (!granted.includes(c))', 'if (false)'],
+  ['src/sandbox/capability.js', 'effectAllowed admite cualquier cosa',
+    'return missingFor(tier, effect) === null;', 'return true;'],
+
+  // ---- sandbox/effects/create.ts : denegar y auditar --------------------
+  ['src/sandbox/effects/create.js', 'denegar se convierte en "sin backend"',
+    'if (!ok) {', 'if (false) {'],
+  ['src/sandbox/effects/create.js', 'concedido sin backend finge transporte',
+    'if (impl === undefined) {', 'if (false) {'],
+  ['src/sandbox/effects/create.js', 'la bitacora miente: marca concedido lo denegado',
+    'log.push(Object.freeze({ capability, op, granted: ok }));',
+    'log.push(Object.freeze({ capability, op, granted: true }));'],
+  ['src/sandbox/effects/create.js', 'la bitacora no se congela y se puede reescribir',
+    'log.push(Object.freeze({ capability, op, granted: ok }));',
+    'log.push({ capability, op, granted: ok });'],
+  ['src/sandbox/effects/create.js', 'la bitacora entregada es la interna',
+    'return log.slice();', 'return log;'],
+
+  // ---- sandbox/tier.ts : que host alcanza ------------------------------
+  ['src/sandbox/tier.js', 'todo host sostiene todo tier',
+    'TIER_REQUIRES[tier].filter((f) => !env[f])', 'TIER_REQUIRES[tier].filter(() => false)'],
+  ['src/sandbox/tier.js', 'el veredicto de soporte siempre es afirmativo',
+    'return missing.length === 0 ? { ok: true, tier } : { ok: false, tier, missing };',
+    'return { ok: true, tier };'],
+  ['src/sandbox/tier.js', 'highest elige el tier que NO se sostiene',
+    'if (s.ok)\n            return tier;', 'if (!s.ok)\n            return tier;'],
+  ['src/sandbox/tier.js', 'T2 no exige microVM', "T2: ['microvm'],", 'T2: [],'],
+
+  // ---- sandbox/runner.ts : las dos capas y la regla central -------------
+  ['src/sandbox/runner.js', 'REGLA CENTRAL: el intento denegado pasa',
+    'if (denegados.length > 0) {', 'if (false) {'],
+  ['src/sandbox/runner.js', 'REGLA CENTRAL invertida: todo intento falla',
+    'if (denegados.length > 0) {', 'if (denegados.length === 0) {'],
+  ['src/sandbox/runner.js', 'capa estatica: nunca se mira el binario',
+    'if (req.module !== undefined) {', 'if (false) {'],
+  ['src/sandbox/runner.js', 'capa estatica: un modulo denegado se ejecuta igual',
+    'if (!verdict.ok) {', 'if (false) {'],
+  ['src/sandbox/runner.js', 'el host da igual: nunca se comprueba',
+    'if (!support.ok) {', 'if (false) {'],
+  ['src/sandbox/runner.js', 'un fallo de la tool se reporta como exito',
+    'if (!outcome.ok) {', 'if (false) {'],
+  ['src/sandbox/runner.js', 'boundary: entregar el contexto sin sellar',
+    'sealContext(req.ctx)', 'req.ctx'],
+  ['src/sandbox/runner.js', 'el sandbox entrega al usuario lo que el puerto anuncia',
+    'granted: port.granted', 'granted: []'],
+  ['src/sandbox/runner.js', 'deniedCount cuenta todo, no solo lo denegado',
+    'outcome.attempts.filter((a) => !a.granted).length', 'outcome.attempts.length'],
+
+  // ---- sandbox/wasm/binary.ts : el formato ------------------------------
+  ['src/sandbox/wasm/binary.js', 'LEB128 acepta un byte mas de los que u32 permite',
+    'for (let i = 0; i < 5; i++)', 'for (let i = 0; i < 6; i++)'],
+  ['src/sandbox/wasm/binary.js', 'LEB128 multiplica por 127 en vez de 128',
+    'scale *= 128;', 'scale *= 127;'],
+  ['src/sandbox/wasm/binary.js', 'LEB128 pierde el bit bajo de cada byte',
+    'value += (byte & 0x7f) * scale;', 'value += (byte & 0x7e) * scale;'],
+  ['src/sandbox/wasm/binary.js', 'un nombre truncado se acepta',
+    'if (end > b.length)', 'if (false)'],
+  ['src/sandbox/wasm/binary.js', 'limits siempre busca un max que puede no existir',
+    'if ((flags & 0x01) === 0)', 'if (false)'],
+  ['src/sandbox/wasm/binary.js', 'byteAt nunca dice que no hay byte',
+    'return i >= 0 && i < b.length ? b[i] : null;', 'return b[i] ?? null;'],
+  ['src/sandbox/wasm/binary.js', 'la clave de la lista blanca une con otro separador',
+    'return `${mod}#${field}`;', "return `${mod}.${field}`;"],
+
+  // ---- sandbox/wasm/imports.ts : donde vive el poder --------------------
+  ['src/sandbox/wasm/imports.js', 'un descriptor se lee un byte corto',
+    'if (p < 0 || p > end)', 'if (false)'],
+  ['src/sandbox/wasm/imports.js', 'se lee un import menos de los declarados',
+    'for (let i = 0; i < count.value; i++)', 'for (let i = 0; i < count.value - 1; i++)'],
+  ['src/sandbox/wasm/imports.js', 'el descriptor global avanza un byte de menos',
+    'p = valType === null || mutable === null ? -1 : p + 2;',
+    'p = valType === null || mutable === null ? -1 : p + 1;'],
+  ['src/sandbox/wasm/imports.js', 'el descriptor de tabla no salta sus limits',
+    'p = refType === null ? -1 : skipLimits(b, p + 1);', 'p = refType === null ? -1 : p + 1;'],
+  ['src/sandbox/wasm/imports.js', 'el descriptor de memoria avanza un byte sin leer limits',
+    'p = skipLimits(b, p);', 'p = p + 1;'],
+
+  // ---- sandbox/wasm/structure.ts : la forma del binario -----------------
+  ['src/sandbox/wasm/structure.js', 'un modulo mas corto que la cabecera se aprueba',
+    'if (bytes.length < HEADER_BYTES) {', 'if (false) {'],
+  ['src/sandbox/wasm/structure.js', 'un id de seccion desconocido se aprueba',
+    'if (id > MAX_SECTION_ID) {', 'if (false) {'],
+  ['src/sandbox/wasm/structure.js', 'una seccion truncada se aprueba',
+    'if (to > bytes.length) {', 'if (false) {'],
+  ['src/sandbox/wasm/structure.js', 'el orden de las secciones no se comprueba',
+    'if (id <= lastId) {', 'if (false) {'],
+  ['src/sandbox/wasm/structure.js', 'dos secciones de imports seguidas se aceptan',
+    'if (id === IMPORT_SECTION && seenImports) {', 'if (false) {'],
+  ['src/sandbox/wasm/structure.js', 'la version del modulo no se comprueba',
+    'if (byteAt(bytes, i + 4) !== VERSION[i]) {', 'if (false) {'],
+
+  // ---- sandbox/wasm/scan.ts : la politica de T0 -------------------------
+  ['src/sandbox/wasm/scan.js', 'una estructura ilegible pasa a la politica',
+    'if (!structure.ok) {', 'if (false) {'],
+  ['src/sandbox/wasm/scan.js', 'POLITICA: cualquier import admitido',
+    'if (allowed.includes(key))', 'if (true)'],
+  ['src/sandbox/wasm/scan.js', 'ok ignora las violaciones',
+    'ok: violations.length === 0', 'ok: true'],
+  ['src/sandbox/wasm/scan.js', 'una seccion de imports malformada pasa',
+    'if (parsed === null) {', 'if (false) {'],
+  ['src/sandbox/wasm/scan.js', 'la lista blanca admitida ya no restringe',
+    'export const T0_ALLOWED = [];', "export const T0_ALLOWED = ['a#b'];"],
 
   // ---- axes.ts : los dos ejes y su derivacion --------------------------
   ['src/axes.js', 'eje2: determinista ya no es mutacion',
@@ -148,21 +255,19 @@ const MUTANTS = [
   ['src/hash.js', 'huella: rotacion a la derecha con 0 en vez de 7',
     'const s0 = (rotr(a, 7) ^ rotr(a, 18) ^ (a >>> 3)) >>> 0;',
     'const s0 = (rotr(a, 0) ^ rotr(a, 18) ^ (a >>> 3)) >>> 0;'],
-  ['src/hash.js', 'huella: sin el byte 0x80 de padding',
-    'msg[len] = 0x80;', 'msg[len] = 0x00;'],
+  ['src/hash.js', 'huella: sin el byte 0x80 de padding', 'msg[len] = 0x80;', 'msg[len] = 0x00;'],
   ['src/hash.js', 'huella: longitud en bits escrita little-endian',
     'view.setUint32(total - 8, Math.floor(bitLen / 0x100000000), false);',
     'view.setUint32(total - 8, Math.floor(bitLen / 0x100000000), true);'],
   ['src/hash.js', 'huella: constante K[0] alterada', '0x428a2f98', '0x428a2f99'],
 
   // ---- canonical.ts : la forma ordenada --------------------------------
-  ['src/canonical.js', 'canonicalize: no ordenar claves',
-    '.sort();', '.reverse();'],
+  ['src/canonical.js', 'canonicalize: no ordenar claves', '.sort();', '.reverse();'],
   ['src/canonical.js', 'canonicalize: invertir el orden de los arreglos',
     'for (const item of value)\n            parts.push(canonicalize(item));',
     'for (const item of [...value].reverse())\n            parts.push(canonicalize(item));'],
   ['src/canonical.js', 'canonicalize: emitir null en vez de rechazar NaN',
-    'if (!Number.isFinite(n))\n            throw new CanonicalError(`no canonizable: numero no finito (${String(n)})`);',
+    "if (!Number.isFinite(n))\n            throw new CanonicalError(`no canonizable: numero no finito (${String(n)})`);",
     "if (!Number.isFinite(n))\n            return 'null';"],
 
   // ---- contract.ts : la huella y las lecturas ----------------------------
@@ -221,17 +326,17 @@ function main() {
     porPaquete.set(r.archivo, cur);
   }
 
-  console.log('\n=== MUTATION TESTING · vibe-tools L0 ===\n');
+  console.log('\n=== MUTATION TESTING · vibe-tools L0+L1 ===\n');
   for (const r of resultados) {
     const marca = r.estado === 'muerto' ? 'MUERTO     ' : r.estado === 'sobrevivio' ? 'SOBREVIVIO' : 'n/aplicable';
-    console.log(`  [${marca}] ${r.archivo.padEnd(24)} ${r.desc}`);
+    console.log(`  [${marca}] ${r.archivo.padEnd(28)} ${r.desc}`);
   }
 
   console.log('\n--- por paquete ---');
   for (const [archivo, c] of porPaquete) {
     const score = (c.killed / c.applicable) * 100;
     const flag = score >= 80 ? 'OK ' : 'BAJO';
-    console.log(`  [${flag}] ${archivo.padEnd(24)} ${c.killed}/${c.applicable} = ${score.toFixed(1)}%`);
+    console.log(`  [${flag}] ${archivo.padEnd(28)} ${c.killed}/${c.applicable} = ${score.toFixed(1)}%`);
   }
 
   const totalAplicables = aplicables.length;
