@@ -1,0 +1,20 @@
+{
+  "name": "@opita/vibe-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Runtime de tools componibles para Opita Code. Contratos son datos; la magia es codigo.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/test",
+    "mutate": "npm run build && node tools/mutation/run.mjs",
+    "check": "npm run test && npm run mutate"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.7.2"
+  }
+}
