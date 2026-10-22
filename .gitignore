@@ -1,0 +1,32 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+*.log
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Secretos — nunca commitear
+.env
+.env.*
+*.pem
+*.key
+.auth.json
+
+# Node
+node_modules/
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Temp del harness dark-memory
+.dark-mem-*
+*.db
+*.db-journal
+*.db-wal
