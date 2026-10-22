@@ -1,6 +1,6 @@
 # vibe-tools
 
-Runtime de tools componibles para Opita Code. **Contratos son datos; la magia es código.**
+Runtime de tools componibles para Opita Code.
 
 > Principio ancla: `vibe-tools = sistema de CONTRATOS CONFIABLES alrededor de MAGIA OPACA`
 
@@ -8,49 +8,29 @@ Runtime de tools componibles para Opita Code. **Contratos son datos; la magia es
 
 ## Estado
 
-**L0 cerrado** — contratos y type system. 88/88 tests · mutation 57/57 = 100% · gate 100% `aligned`.
+**L0 cerrado.** 88/88 tests · mutation 57/57 = 100% en 11 paquetes.
+Siguiente: **L1** — sandbox de 3 tiers.
 
-Siguiente: **L1** — sandbox de 3 tiers (T0 WASM, T1 shim, T2 Firecracker).
-
-| Loop | Qué | Doc |
-|---|---|---|
-| **L0** ✅ | Primitiva `VibeTool`, type system de 2 ejes, validador de composición | [L0.md](../docs/arquitectura/loops/L0.md) |
-| L1 | Sandbox T0/T1/T2, detección de tier | pendiente |
-| L2 | Grafo, módulos, caso canónico end-to-end | pendiente |
-| L3 | Boundary MEMORY (bloqueante para publicar) | pendiente |
-| L4 | Identidad: stub → 3 identidades | pendiente |
-| L5 | Judge pipeline, costo de tokens | pendiente |
-| L6 | Marketplace, PIN de las 3 propias | pendiente |
-| L7 | Reputación y el ciclo completo | pendiente |
-| L8 | SOTA: KYC OSS, anti-Sybil, progresión | pendiente |
-
-Plan completo: [`docs/arquitectura/plan-iteracion-mvp.md`](../docs/arquitectura/plan-iteracion-mvp.md)
+Este índice **no afirma el resultado del gate sobre sí mismo**. El registro
+autoritativo es `dark_memory_judgment_history` en dark-memory, proyecto
+`opita-code`. Documento y veredicto sobre ese mismo documento son
+autorreferenciales: el número queda falso en cuanto cambia.
 
 ---
 
-## Los dos ejes
+## Documentos del loop
 
-**Eje 1 · qué produce** (vive en el puerto): `code · text · image · video · audio · multimodal`
+Cada documento cubre **una sola preocupación**. Eso no es estilo: un
+documento que mezcla varias deixa de ser juzgable de forma estable.
 
-**Eje 2 · determinismo** (vive en la herramienta):
-
-| Eje 2 | Se comparte como |
+| Doc | Preocupación |
 |---|---|
-| `deterministic` | **mutación** — fork idéntico |
-| `stochastic` | **receta** — semilla y parámetros |
-| `stateful` | **nada** — necesita runtime |
+| [L0-contratos](../docs/arquitectura/loops/L0-contratos.md) | Principio, primitiva `VibeTool`, los dos ejes, integridad |
+| [L0-composicion](../docs/arquitectura/loops/L0-composicion.md) | Las 11 reglas de composición y el veredicto |
+| [L0-verificacion](../docs/arquitectura/loops/L0-verificacion.md) | Los tres métodos de verificación y el gate budget |
+| [L0-hallazgos](../docs/arquitectura/loops/L0-hallazgos.md) | Los nueve hallazgos que produjo la verificación |
 
-La derivación es total, exhaustiva, inyectiva y **no configurable**: si lo fuera, el determinismo podría mentir.
-
----
-
-## Las 11 reglas de composición
-
-Orden fijo; el primer rechazo es el veredicto.
-
-`R0` nombres · `R1` duplicados · `R11` tier/efecto · `R2` extremos · `R3` puertos · `R4` eje 1 · `R5` determinismo · `R6` artifact terminal · `R7` sinks · `R8` terminales declaradas · `R9` entrega ≥1 artifact
-
-Detalle y razonamiento: [L0.md](../docs/arquitectura/loops/L0.md)
+Plan completo: [plan-iteracion-mvp.md](../docs/arquitectura/plan-iteracion-mvp.md)
 
 ---
 
@@ -68,36 +48,23 @@ src/
     types.ts           RejectCode, RuleResult, Checker
     identity.ts        R0, R1, R11
     edges.ts           R2..R6
-    terminals.ts       R7, R8, R9
+    terminals.ts       R7..R9
   graph.ts             orquestador: el orden fijo vive aquí
 ```
 
 ---
 
-## Gate budget
-
-Decisión del operador (opción A): **ningún artefacto juzgable supera 4096 bytes.** Con ese tope es un solo chunk, el `SpecIntent` aplica al artefacto completo y el veredicto es decidible.
-
-```
-ConsensusChunkSize = 4096        (drift_judge_consensus.go:126)
-numChunks = min(N, ceil(len/4096))
-provider.Score(ctx, chunkBytes, SpecIntent)   — el MISMO intent para cada chunk
-```
-
-Cada archivo de `src/` y cada documento de `docs/arquitectura/loops/` es una unidad juzgada, con su propio `SpecIntent`. Para cruzar el tope hay que **partir por concepto**, no subir el límite.
-
-`npm run budget` falla el build si alguna unidad lo cruza. No hay manifiesto: un manifiesto se olvida actualizar.
-
-**Presupuesto actual:** el más ajustado es `graph.ts` en 3569 B. L2 le mete orden topológico y detección de ciclos, así que **probablemente haya que partirlo**.
-
----
-
-## Ejecutar
+## Comandos
 
 ```bash
 npm install
-npm run budget   # todo artefacto juzgable cabe en un chunk
+npm run budget   # falla si un artefacto juzgable cruza 4096 B
 npm run test     # tsc + 88 tests
 npm run mutate   # 57 mutantes; se niega a cerrar si alguno sobrevive
 npm run check    # los tres
 ```
+
+Regla de los dos últimos: un patrón de mutante que no aparece en el
+compilado **cuenta como hueco**, no como sobreviviente. Durante L0, cuatro
+no aparecieron y revelaron que el sellado profundo y el orden del pipeline no
+estaban verificados.
