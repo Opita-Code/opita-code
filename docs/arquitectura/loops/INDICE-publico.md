@@ -15,6 +15,8 @@
 | [L-PUB2-comunidad](L-PUB2-comunidad.md) | La licencia, los archivos de la comunidad y las plantillas |
 | [L-PUB2-guard](L-PUB2-guard.md) | El hueco del guard, que no miraba la raíz |
 | [L-PUB2-cierre](L-PUB2-cierre.md) | Lo que entrega, lo que se midió, y lo que sigue a mano |
+| [L-CI-verificador](L-CI-verificador.md) | El verificador de mutación no media nada: el 142/142 no era una medida |
+| [L-CI-arreglo](L-CI-arreglo.md) | El arreglo, la verdad medida, y lo que el hallazgo invalida |
 
 Documento transversal, no de un loop:
 

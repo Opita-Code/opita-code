@@ -1,7 +1,7 @@
 # L0 · Verificación
 
 > Parte 3 de 4 de L0. Contratos: [L0-contratos.md](L0-contratos.md) · Composición: [L0-composicion.md](L0-composicion.md) · Hallazgos: [L0-hallazgos.md](L0-hallazgos.md)
-> Commit `0639b69`. Tarea L0-T4. **88/88 tests · mutation 57/57 = 100% en 11 paquetes.**
+> Commit `0639b69`. Tarea L0-T4. **88/88 tests.** El `mutation 57/57 = 100%` de esta linea era falso: el verificador no ejecutaba los tests. Ver [L-CI-verificador](L-CI-verificador.md).
 
 Skill `llm-testing`: mínimo 2 métodos por artefacto. Aquí van tres.
 
@@ -26,7 +26,7 @@ Cada regla tiene su caso con **código de rechazo exacto**. Un rechazo con el c�
 
 El PRNG es **sembrado y determinista a propósito**: una suite que falla al azar contradiría la propiedad del producto que protege.
 
-## 3. Mutation testing — 57 mutantes, 100%
+## 3. Mutation testing — 57 mutantes (el 100% no era una medida)
 
 | Paquete | Muertos | Paquete | Muertos |
 |---|---|---|---|

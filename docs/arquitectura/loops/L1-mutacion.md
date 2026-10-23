@@ -3,7 +3,7 @@
 > Parte 6 de 7 de L1. Verificación: [L1-verificacion.md](L1-verificacion.md) · Hallazgos: [L1-hallazgos.md](L1-hallazgos.md)
 > Spec 536. Tareas S8 y S10.
 
-## Mutation testing — 105 mutantes, 100%
+## Mutation testing — 105 mutantes (el 100% no era una medida)
 
 19 paquetes, **105/105 muertos**, cero sobrevivientes, cero `no-aplicable`.
 

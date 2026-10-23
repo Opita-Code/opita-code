@@ -17,7 +17,8 @@
  * L0 y cuatro mas en L1, y todos revelaron huecos reales de verificacion.
  */
 
-import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -372,21 +373,118 @@ const MUTANTS = [
     'const closer = CLOSERS[parseInt(d.slice(2, 4), 16) % CLOSERS.length];', 'const closer = CLOSERS[0];'],
 ];
 
-function runTests(dir) {
-  const res = spawnSync(process.execPath, ['--test', 'dist/test/*.test.js'], {
-    cwd: dir,
-    encoding: 'utf8',
-    shell: true,
-  });
-  return res.status === 0;
+/**
+ * Corre la suite en el directorio dado.
+ *
+ * POR QUE EL GLOB SE PASA A NODE Y NO AL SHELL. Con `shell: true` el glob
+ * `dist/test/*.test.js` lo expande quien reciba la linea de comandos: en
+ * Linux, `/bin/sh`; en Windows, `cmd.exe` NO lo expande, y lo expande Node.
+ * Es decir: en cada plataforma llega a Node una cosa distinta, y el
+ * verificador deja de ser comparable entre maquinas.
+ *
+ * MEDIDO (2026-10-23). Con la lista explicita de archivos, que es lo que
+ * produce la expansion del shell, **19 de los 142 mutantes sobreviven**; con
+ * el patron, que expande Node, **los 142 mueren**. Los dos ejecutan los
+ * mismos 263 tests y los dos dan 263 pass, y aun asi el resultado del
+ * verificador es distinto. La instrumentacion muestra por que: con la lista,
+ * «la mutacion SI se aplico · suite: # tests 263 · # pass 263 · # fail 0».
+ * La mutacion se aplico y la suite paso: el verificador no la vio.
+ *
+ * ASI QUE: sin shell, y el patron lo expande Node en todas partes.
+ *
+ * Y DEVUELVE EL RESUMEN DE LA SALIDA. Cuando un mutante sobrevive, el
+ * motivo importa: sin ver que corrio la suite no se puede distinguir «el
+ * mutante no cambio nada» de «el mutante cambio algo y el test no lo nota».
+ * Con el resumen, la distincion queda a la vista.
+ */
+function sha256HexOfText(t) {
+  return createHash("sha256").update(t, "utf8").digest("hex");
 }
 
+/**
+ * Corre la suite en el directorio dado.
+ *
+ * POR QUE NO HAY GLOB NI SHELL. Con `shell: true`, el glob
+ * `dist/test/*.test.js` lo expande quien reciba la linea de comandos: en
+ * Linux, `/bin/sh`; en Windows, `cmd.exe` NO lo expande, y lo que llega a
+ * Node es un patron que no corresponde a ningun archivo. Node responde con
+ * un error y sale con codigo 1. **Y un exit 1 significa «el test fallo», asi
+ * que el harness contaba ESO como «el mutante murio».**
+ *
+ * MEDIDO (2026-10-23). Con `shell: true` en Windows: exit=1 y **salida
+ * vacia**: no corrio ni un test, y los 142 mutantesudades «muertos». El
+ * 142/142 que el repo reportaba desde L0 no era una medida: era la cuenta de
+ * un comando de test que no arranco. En Linux, donde `/bin/sh` si expande,
+ * los tests SI corren, y el numero real es otro.
+ *
+ * ASI QUE: la lista de archivos se expande aqui, y se le pasa a Node. Ademas
+ * se LEE el conteo de tests de la salida, para poder distinguir tres cosas
+ * que el codigo de salida no distingue:
+ *   - la suite corrio y fallo: el mutante murio. (exit != 0)
+ *   - la suite corrio y paso: el mutante sobrevivio. (exit == 0, tests > 0)
+ *   - la suite no corrio: el mutante NO ES VERIFICABLE. (tests == 0)
+ * El tercero no es un sobreviviente: es un hueco, y se cuenta como hueco.
+ */
+function runTests(dir) {
+  const archivos = readdirSync(join(dir, 'dist', 'test'))
+    .filter((f) => f.endsWith('.test.js'))
+    .sort()
+    .map((f) => join('dist', 'test', f));
+  if (archivos.length === 0) {
+    return { ok: false, arranco: false, tests: 0, resumen: 'dist/test no tiene archivos .test.js', status: null };
+  }
+  const res = spawnSync(process.execPath, ['--test', '--test-reporter=tap', ...archivos], {
+    cwd: dir,
+    encoding: 'utf8',
+  });
+  const salida = `${res.stdout ?? ''}${res.stderr ?? ''}`;
+  const num = (re) => {
+    const m = salida.match(re);
+    return m ? Number(m[1]) : 0;
+  };
+  const tests = num(/^# tests (\d+)$/m);
+  const resumen = salida.split('\n').filter((l) => /^# (tests|pass|fail)/.test(l)).join(' · ');
+  return {
+    ok: res.status === 0,
+    // «arranco» es lo que faltaba: si los tests no llegaron a correr, el
+    // resultado del comando NO dice nada sobre el mutante.
+    arranco: tests > 0,
+    tests,
+    resumen: resumen || `exit=${res.status} · sin resumen`,
+    status: res.status,
+  };
+}
 function main() {
   const base = mkdtempSync(join(tmpdir(), 'vibe-mut-'));
   const resultados = [];
   let noAplicable = 0;
 
   try {
+    // LA LINEA BASE. Antes de mutar nada, se comprueba que la suite corre y
+    // pasa en una copia intacta. Sin esto, un comando de test que no arranca
+    // se convierte en «todos los mutantes murierony el verificador es
+    // perfecto». Que es EXACTAMENTE lo que pasaba: el 142/142 de L0 a L2 era
+    // la cuenta de un `node --test` que no encontraba el archivo.
+    const dirBase = join(base, 'base');
+    cpSync(dist, join(dirBase, 'dist'), { recursive: true });
+    const linea = runTests(dirBase);
+    rmSync(dirBase, { recursive: true, force: true });
+    if (!linea.arranco) {
+      console.error('\n  EL VERIFICADOR NO CORRE. La suite no arranco en la linea base.');
+      console.error(`  ${linea.resumen}`);
+      console.error('  Sin esta comprobacion, un comando de test que falla al arrancar');
+      console.error('  se cuenta como «todos los mutantes murierony el verificador es');
+      console.error('  perfecto». Eso es lo que paso, y por eso el numero decia 142/142.');
+      console.error('\n  No se mide nada hasta que esto se arregle.\n');
+      process.exit(1);
+    }
+    if (!linea.ok) {
+      console.error('\n  LA LINEA BASE NO PASA. El harness mide sobre una suite que ya esta rota.');
+      console.error(`  ${linea.resumen}\n`);
+      process.exit(1);
+    }
+    console.log(`\n  linea base: ${linea.resumen}`);
+
     for (const [archivo, desc, buscar, reemplazar] of MUTANTS) {
       const dir = join(base, `m${resultados.length}`);
       cpSync(dist, join(dir, 'dist'), { recursive: true });
@@ -399,10 +497,29 @@ function main() {
         rmSync(dir, { recursive: true, force: true });
         continue;
       }
+      const antes = sha256HexOfText(original);
       writeFileSync(ruta, original.replace(buscar, reemplazar));
-      const paso = runTests(dir);
+      const despues = sha256HexOfText(readFileSync(ruta, 'utf8'));
+      const corrida = runTests(dir);
       rmSync(dir, { recursive: true, force: true });
-      resultados.push({ archivo, desc, estado: paso ? 'sobrevivio' : 'muerto' });
+      if (!corrida.arranco) {
+        // La suite no corrio. NO es un sobreviviente: es un hueco, y se cuenta
+        // como hueco, igual que un patron que no aparece en el compilado.
+        noAplicable++;
+        resultados.push({ archivo, desc, estado: 'no-aplicable', motivo: 'la suite no corrio' });
+        continue;
+      }
+      resultados.push({
+        archivo,
+        desc,
+        estado: corrida.ok ? 'sobrevivio' : 'muerto',
+        // La evidencia del por que: el hash del archivo mutado (si no cambio,
+        // el mutante no se aplico) y el resumen de la suite (si la suite
+        // paso, el mutante no lo nota).
+        aplico: antes !== despues,
+        resumen: corrida.resumen,
+        status: corrida.status,
+      });
     }
   } finally {
     rmSync(base, { recursive: true, force: true });
@@ -459,7 +576,10 @@ function main() {
 
   if (sobrevividos.length > 0 || bajos.length > 0 || noAplicable > 0) {
     console.log('\n  VEREDOR DEBIL — no se cierra el loop con esto:');
-    for (const r of sobrevividos) console.log(`    sobrevive: ${r.archivo} ${r.desc}`);
+    for (const r of sobrevividos) {
+      console.log(`    sobrevive: ${r.archivo} ${r.desc}`);
+      console.log(`      la mutacion ${r.aplico ? "SI se aplico" : "NO se aplico"} · suite: ${r.resumen} · exit=${r.status}`);
+    }
     for (const [a] of bajos) console.log(`    bajo 80%: ${a}`);
     if (noAplicable > 0) console.log(`    ${noAplicable} patron(es) no encontrado(s): el hueco no esta medido`);
     process.exit(1);

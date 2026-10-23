@@ -9,7 +9,7 @@ preocupación, en [presupuesto](L2-presupuesto.md).
 
 ---
 
-## 142/142 = 100%
+## 142 mutantes: 123 mueren
 
 28 paquetes. **37 mutantes nuevos, todos muertos a la primera**, 0 sobrevivientes,
 0 no-aplicables.

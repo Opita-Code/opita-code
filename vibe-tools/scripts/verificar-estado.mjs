@@ -41,8 +41,30 @@ const estado = JSON.parse(readFileSync(join(root, 'vibe-tools', 'estado.json'), 
 const k = estado.kpis;
 const problemas = [];
 
+/**
+ * El runner imprime su informe humano y, en medio, la linea JSON. Se busca
+ * por su forma y no por su posicion: pedir la ultima linea fue un bug que
+ * costo una corrida entera.
+ */
+function jsonDe(salida) {
+  for (const linea of String(salida).split(String.fromCharCode(10))) {
+    const t = linea.trim();
+    if (!t.startsWith(String.fromCharCode(123))) continue;
+    try { return JSON.parse(t); } catch { /* no es la linea que buscamos */ }
+  }
+  throw new Error(String(salida).slice(0, 300));
+}
 function medir(comando, args) {
-  return execFileSync(comando, args, { cwd: join(root, 'vibe-tools'), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  try {
+    return execFileSync(comando, args, { cwd: join(root, 'vibe-tools'), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  } catch (e) {
+    // El runner de mutacion sale con codigo 1 cuando el verificador esta
+    // DEBIL: hay mutantes que sobreviven. Eso no es un fallo de la medicion:
+    // es el dato que hay que leer. Se lee su salida igual, y el contraste de
+    // abajo es el que decide.
+    if (e.stdout) return e.stdout;
+    throw e;
+  }
 }
 
 function comparar(etiqueta, declarado, medido) {
@@ -53,7 +75,7 @@ function comparar(etiqueta, declarado, medido) {
 }
 
 // 1. PRESUPUESTO. El guard de presupuesto en modo --json.
-const presupuesto = JSON.parse(medir('node', ['tools/gate-budget.mjs', '--json']).trim().split('\n').pop());
+const presupuesto = jsonDe(medir('node', ['tools/gate-budget.mjs', '--json']));
 comparar('unidades juzgables', k.unidades_juzgables, presupuesto.unidades);
 comparar('unidades que exceden', k.unidades_exceden, presupuesto.exceden);
 comparar('presupuesto en bytes', k.presupuesto_bytes, presupuesto.presupuesto);
@@ -85,7 +107,7 @@ const suma = Object.values(k.tests_por_prefijo).reduce((a, b) => a + b, 0);
 comparar('suma del reparto por prefijo', k.tests_total, suma);
 
 // 3. MUTANTES. El runner en modo --json.
-const mut = JSON.parse(medir('node', ['tools/mutation/run.mjs', '--json']).trim().split('\n').pop());
+const mut = jsonDe(medir('node', ['tools/mutation/run.mjs', '--json']));
 comparar('mutantes totales', k.mutantes_total, mut.mutantes);
 comparar('mutantes muertos', k.mutantes_muertos, mut.muertos);
 comparar('mutantes que sobreviven', k.mutantes_sobrevivientes, mut['sobrevivientes']);
