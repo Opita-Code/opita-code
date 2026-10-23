@@ -37,8 +37,10 @@ que mezcla varias deja de ser juzgable de forma estable.
 | [L1-puerto](../docs/arquitectura/loops/L1-puerto.md) | El puerto de efectos y la garantía dinámica |
 | [L1-estatica](../docs/arquitectura/loops/L1-estatica.md) | Lista blanca de imports WASM, vacía a propósito |
 | [L1-runner](../docs/arquitectura/loops/L1-runner.md) | Las dos capas, y lo que L1 **no** entrega |
-| [L1-verificacion](../docs/arquitectura/loops/L1-verificacion.md) | 76 unitarios, 14 propiedades, 105 mutantes |
-| [L1-hallazgos](../docs/arquitectura/loops/L1-hallazgos.md) | Los cinco hallazgos de L1 |
+| [L1-verificacion](../docs/arquitectura/loops/L1-verificacion.md) | 76 unitarios, 14 propiedades |
+| [L1-mutacion](../docs/arquitectura/loops/L1-mutacion.md) | 105 mutantes, gate budget, gate de drift |
+| [L1-hallazgos](../docs/arquitectura/loops/L1-hallazgos.md) | Los cinco hallazgos de código y pruebas |
+| [L1-hallazgos-gate](../docs/arquitectura/loops/L1-hallazgos-gate.md) | Los dos hallazgos del gate, y lo que queda para L2 |
 
 Plan completo: [plan-iteracion-mvp.md](../docs/arquitectura/plan-iteracion-mvp.md)
 

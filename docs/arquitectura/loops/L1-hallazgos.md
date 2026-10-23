@@ -1,13 +1,15 @@
 # L1 · Hallazgos
 
-> Parte 6 de 6 de L1. Verificación: [L1-verificacion.md](L1-verificacion.md)
+> Parte 7 de 8 de L1. Verificación: [L1-verificacion.md](L1-verificacion.md) · Mutación: [L1-mutacion.md](L1-mutacion.md) · Hallazgos del gate: [L1-hallazgos-gate.md](L1-hallazgos-gate.md)
 > Spec 536.
 
 Cinco cosas. **Ninguna en el diseño del sandbox**: el modelo de capacidades, el
 puerto, el validador y el runner salieron como se pensaron. Cuatro estaban en las
 pruebas o en las herramientas de prueba, y una era un mutante imposible.
 
-Se registran porque son el argumento de por qué esta verificación sirve.
+Los dos hallazgos que produjo el propio gate están en
+[L1-hallazgos-gate.md](L1-hallazgos-gate.md), aparte por una razón que se explica
+ahí.
 
 ---
 
@@ -31,8 +33,9 @@ desalineada y todos los imports siguientes se leían como basura.
 
 Solo apareció al probar **tres** imports en la misma sección. Con uno o dos
 funcionaba, porque el byte sobrante se comía el final de la sección y el parser
-terminaba sin notarlo. Un test por caso no lo encuentra; un test de recorrido
-completo sí.
+terminaba sin notarlo.
+
+> Un test por caso no lo encuentra. Un test de recorrido completo sí.
 
 ## 3. Una property mal enunciada
 
@@ -70,4 +73,4 @@ para satisfacer al mutante.
 
 > **Un mutante imposible es una afirmación falsa sobre el código, no un hueco en
 > los tests.** Lo contrario —inventar código para que un mutante sea aplicable—
-> es fabrication, y fabrication pasa más adelante en el proceso que un hueco.
+> es *fabrication*, y *fabrication* pasa más adelante en el proceso que un hueco.

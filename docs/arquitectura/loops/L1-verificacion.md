@@ -1,20 +1,42 @@
 # L1 · Verificación
 
-> Parte 5 de 6 de L1. Hallazgos: [L1-hallazgos.md](L1-hallazgos.md)
-> Spec 536. Tareas S7 y S8.
+> Parte 5 de 7 de L1. Mutación y gate: [L1-mutacion.md](L1-mutacion.md) · Hallazgos: [L1-hallazgos.md](L1-hallazgos.md)
+> Spec 536. Tarea S7. **164/164 tests.**
 
-Tres métodos, mínimo 2 por artefacto. Los tres verdes.
+Dos métodos aquí. El tercero —mutación y gate— está en su propio documento,
+porque es otra preocupación: prueba el comportamiento contra pruebas que
+verifican el comportamiento.
 
 ## 1. Unitarios — 76 casos nuevos
 
-| Archivo | Qué cubre |
-|---|---|
-| `capability.test.ts` | las dos tablas, `missingFor`, equivalencia con `tierAllows` |
-| `effects.test.ts` | denegación, `denied` vs `unimplemented`, bitácora, backend no invocado |
-| `wasm.test.ts` | los 4 descriptores, las 9 violaciones, lista blanca, pureza |
-| `sandbox.test.ts` | las dos capas, la regla central, detección de host |
+| Archivo | Qué cubre | Casos |
+|---|---|---|
+| `capability.test.ts` | las dos tablas, `missingFor`, equivalencia con `tierAllows` | 11 |
+| `effects.test.ts` | denegación, `denied` vs `unimplemented`, bitácora, backend no invocado | 12 |
+| `wasm.test.ts` | los 4 descriptores, las 9 violaciones, lista blanca, pureza | 24 |
+| `sandbox.test.ts` | las dos capas, la regla central, detección de host | 15 |
+| `property-sandbox.test.ts` | las 14 invariantes × 6 semillas | 14 |
 
-**164 tests en total**, sin eliminar ni relajar ninguno de los 88 de L0.
+### La aritmética, explícita
+
+```
+88  casos de L0, intactos
++76  casos nuevos de L1
+=164 total
+```
+
+**Contando prefijos salen 165**, y por eso hace falta decirlo: uno de los casos
+de L0 **se renombró** y pasó a llevar nombre `L1-*`. Es *el host por defecto
+(cliente) no sostiene T2, y dice que le falta*, antes *el MVP solo ejecuta T0:
+una tool T2 se rechaza con mensaje claro*.
+
+No se eliminó nada ni se relajó nada: ese caso se **fortaleció**. Antes probaba
+que el mensaje contuviera un texto; ahora comprueba el código de fallo exacto y
+que el detalle diga qué le faltaba al host. El nombre cambió porque lo que
+afirma ya no es una regla del MVP sino una propiedad del sandbox.
+
+Sin esta nota el conteo por prefijos no cuadra con el total, y el número parece
+no verificable. Con ella, cualquiera lo comprueba.
 
 ## 2. Property-based — 14 invariantes × 6 semillas
 
@@ -39,39 +61,7 @@ Tres métodos, mínimo 2 por artefacto. Los tres verdes.
 un atacante elige los bytes que lo tumbarían. Fuzz de 1 200 módulos, seis
 semillas, PRNG sembrado.
 
-## 3. Mutation testing — 105 mutantes, 100%
-
-19 paquetes, **105/105 muertos**, cero sobrevivientes, cero `no-aplicable`.
-
-| Paquete | Muertos | Paquete | Muertos |
-|---|---|---|---|
-| `rules/edges.js` | 9/9 | `sandbox/runner.js` | 9/9 |
-| `rules/terminals.js` | 8/8 | `sandbox/wasm/binary.js` | 7/7 |
-| `hash.js` | 7/7 | `sandbox/capability.js` | 6/6 |
-| `tool.js` | 6/6 | `sandbox/wasm/structure.js` | 6/6 |
-| `sandbox/effects/create.js` | 5/5 | `axes.js` | 5/5 |
-| `sandbox/tier.js` | 4/4 | `sandbox/wasm/imports.js` | 5/5 |
-| `rules/identity.js` | 5/5 | `sandbox/wasm/scan.js` | 5/5 |
-| `context.js` | 5/5 | `canonical.js` | 3/3 |
-| `graph.js` | 5/5 | `contract.js` | 3/3 |
-| `rules/types.js` | 2/2 | **TOTAL** | **105/105** |
-
-Los mutantes del runner son los que importan:
-
-- `REGLA CENTRAL: el intento denegado pasa` → `if (false)`
-- `REGLA CENTRAL invertida: todo intento falla` → `if (denegados.length === 0)`
-- `boundary: entregar el contexto sin sellar` → `sealContext(req.ctx)` → `req.ctx`
-- `POLITICA: cualquier import admitido` → `if (true)`
-- `la bitacora miente: marca concedido lo denegado`
-- `la bitacora no se congela y se puede reescribir`
-- `T0 concede red: se rompe el tier entero`
-
-Los dos últimos existían porque el test correspondiente **ya había encontrado el
-bug real** antes de que el mutante lo confirmara. Es el orden correcto: el test
-manda, el mutante verifica que el test tiene dientes.
-
-## Gate budget
-
-31 unidades juzgables, 0 exceden 4096 B una vez partidos los tres excesses que
-aparecieron durante L1: `wasm.ts` llegó a 8472 B, y `runner.ts` y `effects.ts`
-se partieron por preocupación, no por recorte.
+**P18 y P19 son los KPIs del loop.** P18 mide que el sandbox no altera una tool
+que no lo toca; P19 mide que no hay salida. Ninguna de las dos está completa
+sola: sin P18, P19 se cumpliría con un sandbox que rechazara todo; sin P19, P18
+se cumpliría con un sandbox que no hiciera nada.
