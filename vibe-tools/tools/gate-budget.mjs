@@ -61,26 +61,31 @@ function walk(dir, acc = []) {
 }
 
 /**
- * Tamano del artefacto tal como lo veria el juez: texto con finales de linea
- * normalizados a LF.
+ * Tamano del artefacto TAL COMO LO VERIA EL JUEZ: los BYTES CRUDOS del archivo.
  *
- * HALLAZGO 2026-10-23. core.autocrlf=true y sin .gitattributes hacia que el MISMO
- * documento mida 4081 B con LF y 4169 B con CRLF: 88 bytes de retorno de carro,
- * uno por linea. Seis documentos que el repositorio tiene en verde se ponian en
- * rojo con solo hacer checkout, y la cifra de 67 unidades / 0 exceden del cierre
- * de L2 no se reproducia en un clon nuevo.
+ * HALLAZGO 2026-10-23 (el importante de los dos). El juez resuelve el artefacto
+ * leyendo el archivo CRUDO y lo trocea a ConsensusChunkSize sobre esos bytes.
+ * Asi que el guard tiene que medir los mismos bytes. Medir otra cosa hace que
+ * el guard y el juez discrepen, y la discrepancia es exactamente el fallo que
+ * el tope existe para evitar: con 2 chunks, el SpecIntent escrito sobre el
+ * todo se aplica a fragmentos y el juez reporta neutral o contradiccion que es
+ * artefacto del troceado.
  *
- * Eso convierte el veredicto del guard en una propiedad del checkout y no del
- * documento, que es exactamente lo contrario de lo que un guard debe ser.
+ * MEDIDO: con core.autocrlf=true y sin .gitattributes, seis documentos caian
+ * en la banda de divergencia. El guard los decia "un chunk" (4042 B en LF) y
+ * el juez los troceaba en dos (4149 B en CRLF). Un documento con el veredicto
+ * neutral por una causa que no era del documento.
  *
- * Y el conteo estaba mal por si mismo: ConsensusChunkSize mide el texto que
- * chunk-ea, y un CR es espacio en blanco para el juez. Contarlo contra un
- * presupuesto de fidelidad no tiene sentido.
+ * ASI QUE: aqui NO se normaliza. La independencia del checkout se consigue
+ * FIJANDO los finales de linea (.gitattributes con eol=lf), no escondiendo la
+ * diferencia aqui. Normalizar en este punto fue el error: hacia el guard
+ * checkout-independiente y lo dejaba mintiendo sobre lo que el juez ve.
+ * El content-guard tiene una comprobacion de CRLF para que la divergencia no
+ * pueda volver en silencio.
  */
 function artifactBytes(rel) {
   try {
-    const text = readFileSync(join(root, rel), 'utf8').replace(/\r\n/g, '\n');
-    return Buffer.byteLength(text, 'utf8');
+    return readFileSync(join(root, rel)).length;
   } catch {
     return null;
   }

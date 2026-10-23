@@ -92,6 +92,22 @@ function scanFile(file) {
   const lines = text.split(/\r?\n/);
   const isMd = extname(file) === '.md';
 
+  // CRLF en un artefacto juzgable: el guard de presupuesto mide los bytes
+  // CRUDOS (los que lee el juez) y el juez trocea sobre esos bytes. Si el
+  // archivo trae CR, mide mas de lo que el guard permitio, y el juez puede
+  // trocearlo donde el guard dijo que cabia entero. Es divergencia silenciosa
+  // entre el guard y el juez. Se fija con .gitattributes; esta comprobacion
+  // avisa si deja de estar fijado. Se cuenta sobre el texto crudo porque las
+  // lineas ya vienen partidas con /\r?\n/ y el CR se consumio ahi.
+  if (text.includes('\r\n')) {
+    const crlfCount = (text.match(/\r\n/g) || []).length;
+    problems.push({
+      at: rel,
+      kind: 'CRLF',
+      detail: `${crlfCount} lineas con CR: el archivo mide mas de lo que el guard permitio y el juez puede trocearlo`,
+    });
+  }
+
   lines.forEach((line, i) => {
     const at = `${rel}:${i + 1}`;
     for (const ch of line) {

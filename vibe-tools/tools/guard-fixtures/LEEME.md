@@ -20,10 +20,11 @@ Y deben dar exactamente esto:
 | `fx6-sin-h1.md` | sin título de primer nivel | 1 |
 | `fx7-enlace.md` | enlaces internos rotos | 2 |
 | `fx9-ts.ts` | intrusión dentro de un `.ts` | 3 |
+| `fx11-crlf.md` | finales de línea CRLF | 1 |
 | `fx8-limpio.md` | **control** | **0** |
 | `fx10-limpio.ts` | **control** | **0** |
 
-Total: 20 hallazgos, 7 clases distintas, 0 en los dos controles.
+Total: 21 hallazgos, 8 clases distintas, 0 en los tres controles.
 
 ## Por qué los controles son la parte importante
 
