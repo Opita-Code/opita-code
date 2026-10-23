@@ -30,3 +30,5 @@ __pycache__/
 *.db
 *.db-journal
 *.db-wal
+# Capturas del navegador: las deja el probe en la raiz del repo
+screenshot.png
