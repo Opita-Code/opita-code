@@ -15,6 +15,23 @@ export {
   ruleTerminalsDeclared,
   ruleDeliversArtifact,
 } from './rules/terminals.js';
+export { ruleOrderable } from './rules/order.js';
+
+// L2 · modulos
+export { runModule } from './module/run.js';
+export type { RunModuleOptions } from './module/run.js';
+export { bindInputs, feederIndex } from './module/bind.js';
+export type { BindResult, BindSources } from './module/bind.js';
+export { nodeRun, type ModuleErrorCode, type ModuleFailure, type ModuleOutcome, type NodeRun } from './module/outcome.js';
+export { deliveriesOf, unemittedPorts } from './module/deliver.js';
+export { sharePolicy, shareKey, cachedOutputs, ValueStore } from './module/share.js';
+export type { SharePolicy } from './module/share.js';
+export { ask, deliveriesFor } from './module/harness.js';
+export type { HarnessAnswer, HarnessResult, HarnessOptions } from './module/harness.js';
+export { BASE_TOOLS, baseRegistry } from './tools/index.js';
+export { CANONICO_COMPLETO, ENTRADA_COMPLETO } from './canonical/completo.js';
+export { CANONICO_RECETA, ENTRADA_RECETA } from './canonical/receta.js';
+export { CANONICO_INVESTIGACION, ENTRADA_INVESTIGACION } from './canonical/investigacion.js';
 
 // L1 · sandbox
 export {

@@ -16,6 +16,9 @@
  *   R7  sinks existen y son terminal rules/terminals.ts
  *   R8  terminal esta declarado      rules/terminals.ts
  *   R9  el modulo entrega artifact   rules/terminals.ts
+ * El orden de las reglas NO es alfabetico. R10 va DESPUES de las aristas y ANTES
+ * de las terminales: un ciclo no tiene terminal, asi que R7d cortaria primero con
+ * un codigo que ESCONDE la causa raiz. Razon completa en `rules/order.ts`.
  */
 
 import { integrityOf, type ModuleDescriptor, type ToolDescriptor } from './contract.js';
@@ -27,12 +30,17 @@ import {
   ruleTerminalsDeclared,
   ruleDeliversArtifact,
 } from './rules/terminals.js';
+import { ruleOrderable } from './rules/order.js';
 import { Checker, type RuleResult, type RuleState } from './rules/types.js';
 
 export interface CompiledModule {
   readonly module: ModuleDescriptor;
   readonly integrity: string;
-  /** Orden estable de nodos: el que se ejecutaria en T0. */
+  /**
+   * Orden topologico real, calculado por `rules/order.ts`.
+   * L0 devolvia el orden de DECLARACION, que no era un plan: era la forma del
+   * descriptor. La razon del desempate esta en la regla, no aqui.
+   */
   readonly executionOrder: readonly string[];
   /** Cuantas verificaciones corrieron. Sondas de rigor del verificador. */
   readonly checksRun: number;
@@ -72,6 +80,7 @@ export function validate(mod: ModuleDescriptor): Validation {
     byId,
     outEdges,
     declared: new Set(mod.sinks),
+    order: [],
   };
 
   // Orden fijo. Cada entrada devuelve o el valor que la siguiente necesita, o el rechazo.
@@ -80,6 +89,7 @@ export function validate(mod: ModuleDescriptor): Validation {
     ['R1', ruleNoDuplicates],
     ['R11', ruleTierAllowsEffect],
     ['R2..R6', ruleEdges],
+    ['R10', ruleOrderable],
     ['R7a-c', ruleSinksExist],
     ['R7d', ruleSinksAreTerminal],
     ['R8', ruleTerminalsDeclared],
@@ -104,7 +114,7 @@ export function validate(mod: ModuleDescriptor): Validation {
     plan: {
       module: mod,
       integrity: integrityOf(mod),
-      executionOrder: mod.nodes.map((n) => n.node),
+      executionOrder: state.order,
       checksRun: c.total,
     },
   };

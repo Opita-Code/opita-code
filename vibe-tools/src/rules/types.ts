@@ -21,7 +21,8 @@ export type RejectCode =
   | 'E_SINK_NOT_TERMINAL'
   | 'E_UNDECLARED_SINK'
   | 'E_NO_ARTIFACT'
-  | 'E_TIER_EFFECT';
+  | 'E_TIER_EFFECT'
+  | 'E_CYCLE';
 
 export const REJECT_CODES: readonly RejectCode[] = [
   'E_BAD_REF',
@@ -36,6 +37,7 @@ export const REJECT_CODES: readonly RejectCode[] = [
   'E_UNDECLARED_SINK',
   'E_NO_ARTIFACT',
   'E_TIER_EFFECT',
+  'E_CYCLE',
 ];
 
 export interface Rejection {
@@ -79,6 +81,16 @@ export interface RuleState {
   readonly outEdges: ReadonlyMap<string, number>;
   /** Sinks ya validados y declarados. Lo consume la regla de no declarar. */
   readonly declared: ReadonlySet<string>;
+  /**
+   * L2. Orden topologico de ejecucion.
+   *
+   * Unico campo NO readonly del estado, y es deliberado: lo escribe
+   * `rules/order.ts` y lo leen el orquestador y el runner del modulo. Es el unico
+   * dato que una regla produce y otra consume, asi que va en el estado y no como
+   * valor de retorno que habria que propagar por la tuberia a mano.
+   * El binding es mutable, el valor es inmutable: se congela antes de guardarlo.
+   */
+  order: readonly string[];
 }
 
 export type Rule<T = void> = (state: RuleState, c: Checker) => RuleResult<T>;

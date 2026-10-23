@@ -12,39 +12,25 @@
  * Una tool que intento exfiltrar y no lo logro no es una tool que funciono. Si se
  * aceptara su resultado, el siguiente paso seria probar con otro puerto, y el
  * sandbox seria el obstaculo en lugar de la garantia. El intento es la senal.
+ *
+ * El veredicto y su bitacora viven en `outcome.ts`. Aqui solo esta la caminata.
  */
 
-import type { Capability } from './capability.js';
-import type { Tier } from '../axes.js';
 import { createPort } from './effects/create.js';
 import type { EffectAttempt, EffectBackend } from './effects/port.js';
 import { supports, type HostEnvironment } from './tier.js';
 import { scanWasm, T0_ALLOWED } from './wasm/scan.js';
 import type { ToolOutcome, ToolImpl } from '../tool.js';
-import type { ToolDescriptor, ToolOutput } from '../contract.js';
+import type { ToolDescriptor } from '../contract.js';
 import { sealContext, type ToolContext } from '../context.js';
+import { fail, type SandboxOutcome } from './outcome.js';
 
-export type SandboxErrorCode =
-  | 'E_NOT_BOUND'
-  | 'E_HOST_UNSUPPORTED'
-  | 'E_MODULE_DENIED'
-  | 'E_EFFECT_DENIED'
-  | 'E_TOOL_ERROR';
-
-export type SandboxOutcome =
-  | {
-      readonly ok: true;
-      readonly tier: Tier;
-      readonly granted: readonly Capability[];
-      readonly outputs: readonly ToolOutput[];
-    }
-  | {
-      readonly ok: false;
-      readonly tier: Tier;
-      readonly code: SandboxErrorCode;
-      readonly detail: string;
-      readonly attempts: readonly EffectAttempt[];
-    };
+export {
+  deniedCount,
+  fail,
+  type SandboxErrorCode,
+  type SandboxOutcome,
+} from './outcome.js';
 
 export interface Binding {
   readonly descriptor: ToolDescriptor;
@@ -60,16 +46,6 @@ export interface RunRequest {
   readonly module?: Uint8Array | undefined;
   readonly backend?: EffectBackend | undefined;
   readonly allowed?: readonly string[] | undefined;
-}
-
-/** El veredicto cuando algo se rechaza, con su bitacora de intentos. */
-function fail(
-  tier: Tier,
-  code: SandboxErrorCode,
-  detail: string,
-  attempts: readonly EffectAttempt[] = [],
-): SandboxOutcome {
-  return { ok: false, tier, code, detail, attempts };
 }
 
 export function runInSandbox(req: RunRequest): SandboxOutcome {
@@ -108,10 +84,11 @@ export function runInSandbox(req: RunRequest): SandboxOutcome {
   if (!outcome.ok) {
     return fail(tier, 'E_TOOL_ERROR', outcome.error, port.attempts);
   }
-  return { ok: true, tier, granted: port.granted, outputs: outcome.outputs };
-}
-
-/** Cuantos intentos denegados hubo. Es el KPI de exfiltracion del loop. */
-export function deniedCount(outcome: SandboxOutcome): number {
-  return outcome.ok ? 0 : outcome.attempts.filter((a) => !a.granted).length;
+  return {
+    ok: true,
+    tier,
+    granted: port.granted,
+    outputs: outcome.outputs,
+    attempts: port.attempts,
+  };
 }

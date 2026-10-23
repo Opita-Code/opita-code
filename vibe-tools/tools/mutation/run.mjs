@@ -173,7 +173,7 @@ const MUTANTS = [
     'sealContext(req.ctx)', 'req.ctx'],
   ['src/sandbox/runner.js', 'el sandbox entrega al usuario lo que el puerto anuncia',
     'granted: port.granted', 'granted: []'],
-  ['src/sandbox/runner.js', 'deniedCount cuenta todo, no solo lo denegado',
+  ['src/sandbox/outcome.js', 'deniedCount cuenta todo, no solo lo denegado',
     'outcome.attempts.filter((a) => !a.granted).length', 'outcome.attempts.length'],
 
   // ---- sandbox/wasm/binary.ts : el formato ------------------------------
@@ -277,6 +277,99 @@ const MUTANTS = [
     "if (port.includes(':'))\n        return null;", ''],
   ['src/contract.js', 'deliveries: devolver todos los puertos, no solo los artifact',
     'return tool.outputs.filter((p) => p.artifact);', 'return [...tool.outputs];'],
+
+  // ---- rules/order.ts : R10 ---------------------------------------------
+  ['src/rules/order.js', 'R10 borrar la deteccion de ciclos',
+    'if (placed.length !== names.length) {', 'if (false) {'],
+  ['src/rules/order.js', 'R10 invertir la deteccion de ciclos',
+    'if (placed.length !== names.length) {', 'if (placed.length > names.length) {'],
+  ['src/rules/order.js', 'R10 el desempate pasa a ser alfabetico, no de declaracion',
+    'for (const n of names) {\n            c.count();\n            if (done.has(n))\n                continue;\n            if (remaining.get(n).size === 0) {',
+    'for (const n of [...names].sort()) {\n            c.count();\n            if (done.has(n))\n                continue;\n            if (remaining.get(n).size === 0) {'],
+  ['src/rules/order.js', 'R10 toda arista cuenta como predecesor, no cada nodo distinto',
+    'preds.get(e.to)?.add(e.from);', 'preds.get(e.to)?.add(e.from);\n        succ.get(e.from)?.push(e.from);'],
+  ['src/rules/order.js', 'R10 no descontar al colocar un nodo: nadie llega a estar listo',
+    'for (const s of succ.get(pick))\n            remaining.get(s).delete(pick);', ''],
+  ['src/rules/order.js', 'R10 marcar el nodo como puesto antes de tiempo',
+    'done.add(pick);\n        placed.push(pick);', 'done.add(pick);'],
+
+  // ---- module/share.ts : mutacion vs receta ------------------------------
+  ['src/module/share.js', 'POLITICA: una receta si cachea',
+    "recipe: { kind: 'recipe', cache: false, comparable: true },", "recipe: { kind: 'recipe', cache: true, comparable: true },"],
+  ['src/module/share.js', 'POLITICA: una tool con estado si se puede comparar',
+    "none: { kind: 'none', cache: false, comparable: false },", "none: { kind: 'none', cache: false, comparable: true },"],
+  ['src/module/share.js', 'POLITICA: mutacion ya no cachea',
+    "mutation: { kind: 'mutation', cache: true, comparable: true },", "mutation: { kind: 'mutation', cache: false, comparable: true },"],
+  ['src/module/share.js', 'cache: escribir aunque la politica no lo permita',
+    'if (!policy.cache)\n            return false;', ''],
+  ['src/module/share.js', 'cachedOutputs: servir lo que hay aunque la politica prohiba',
+    'if (key === null || !policy.cache || !store.has(key))', 'if (key === null || !store.has(key))'],
+  ['src/module/share.js', 'la clave deja de depender del input: solo id y version',
+    "return integrityOf({ tool: `${id}@${version}`, input });", 'return integrityOf({ tool: `${id}@${version}` });'],
+  ['src/module/share.js', 'la clave depende del separador de texto: se pueden colisionar',
+    'return integrityOf({ tool: `${id}@${version}`, input });',
+    "return sha256HexOfText(`${id}@${version}:${String(input)}`).toString();"],
+
+  // ---- module/bind.ts : llenar puertos -----------------------------------
+  ['src/module/bind.js', 'bind: aceptar un puerto de entrada sin valor (undefined silencioso)',
+    'else if (Object.prototype.hasOwnProperty.call(src.entry, here)) {', 'else if (true) {'],
+  ['src/module/bind.js', 'bind: borrar el indice de alimentadores',
+    'for (const e of edges)\n        m.set(`${e.to}:${e.toPort}`, `${e.from}:${e.fromPort}`);', ''],
+  ['src/module/bind.js', 'bind: el feeder se invierte, la entrada se toma de la salida',
+    'm.set(`${e.to}:${e.toPort}`, `${e.from}:${e.fromPort}`);', 'm.set(`${e.from}:${e.fromPort}`, `${e.to}:${e.toPort}`);'],
+
+  // ---- module/run.ts : la caminata ---------------------------------------
+  ['src/module/run.js', 'run: borrar el rechazo por puerto de entrada sin valor',
+    'if (!bound.ok) {', 'if (false) {'],
+  ['src/module/run.js', 'run: continuar despues de un nodo fallido',
+    'if (!outcome.ok) {', 'if (false) {'],
+  ['src/module/run.js', 'run: borrar el chequeo de tool no registrada',
+    'if (!registry.has(tool.id, tool.version)) {', 'if (false) {'],
+  ['src/module/run.js', 'run: no cruzar el contrato con la magia (puertos no emitidos)',
+    'if (missing.length > 0) {', 'if (false) {'],
+  ['src/module/run.js', 'run: ENTRAR artefactos aunque la corrida haya fallado',
+    'deliveries: failure === null ? deliveriesOf(plan, runs) : new Map(),', 'deliveries: deliveriesOf(plan, runs),'],
+  ['src/module/run.js', 'run: el reuso se ignora y la tool se ejecuta siempre',
+    'if (cached !== null) {', 'if (false) {'],
+  ['src/module/run.js', 'run: borrar la grabacion en la cache',
+    'if (key !== null)\n            store.record(key, outcome.outputs, policy);', ''],
+
+  // ---- module/deliver.ts : que entrego ----------------------------------
+  ['src/module/deliver.js', 'unemittedPorts: toda tool cumple su contrato',
+    'return tool.outputs.filter((p) => !outputs.some((o) => o.port === p.name)).map((p) => p.name);', 'return [];'],
+  ['src/module/deliver.js', 'deliveries: entregar tambien desde un nodo que fallo',
+    'if (run === undefined || !run.ok)', 'if (run === undefined)'],
+
+  // ---- module/harness.ts : modo X ---------------------------------------
+  ['src/module/harness.js', 'harness: sortear entre varias entregas del mismo modo',
+    'if (found.length > 1) {', 'if (false) {'],
+  ['src/module/harness.js', 'harness: devolver un artifact cualquiera cuando el modo no existe',
+    'if (found.length === 0) {', 'if (false) {'],
+  ['src/module/harness.js', 'harness: mirar el modo antes que el fallo de la corrida',
+    'if (!run.ok) {', 'if (false) {'],
+  ['src/module/harness.js', 'harness: aceptar cualquier puerto, no solo los artifact del modo',
+    'if (port === undefined || !port.artifact || port.produces !== mode)', 'if (port === undefined)'],
+
+  // ---- tools/render.ts : el escapado es la frontera ----------------------
+  ['src/tools/render.js', 'escapeXml: el & se escapa al final, y el escapado se escapa a si mismo',
+    "return v\n        .replace(/&/g, '&amp;')\n        .replace(/</g, '&lt;')",
+    "return v\n        .replace(/</g, '&lt;')"],
+  ['src/tools/render.js', 'escapeXml: los <> crudos pasan de largo',
+    ".replace(/</g, '&lt;')\n        .replace(/>/g, '&gt;')", ''],
+  ['src/tools/render.js', 'escapeXml: la comilla doble no se escapa',
+    ".replace(/\"/g, '&quot;')", ''],
+  ['src/tools/render.js', 'renderSvg: el ancho deja de seguir al texto',
+    'const width = Math.max(...lines.map((l) => l.length)) * CHAR_W + PAD * 2;', 'const width = 100;'],
+  ['src/tools/render.js', 'renderSvg: cada linea se renderiza una sola vez',
+    '.map((l, i) => `<text x="${PAD}" y="${PAD + i * LINE_H}"', '.map((l, i) => `<text y="${PAD + i * LINE_H}"'],
+
+  // ---- tools/draft.ts : la variabilidad esta en el input -----------------
+  ['src/tools/draft.js', 'draft: quitar el separador NUL entre topic y nonce',
+    'return sha256HexOfText(topic + String.fromCharCode(0) + nonce);', 'return sha256HexOfText(topic + nonce);'],
+  ['src/tools/draft.js', 'draft: el topic ya no entra en la semilla',
+    'return sha256HexOfText(topic + String.fromCharCode(0) + nonce);', 'return sha256HexOfText(nonce);'],
+  ['src/tools/draft.js', 'draft: la semilla deja de elegir el closer',
+    'const closer = CLOSERS[parseInt(d.slice(2, 4), 16) % CLOSERS.length];', 'const closer = CLOSERS[0];'],
 ];
 
 function runTests(dir) {
