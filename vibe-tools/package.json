@@ -20,7 +20,7 @@
     "preview": "node tools/render-preview.mjs"
   },
   "devDependencies": {
-    "@types/node": "^22.20.5",
+    "@types/node": "^26.6.5",
     "typescript": "^5.7.2"
   }
 }
