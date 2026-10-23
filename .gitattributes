@@ -2,3 +2,15 @@
 *.png binary
 *.jpg binary
 *.ico binary
+
+# EXCEPCION, y no es una excepcion: este archivo TIENE que llegar con CRLF.
+#
+# El fixture prueba la clase de deteccion de finales de linea. Con la regla
+# general de arriba, git normaliza sus bytes al commitear, y el fixture
+# dejaba de tener CR: en un clon nuevo el guard de contenido ya no encontraba
+# la clase que dice probar, y nadie se enteraba. Un guard que se puede
+# dejar de ejercitar en silencio no es un guard.
+#
+# Con -text, git no convierte nada: los bytes se guardan y se/devuelven tal
+# cual, que es lo que un fixture de bytes deliberados necesita.
+vibe-tools/tools/guard-fixtures/fx11-crlf.md -text
