@@ -459,6 +459,12 @@ function main() {
   const resultados = [];
   let noAplicable = 0;
 
+  // --solo N: corre UN mutante. La corrida completa son 142 mutantes y cada
+  // uno lanza la suite entera: son minutos. Para cerrar un hueco concreto hace
+  // falta un ciclo de segundos, y ese es el ciclo con el que se trabaja.
+  const iSolo = process.argv.indexOf('--solo');
+  const solo = iSolo >= 0 ? Number(process.argv[iSolo + 1]) : null;
+
   try {
     // LA LINEA BASE. Antes de mutar nada, se comprueba que la suite corre y
     // pasa en una copia intacta. Sin esto, un comando de test que no arranca
@@ -485,7 +491,8 @@ function main() {
     }
     console.log(`\n  linea base: ${linea.resumen}`);
 
-    for (const [archivo, desc, buscar, reemplazar] of MUTANTS) {
+    for (const [indice, [archivo, desc, buscar, reemplazar]] of MUTANTS.entries()) {
+      if (solo !== null && indice !== solo) continue;
       const dir = join(base, `m${resultados.length}`);
       cpSync(dist, join(dir, 'dist'), { recursive: true });
 
