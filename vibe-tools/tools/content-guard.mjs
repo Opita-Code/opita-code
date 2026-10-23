@@ -162,11 +162,38 @@ function scanFile(file) {
   return problems;
 }
 
+/** Si el override trae una ruta absoluta se respeta; si no, es relativa a la raiz. */
+function resolveRoot(dir) {
+  return /^([a-zA-Z]:[\\/]|[\\/])/.test(dir) ? dir : join(root, dir);
+}
+
 function main() {
-  const files = []
-    .concat(MD_ROOTS.flatMap((r) => walk(join(root, r), new Set(['.md']))))
-    .concat(TS_ROOTS.flatMap((r) => walk(join(root, r), new Set(['.ts']))))
-    .concat(ALSO_FILES.filter((f) => existsSync(join(root, f))).map((f) => join(root, f)));
+  // Un guard que solo se puede correr sobre el repo es un guard que solo se
+  // puede verificar rompienendo el repo. Este override existe para poder
+  // correrlo contra un corpus de defectos deliberados (ver tools/guard-fixtures).
+  const override = process.argv[2];
+  const extraExts = new Set(['.md', '.ts']);
+
+  if (override) {
+    // Una ruta que no existe es un ERROR, no un corpus vacio que pasa. Un guard
+    // que informa OK porque no encontro nada es peor que no tener guard: es la
+    // forma exacta de que una verificacion se vuelva decoracion en silencio.
+    for (const d of override.split(',')) {
+      const abs = resolveRoot(d);
+      if (!existsSync(abs)) {
+        console.error(`\n  RUTA INEXISTENTE: ${d}  (resuelta a ${abs})`);
+        console.error('  Las rutas del override son relativas a la raiz del repo, o absolutas.\n');
+        process.exit(2);
+      }
+    }
+  }
+
+  const files = override
+    ? override.split(',').flatMap((d) => walk(resolveRoot(d), extraExts))
+    : []
+      .concat(MD_ROOTS.flatMap((r) => walk(join(root, r), new Set(['.md']))))
+      .concat(TS_ROOTS.flatMap((r) => walk(join(root, r), new Set(['.ts']))))
+      .concat(ALSO_FILES.filter((f) => existsSync(join(root, f))).map((f) => join(root, f)));
 
   const all = files.flatMap(scanFile);
   const byKind = new Map();
