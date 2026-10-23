@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: vibe-tools/package-lock.json
+
+      - name: Instalar
+        working-directory: vibe-tools
+        run: npm ci
+
+      - name: Los cuatro guards (contenido, presupuesto, tests, mutacion)
+        working-directory: vibe-tools
+        run: npm run check
+
+      - name: El estado publicado, contrastado contra la realidad
+        working-directory: vibe-tools
+        run: npm run verificar-estado
+
+      - name: La superficie publicada esta al dia
+        working-directory: vibe-tools
+        run: npm run generar-estado -- --check

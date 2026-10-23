@@ -1,0 +1,54 @@
+name: Release
+
+# QUE HACE. Al subir un tag v*, genera las notas de release en tres capas y
+# deja el release como BORRADOR.
+#
+# POR QUE UN BORRADOR Y NO UN RELEASE PUBLICADO. El estado del arte de
+# build-in-public es claro en esto: para una cuenta de fundador, el nivel optimo
+# de automatizacion es "borrador automatico, aprobacion humana". Un agente que
+# publica solo se pierde la voz, y los lectores detectan que es automatico.
+# La maquina redacta; el operador publica. Un clic.
+#
+# LAS TRES CAPAS
+#   1. En lenguaje llano: que se puede hacer ahora, y lo que nos equivocamos.
+#      Es la unica parte que la mayoria va a leer, y va arriba.
+#   2. El registro: los KPI medidos y el veredicto del juez.
+#   3. Migracion: que hay que hacer, si hay que hacer algo.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag del release, por ejemplo v0.4.0'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  borrador:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Generar las notas
+        working-directory: vibe-tools
+        run: node scripts/generar-estado.mjs --release "${{ github.event.inputs.tag || github.ref_name }}" > notas.md
+
+      - name: Crear el release como borrador
+        run: |
+          gh release create "${{ github.event.inputs.tag || github.ref_name }}" \
+            --draft \
+            --title "${{ github.event.inputs.tag || github.ref_name }}" \
+            --notes-file notas.md
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Recordatorio
+        run: echo "El release quedo como BORRADOR. Revisalo y publicalo con un clic: es la aprobacion humana que exige el nivel 3."

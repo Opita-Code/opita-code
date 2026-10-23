@@ -1,0 +1,50 @@
+name: Superficie publica
+
+# QUE HACE. Mantiene la superficie publica al dia con la fuente de verdad.
+#
+# La superficie (README raiz, STATUS.md, docs/avances/) se GENERA desde
+# vibe-tools/estado.json. Este workflow la regenera en cada push a main y
+# commitea el resultado SI cambio, para que la pagina nunca muestre un estado
+# viejo.
+#
+# POR QUE COMMITEA Y NO ABRE UN PULL REQUEST. Lo que commitea es contenido
+# DERIVADO, sin voz: no hay nada que un humano pueda querer decir de otra
+# manera. La voz vive en la fuente (estado.json) y en las notas de release, y
+# esas si pasan por revision humana.
+#
+# SI EL OPERADOR QUIERE QUE MAIN SEA INTOCABLE, este es el workflow que hay
+# que cambiar: se abre un pull request en vez de commitear.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  regenerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Regenerar la superficie desde la fuente
+        working-directory: vibe-tools
+        run: node scripts/generar-estado.mjs
+
+      - name: Commitear solo si cambio
+        run: |
+          if git diff --quiet -- README.md STATUS.md docs/avances.md docs/avances/; then
+            echo "La superficie ya estaba al dia."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md STATUS.md docs/avances.md docs/avances/
+          git commit -m "Superficie publica regenerada desde vibe-tools/estado.json"
+          git push

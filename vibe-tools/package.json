@@ -13,6 +13,8 @@
     "mutate": "npm run build && node tools/mutation/run.mjs",
     "budget": "node tools/gate-budget.mjs",
     "content": "node tools/content-guard.mjs",
+    "generar-estado": "node scripts/generar-estado.mjs",
+    "verificar-estado": "node scripts/verificar-estado.mjs",
     "check": "npm run content && npm run budget && npm run test && npm run mutate"
   },
   "devDependencies": {

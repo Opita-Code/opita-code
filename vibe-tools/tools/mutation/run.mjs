@@ -439,6 +439,24 @@ function main() {
 
   const bajos = [...porPaquete.entries()].filter(([, c]) => (c.killed / c.applicable) * 100 < 80);
   const sobrevividos = resultados.filter((r) => r.estado === 'sobrevivio');
+
+  // Modo JSON: igual que en el guard de presupuesto, la superficie publica
+  // necesita los totales en forma machine-readable. Parsear la linea de
+  // TOTAL con una regexp seria atar la verificacion al formato de una
+  // salida humana, y ese es exactamente el enlace que se rompe en silencio.
+  if (process.argv.includes('--json')) {
+    console.log(JSON.stringify({
+      mutantes: resultados.length,
+      aplicables: totalAplicables,
+      muertos: muertos.length,
+      sobrevivientes: sobrevividos.length,
+      no_aplicable: noAplicable,
+      paquetes: porPaquete.size,
+      score: Number(score.toFixed(1)),
+      umbral: 80,
+    }));
+  }
+
   if (sobrevividos.length > 0 || bajos.length > 0 || noAplicable > 0) {
     console.log('\n  VEREDOR DEBIL — no se cierra el loop con esto:');
     for (const r of sobrevividos) console.log(`    sobrevive: ${r.archivo} ${r.desc}`);

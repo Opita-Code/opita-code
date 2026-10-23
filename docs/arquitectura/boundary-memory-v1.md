@@ -223,4 +223,22 @@ Sin estos tests verdes, el régimen DENTRO no abre.
 
 ## Nota
 
-Esta spec define el boundary de confianza. **Su implementación depende de que el juez funcione**, y el juez está caído (`judge`/`consensus`/`mindset_apply` → `ErrInternal` en dark-memory v4). Arreglar el binario es precondición.
+Esta spec define el boundary de confianza. **Su implementación depende de que el juez funcione.**
+
+> **Corrección 2026-10-23 (loop L-PUB).** Esta nota afirmaba que el juez estaba
+> caído (`judge`/`consensus`/`mindset_apply` → `ErrInternal` en dark-memory v4) y
+> que arreglar el binario era precondición. **Era falso, y la causa estaba a
+> una capa de la que la nota apuntaba.** El binario estaba bien; lo que estaba
+> sin credencial era el canal NLI, que el veredicto de `drift_judge` usa y que
+> **no consulta el keyring**: lee el token del binding del proyecto, y ese
+> token estaba agotado.
+>
+> Con el binding repuesto y el proceso reiniciado (el proveedor se cachea en
+> el orquestador, así que cambiar la configuración no toma efecto hasta que
+> el proceso muere), el juez opera: los diez documentos de L3 se juzgaron
+> `aligned` con `confidence 1.0000` y `nli_label=entailment`.
+>
+> Lo que la nota acertaba sin decirlo: la avería no era del código del juez,
+> sino de su configuración. Por eso «arreglar el binario» era la instrucción
+> equivocada, y esa clase de instrucción es la que hace que un equipo rebuild
+> algo que ya funciona. El detalle está en [L-PUB-correcciones](loops/L-PUB-correcciones.md).

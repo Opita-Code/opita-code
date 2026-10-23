@@ -1,8 +1,9 @@
 # Índice de documentos por loop
 
 > Cada loop se divide por **preocupación**: un documento que mezcla varias deja de
-> ser juzgable de forma estable. El README del paquete es el punto de entrada
-—estado, estructura y comandos—, no el catálogo.
+> ser juzgable de forma estable. El punto de entrada es el
+> [README de la raíz](../../../README.md) —qué es esto, qué hay hoy y la evidencia
+> medida—, el del paquete es el índice técnico del runtime, y este es el catálogo.
 
 | Doc | Preocupación |
 |---|---|
@@ -49,10 +50,5 @@
 | [L3-reconciliacion](L3-reconciliacion.md) | Qué sobrevive de las 8 reglas y los 12 bordes de la spec |
 | [L3-cambios](L3-cambios.md) | Lo que hay que añadir, y lo que queda abierto para el operador |
 
-Documento transversal, no de un loop:
-
-| Doc | Preocupación |
-|---|---|
-| [gate-veredictos](gate-veredictos.md) | Qué significa cada veredicto, y por qué se para a los dos intentos |
-
-Plan completo: [plan-iteracion-mvp.md](../plan-iteracion-mvp.md)
+La superficie publica, los documentos de L-PUB y los documentos transversales estan en
+[INDICE-publico.md](INDICE-publico.md).

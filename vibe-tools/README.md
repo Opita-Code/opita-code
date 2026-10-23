@@ -8,14 +8,18 @@ Runtime de tools componibles para Opita Code.
 
 ## Estado
 
-**L0 cerrado** — contratos y type system.
-**L1 cerrado** — sandbox: modelo de capacidades, puerto de efectos, validador
-estático de imports WASM, detección de tier, runner.
-**L2 cerrado** — orden topológico y ciclos, runner de módulo, mutación vs
-receta, harness «modo X», cuatro tools base, tres casos canónicos.
+<!-- GENERADO:estado -->
+**L0 cerrado** — Fundacion: los contratos.
+**L1 cerrado** — Runtime: la caja de cada herramienta.
+**L2 cerrado** — Composicion: encadenar sin equivocarse.
+**L3 cerrado** — Boundary MEMORY: la memoria es tuya y de nadie mas.
 
-263 tests · mutation 142/142 = 100% en 28 paquetes · 67 unidades juzgables.
-Siguiente: **L3** — boundary MEMORY.
+263 tests · mutation 142/142 = 100% en 28 paquetes · 93 unidades juzgables.
+Siguiente según el plan: **L4** — Identidad: un stub, y despues tres identidades.
+<!-- /GENERADO:estado -->
+
+> Este bloque se **genera** desde `estado.json` y lo verifica `npm run estado`. El
+> estado publicado del repositorio entero esta en [STATUS.md](../STATUS.md).
 
 > `RESEARCH` (T1) **no se puede ejecutar**: T1 concede `net` y no hay transporte.
 > El caso canónico 3 existe para que ese hueco sea visible en cada corrida.

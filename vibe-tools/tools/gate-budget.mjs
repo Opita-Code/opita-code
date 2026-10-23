@@ -34,8 +34,17 @@ const BUDGET = 4096;
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..', '..');
 
-const ROOTS = ['vibe-tools/src', 'docs/arquitectura/loops'];
-const ALSO_FILES = ['vibe-tools/README.md'];
+const ROOTS = ['vibe-tools/src', 'docs/arquitectura/loops', 'docs/avances'];
+const ALSO_FILES = [
+  'vibe-tools/README.md',
+  'README.md',
+  'STATUS.md',
+  'docs/avances.md',
+  'docs/como-verificar.md',
+  '.github/workflows/ci.yml',
+  '.github/workflows/estado.yml',
+  '.github/workflows/release.yml',
+];
 const EXTS = new Set(['.ts', '.md']);
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.git']);
 
@@ -47,6 +56,7 @@ const NO_JUZGABLE = [
   ['docs/legal/cumplimiento-aislamiento-datos-v1.md', 'texto legal; requiere abogado, no juez LLM'],
   ['docs/arquitectura/plan-iteracion-mvp.md', 'plan de 10 loops; se sustituye por docs/arquitectura/loops/'],
   ['docs/arquitectura/mvp-vibe-tools-spec533.md', 'spec 533, superado por spec 535'],
+  ['vibe-tools/estado.json', 'FUENTE UNICA de la superficie publica; sus numeros los verifica el guard de estado, que mide la realidad, y partirla por el tope romperia la regla de una sola fuente'],
 ];
 
 function walk(dir, acc = []) {
@@ -103,6 +113,21 @@ function main() {
     .map((f) => ({ path: relative(root, f).replace(/\\/g, '/'), bytes: artifactBytes(relative(root, f).replace(/\\/g, '/')) }))
     .sort((a, b) => b.bytes - a.bytes);
   const over = rows.filter((r) => r.bytes > BUDGET);
+
+  // Modo JSON: la superficie publica necesita estos numeros en forma
+  // MACHINE-READABLE, no parseando prosa. Un guard que hay que leer con
+  // regexp es un guard que se rompe en silencio el dia que cambia el formato
+  // de su salida. La salida humana no cambia; esta es una via adicional.
+  if (process.argv.includes('--json')) {
+    console.log(JSON.stringify({
+      presupuesto: BUDGET,
+      unidades: rows.length,
+      exceden: over.length,
+      sobre_el_tope: over.map((r) => ({ ruta: r.path, bytes: r.bytes })),
+    }));
+    if (over.length > 0) process.exit(1);
+    return;
+  }
 
   console.log(`\n=== GATE BUDGET · ${BUDGET} B por unidad juzgable ===\n`);
   for (const r of rows) {

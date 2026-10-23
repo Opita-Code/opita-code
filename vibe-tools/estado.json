@@ -1,0 +1,139 @@
+{
+  "_comentario": "FUENTE UNICA DE VERDAD de la superficie publica. Lo que se publica fuera del repo (README raiz, STATUS.md, docs/avances.md, notas de release) se GENERA desde aqui. Los numeros de este archivo se VERIFICAN contra la realidad medida por npm run verificar-estado: si un numero no cuadra, la tuberia se cae. La regla es que no se escribe a mano lo que se puede medir. Formato JSON y no YAML a proposito: el repo no tiene dependencias, y un parser de YAML seria magia opaca en el punto de la medicion.",
+
+  "proyecto": {
+    "nombre": "Opita Code",
+    "descripcion": "Opita Code — vibe-studio runtime, arquitectura y cumplimiento",
+    "repo": "https://github.com/Opita-Code/opita-code",
+    "version": "0.4.0",
+    "tag": "v0.4.0",
+    "actualizado": "2026-10-23"
+  },
+
+  "vision": {
+    "estado": "pendiente-del-operador",
+    "texto": "",
+    "nota": "El para que de Opita Code, a quien le duele y por que se construye es del operador. No sale de los documentos: sale de el. No se inventa y no se rellena con relleno. Hasta que llegue, la superficie publica lo declara como hueco, y el guard comprueba que el hueco siga declarado y no se haya perdido en una regeneracion."
+  },
+
+  "audiencia": {
+    "perfil": "Personas que no programan y personas que programan poco. Curiosas por ver avances, no por leer codigo.",
+    "regla": "Lo que se lee sin cuenta llega al cien por ciento; lo que pide cuenta se pierde casi entero. Y un numero tecnico no dice nada sin traducirlo: «142 intentos de romper sus propias reglas, y los 142 la frenaron» si dice.",
+    "capas": [
+      "Imagen de social preview y badge: un segundo, «esto esta vivo».",
+      "STATUS.md: treinta segundos, «que hay hoy».",
+      "docs/avances.md: tres minutos, el registro en lenguaje llano.",
+      "Notas de release: el archivo, en tres capas.",
+      "docs/: el argumento, con la evidencia medida."
+    ],
+    "capas_de_release_note": "Capa 1, arriba: resumen en lenguaje llano, que es la unica parte que la mayoria va a leer. Capa 2, en medio: el registro categorizado. Capa 3, abajo: notas de migracion, solo si hay que actuar."
+  },
+
+  "loops": [
+    {
+      "id": "L0",
+      "version": "0.1.0",
+      "nombre": "Fundacion: los contratos",
+      "estado": "cerrado",
+      "resumen": "Cada herramienta declara que produce y si puede dar el mismo resultado dos veces. Con esa declaracion, el runtime sabe que esperar de ella antes de ejecutarla.",
+      "puede": "Cada herramienta declara que produce y si puede dar el mismo resultado dos veces. Antes de ejecutarla, el sistema ya sabe que esperar de ella.",
+      "mas_tuyo": "Todavia nada: esta es la base. Pero es la base de la que sale todo lo demas, y sin ella el resto no se puede verificar.",
+      "hallazgo": "Un agujero en el sellado del contexto que 83 tests no veian. Lo encontro el verificador automatico, no nosotros: el sellado miraba solo la superficie, y un objeto anidado mutable se escapaba entero. Cerrado con WeakSet y sellado profundo, con 5 tests y 9 mutantes nuevos.",
+      "abierto": "",
+      "documento_cierre": "docs/arquitectura/loops/L0-hallazgos.md",
+      "indice": "docs/arquitectura/loops/INDICE.md"
+    },
+    {
+      "id": "L1",
+      "version": "0.2.0",
+      "nombre": "Runtime: la caja de cada herramienta",
+      "estado": "cerrado",
+      "resumen": "Cada herramienta vive en una caja. Solo puede hacer lo que su caja le concede, y el sistema lo comprueba antes de dejarla correr, no despues. Si una herramienta intenta salirse, la ejecucion falla aunque la herramienta hubiera funcionado.",
+      "puede": "Cada herramienta vive en una caja: solo puede hacer lo que su caja le concede, y se comprueba antes de dejarla correr. Si intenta salirse, la ejecucion falla aunque la herramienta hubiera funcionado.",
+      "mas_tuyo": "Tu rastro de auditoria ya no se puede editar. Antes las entradas de la bitacora eran mutables, y un rastro que se puede editar no es un rastro.",
+      "hallazgo": "El constructor de WASM escribia un byte de mas. Y un test estaba mal planteado: tomaba env.memory por el disco, y no lo es.",
+      "abierto": "Los tres niveles de aislamiento existen como politica verificada, no como ejecucion real: no hay Pyodide, ni WebContainers, ni Firecracker conectados. Por eso no se publica que el sistema ejecuta con red.",
+      "documento_cierre": "docs/arquitectura/loops/L1-hallazgos-gate.md",
+      "indice": "docs/arquitectura/loops/INDICE.md"
+    },
+    {
+      "id": "L2",
+      "version": "0.3.0",
+      "nombre": "Composicion: encadenar sin equivocarse",
+      "estado": "cerrado",
+      "resumen": "Puedes encadenar herramientas y el orden nunca se equivoca. Si dos se necesitan entre si, el sistema te dice cuales son, en vez de fallar en silencio. Y si una herramienta usa otra, solo lo hace una vez: no hay doble cobro.",
+      "puede": "Puedes encadenar herramientas y el orden nunca se equivoca. Si dos se necesitan entre si, el sistema te dice cuales son, en vez de fallar en silencio.",
+      "mas_tuyo": "Si una herramienta usa otra, solo lo hace una vez. No hay doble cobro.",
+      "hallazgo": "El error que veias no era el error: el orden de las comprobaciones hacia que un ciclo se reportara como «este sumidero no es terminal», cuando el problema real era un ciclo. Y el cierre anterior habia dejado un archivo 53 bytes por encima del limite, mientras el numero que lo reportaba decia que todo estaba bien. Se tapo recortando la prosa en vez de partir el archivo por donde tenia una sola responsabilidad.",
+      "abierto": "La herramienta de busqueda declara que puede leer la red y no puede: falta el transporte. El caso canonico existe para que ese hueco se vea en cada corrida y no se acumule en un documento que nadie vuelve a leer.",
+      "documento_cierre": "docs/arquitectura/loops/L2-cierre.md",
+      "indice": "docs/arquitectura/loops/INDICE.md"
+    },
+    {
+      "id": "L3",
+      "version": "0.4.0",
+      "nombre": "Boundary MEMORY: la memoria es tuya y de nadie mas",
+      "estado": "cerrado",
+      "resumen": "La memoria paso a ser tuya y de nadie mas. Las herramientas que instales en tu proyecto no pueden leerla ni reescribirla, y queda registrado quien pidio que y para que. Y los bordes ya no son de ingenieria: son de personas, seis formas distintas de entender «mi memoria», cada una con sus reglas.",
+      "puede": "La memoria paso a ser tuya y de nadie mas. Las herramientas que instales en tu proyecto no pueden leerla ni reescribirla, y queda registrado quien pidio que y para que.",
+      "mas_tuyo": "Los bordes ya no son de ingenieria: son de personas. Seis formas distintas de entender «mi memoria», cada una con sus reglas.",
+      "hallazgo": "La spec decia que el contexto nunca cruza identidades, y el nombre publico del dueno es un cruce deliberado y ya decidido. Una spec que dice «nunca» mientras el producto cruza enseña al implementador que la spec miente. Y el flag antifraude que no se puede impugnar es un conflicto real con el derecho de rectificacion, sin solucion de ingenieria.",
+      "abierto": "Tres decisiones son tuyas: si el eje por creencia es el correcto, cual se degrada si hay que elegir entre anonimato y antifraude, y el sexto consentimiento con su techo de falsos positivos.",
+      "documento_cierre": "docs/arquitectura/loops/L3-cambios.md",
+      "indice": "docs/arquitectura/loops/INDICE.md"
+    },
+    {
+      "id": "L4",
+      "nombre": "Identidad: un stub, y despues tres identidades",
+      "estado": "siguiente",
+      "resumen": "",
+      "puede": "",
+      "mas_tuyo": "",
+      "hallazgo": "",
+      "abierto": "Es el siguiente loop del plan. Arranca cuando esten resueltas las tres decisiones abiertas de L3.",
+      "documento_cierre": null,
+      "indice": "docs/arquitectura/plan-iteracion-mvp.md"
+    }
+  ],
+
+  "kpis": {
+    "tests_total": 263,
+    "tests_pasan": 263,
+    "tests_fallan": 0,
+    "tests_por_prefijo": { "L0": 77, "P": 10, "L1": 77, "L2": 99 },
+    "tests_agrupacion": "por prefijo del nombre del test. El reparto por archivo da otros numeros, y por eso se declara cual de los dos se usa: una cifra que el lector no puede reconciliar no es un dato, es decoracion.",
+    "mutantes_total": 142,
+    "mutantes_muertos": 142,
+    "mutantes_sobrevivientes": 0,
+    "mutantes_paquetes": 28,
+    "mutantes_score": 100.0,
+    "mutantes_umbral": 80,
+    "unidades_juzgables": 93,
+    "unidades_exceden": 0,
+    "presupuesto_bytes": 4096,
+    "loops_cerrados": 4,
+    "documentos_judge_aligned": 10,
+    "judge_detalle": "10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded."
+  },
+
+  "superficie": {
+    "readme_raiz": "La puerta. Que es esto, que hay hoy, la evidencia medida, el indice, y que queda abierto.",
+    "status": "Que hay hoy. Generado. La respuesta a «que se esta construyendo ahora», con fecha visible.",
+    "avances": "El registro en lenguaje llano. Generado. Como se llega hasta aqui, loop por loop.",
+    "release_notes": "Generadas desde este archivo, en tres capas, con los KPI y el veredicto del juez.",
+    "pagina": "El sitio estatico con la linea de tiempo. Lo construye CI desde los mismos datos.",
+    "social_preview": "Imagen de 1280x640. GitHub solo la acepta por la interfaz web; la autogenerada existe mientras tanto.",
+    "licencia": "SIN LICENCIA. En un repo publico, sin licencia, el default legal es todos los derechos reservados. Decidirlo es del operador."
+  },
+
+  "abiertos": [
+    { "id": "A1", "titulo": "La vision: por que existe Opita Code, que problema ve, a quien le duele", "quien": "operador", "bloquea": "el README raiz" },
+    { "id": "A2", "titulo": "El canal de distribucion: GitHub es el argumento, no es el canal de la audiencia", "quien": "operador", "bloquea": "que la audiencia no-coder llegue a algo" },
+    { "id": "A3", "titulo": "La licencia del repo", "quien": "operador", "bloquea": "el uso del codigo por terceros" },
+    { "id": "A4", "titulo": "Si el documento legal de cumplimiento va publico", "quien": "operador", "bloquea": "la superficie legal publicada" },
+    { "id": "A5", "titulo": "El eje del corte de L3: por creencia, y no por edad, rol o cohorte", "quien": "operador", "bloquea": "el cierre semantico de L3" },
+    { "id": "A6", "titulo": "Cual se degrada si hay que elegir: el anonimato o el antifraude", "quien": "operador", "bloquea": "el diseno del mod antifraude" },
+    { "id": "A7", "titulo": "El sexto consentimiento, en contexto de organizacion, y el techo de falsos positivos", "quien": "operador", "bloquea": "la capa psicometrica" },
+    { "id": "A8", "titulo": "Los bindings reales de Pyodide, WebContainers y Firecracker", "quien": "equipo", "bloquea": "publicar que el sistema ejecuta con red" }
+  ]
+}

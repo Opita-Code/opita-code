@@ -47,7 +47,7 @@ const root = join(here, '..', '..');
 
 const MD_ROOTS = ['docs'];
 const TS_ROOTS = ['vibe-tools/src'];
-const ALSO_FILES = ['vibe-tools/README.md'];
+const ALSO_FILES = ['vibe-tools/README.md', 'README.md', 'STATUS.md'];
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.git']);
 
 /** Rangos de guion que no aparecen en castellano con tipografia. */
