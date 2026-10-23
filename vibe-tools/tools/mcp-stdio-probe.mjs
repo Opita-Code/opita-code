@@ -57,9 +57,17 @@ const init = await call('initialize', {
 proc.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n');
 console.log('initialize ok:', JSON.stringify(init?.result?.serverInfo ?? init?.result?.protocolVersion ?? '?'));
 
+let sessionId = null;
 for (const step of steps) {
-  const res = await call('tools/call', { name: step.name, arguments: step.arguments ?? {} });
+  // El placeholder __SESSION__ se sustituye por el session_id devuelto por el
+  // session_start anterior, para no tener que hardcodearlo en el archivo.
+  const args = JSON.parse(JSON.stringify(step.arguments ?? {}).replace(/__SESSION__/g, sessionId ?? ''));
+  const res = await call('tools/call', { name: step.name, arguments: args });
   const text = res?.result?.content?.map((c) => c.text).join('\n') ?? JSON.stringify(res);
+  try {
+    const parsed = JSON.parse(text);
+    if (parsed?.data?.session_id) sessionId = parsed.data.session_id;
+  } catch { /* la respuesta no es JSON: se imprime tal cual */ }
   console.log('\n=== ' + step.name + ' ===');
   console.log(text);
 }
