@@ -198,7 +198,7 @@ function main() {
     }
   }
   const files = roots.flatMap((d) => (statSync(d).isDirectory() ? walk(d) : [d]))
-    .filter((f) => TEXTO_EXTS.has(extname(f)));
+    .filter((f) => TEXTO_EXTS.has(extname(f)) || /(^|[\\\\/])(LICENSE|COPYING)$/.test(f));
   const todos = files.flatMap(escanear);
   const errores = todos.filter(p => p.severidad !== 'aviso');
   const avisos = todos.filter(p => p.severidad === 'aviso');

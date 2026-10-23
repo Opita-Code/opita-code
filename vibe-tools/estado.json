@@ -126,12 +126,22 @@
     "release_notes": "Generadas desde este archivo, en tres capas, con los KPI y el veredicto del juez.",
     "pagina": "El sitio estatico con la linea de tiempo. Lo construye CI desde los mismos datos.",
     "social_preview": "Imagen de 1280x640. GitHub solo la acepta por la interfaz web; la autogenerada existe mientras tanto.",
-    "licencia": "SIN LICENCIA. En un repo publico, sin licencia, el default legal es todos los derechos reservados. Decidirlo es del operador."
+    "licencia": "PolyForm Noncommercial 1.0.0. Codigo abierto (se puede leer, estudiar, modificar y compartir) con una restriccion de uso comercial. NO esta aprobada por la OSI, y por eso el repositorio no se autodenomina «open source»: segun la OSI, toda licencia open source permite el uso comercial.",
+    "enlaces": [
+      { "texto": "El sitio: que se esta construyendo ahora, con la evidencia medida", "url": "https://opita-code.github.io/opita-code/" },
+      { "texto": "El registro en lenguaje llano, ronda por ronda", "url": "docs/avances.md" },
+      { "texto": "Los documentos tecnicos, uno por preocupacion", "url": "docs/arquitectura/loops/INDICE.md" },
+      { "texto": "La superficie publica y los documentos transversales", "url": "docs/arquitectura/loops/INDICE-publico.md" },
+      { "texto": "El inventario de datos y los principios que lo rigen", "url": "docs/legal/cumplimiento-aislamiento-datos-v1.md" },
+      { "texto": "El paquete de runtime: estructura y comandos", "url": "vibe-tools/README.md" },
+      { "texto": "Como contribuir, y que partes del proyecto todavia no estan listas", "url": "CONTRIBUTING.md" },
+      { "texto": "Como reportar un problema de seguridad, en silencio", "url": "SECURITY.md" },
+      { "texto": "La licencia, y por que no es «open source»", "url": "docs/licencia.md" }
+    ]
   },
 
   "abiertos": [
     { "id": "A2", "titulo": "El canal de distribucion: GitHub es el argumento, no es el canal de la audiencia", "quien": "operador", "bloquea": "que la audiencia no-coder llegue a algo" },
-    { "id": "A3", "titulo": "La licencia del repo", "quien": "operador", "bloquea": "el uso del codigo por terceros" },
     { "id": "A4", "titulo": "Si el documento legal de cumplimiento va publico", "quien": "operador", "bloquea": "la superficie legal publicada" },
     { "id": "A5", "titulo": "El eje del corte de L3: por creencia, y no por edad, rol o cohorte", "quien": "operador", "bloquea": "el cierre semantico de L3" },
     { "id": "A6", "titulo": "Cual se degrada si hay que elegir: el anonimato o el antifraude", "quien": "operador", "bloquea": "el diseno del mod antifraude" },

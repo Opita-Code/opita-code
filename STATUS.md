@@ -30,7 +30,6 @@
 | Que falta | De quien |
 | --- | --- |
 | El canal de distribucion: GitHub es el argumento, no es el canal de la audiencia | operador |
-| La licencia del repo | operador |
 | Si el documento legal de cumplimiento va publico | operador |
 | El eje del corte de L3: por creencia, y no por edad, rol o cohorte | operador |
 | Cual se degrada si hay que elegir: el anonimato o el antifraude | operador |

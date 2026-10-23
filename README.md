@@ -49,8 +49,17 @@ que fue escrito y dice si el documento cumple.
 | L2 | Composicion: encadenar sin equivocarse |
 | L3 | Boundary MEMORY: la memoria es tuya y de nadie mas |
 
-El detalle, con el razonamiento y los hallazgos: [docs/arquitectura/loops/INDICE.md](docs/arquitectura/loops/INDICE.md).
-El estado completo: [STATUS.md](STATUS.md). El registro en lenguaje llano: [docs/avances.md](docs/avances.md).
+### Donde mirar
+
+- [El sitio: que se esta construyendo ahora, con la evidencia medida](https://opita-code.github.io/opita-code/)
+- [El registro en lenguaje llano, ronda por ronda](docs/avances.md)
+- [Los documentos tecnicos, uno por preocupacion](docs/arquitectura/loops/INDICE.md)
+- [La superficie publica y los documentos transversales](docs/arquitectura/loops/INDICE-publico.md)
+- [El inventario de datos y los principios que lo rigen](docs/legal/cumplimiento-aislamiento-datos-v1.md)
+- [El paquete de runtime: estructura y comandos](vibe-tools/README.md)
+- [Como contribuir, y que partes del proyecto todavia no estan listas](CONTRIBUTING.md)
+- [Como reportar un problema de seguridad, en silencio](SECURITY.md)
+- [La licencia, y por que no es «open source»](docs/licencia.md)
 <!-- /GENERADO:estado -->
 
 ## Como se verifica
@@ -69,18 +78,14 @@ cuadra. Por eso el estado que se publica arriba no se escribe a mano.
 El detalle, que es lo que de verdad no esta escrito a mano:
 [docs/como-verificar.md](docs/como-verificar.md).
 
-## Donde mirar
-
-- **[opita-code.github.io/opita-code](https://opita-code.github.io/opita-code/)** — el sitio: que se esta construyendo ahora, con la evidencia medida
-- [docs/avances.md](docs/avances.md) — el registro en lenguaje llano, ronda por ronda
-- [docs/arquitectura/loops/INDICE.md](docs/arquitectura/loops/INDICE.md) — los documentos tecnicos, uno por preocupacion
-- [docs/arquitectura/loops/INDICE-publico.md](docs/arquitectura/loops/INDICE-publico.md) — la superficie pública y los documentos transversales
-- [docs/legal/cumplimiento-aislamiento-datos-v1.md](docs/legal/cumplimiento-aislamiento-datos-v1.md) — el inventario de datos y los principios que lo rigen
-- [vibe-tools/README.md](vibe-tools/README.md) — el paquete de runtime: estructura y comandos
-- [CONTRIBUTING.md](CONTRIBUTING.md) — como contribuir, y que partes del proyecto todavia no estan listas
-- [SECURITY.md](SECURITY.md) — como reportar un problema de seguridad, en silencio
-
 ## Licencia
 
-**MIT.** Ver [LICENSE](LICENSE). El codigo se puede usar, copiar, modificar y
-republicar; lo que no se puede es quitar la licencia.
+**PolyForm Noncommercial 1.0.0.** Ver [LICENSE](LICENSE).
+
+El codigo se puede leer, estudiar, modificar y compartir: cualquiera lo usa y
+cualquiera pide cambios. Lo que no permite es el uso comercial.
+
+Una distincion que conviene no saltarse: **no esta aprobada por la OSI**, y
+por eso este repositorio no se autodenomina «open source». El porque, con las
+palabras de la OSI, y la alternativa mas estrecha, estan en
+[docs/licencia.md](docs/licencia.md).

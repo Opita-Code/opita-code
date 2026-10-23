@@ -192,6 +192,9 @@ function islaEstado() {
       ['Veredicto del juez', t(k.judge_detalle)],
     ]
   );
+  const enlaces = (estado.superficie.enlaces ?? [])
+    .map((e) => `- [${e.texto}](${e.url})`)
+    .join('\n');
   return `### Ahora
 
 ${ahora}
@@ -207,8 +210,9 @@ ${tabla(
     cerrados.map((l) => [l.id, l.nombre])
   )}
 
-El detalle, con el razonamiento y los hallazgos: [docs/arquitectura/loops/INDICE.md](docs/arquitectura/loops/INDICE.md).
-El estado completo: [STATUS.md](STATUS.md). El registro en lenguaje llano: [docs/avances.md](docs/avances.md).`;
+### Donde mirar
+
+${enlaces}`;
 }
 
 /**
