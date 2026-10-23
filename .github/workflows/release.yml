@@ -51,4 +51,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Recordatorio
-        run: echo "El release quedo como BORRADOR. Revisalo y publicalo con un clic: es la aprobacion humana que exige el nivel 3."
+        # Escalar de bloque y no `run: echo "..."`: un escalar simple no puede
+        # contener ": " seguido de espacio, porque el parser corta ahi el
+        # valor y despues se queja de un mapeo donde no lo hay. Eso invalido
+        # el workflow entero, y GitHub lo reporta como un run fallido con el
+        # nombre del archivo y sin jobs.
+        run: |
+          echo "El release quedo como BORRADOR. Revisalo y publicalo con un clic: es la aprobacion humana que exige el nivel 3."

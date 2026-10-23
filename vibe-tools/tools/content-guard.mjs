@@ -55,7 +55,7 @@ const TS_ROOTS = ['vibe-tools/src'];
  * los podia ver porque no miraba esos archivos.
  */
 const RAIZ_ROOTS = ['site'];
-const RAIZ_EXTS = { '.html': ['site'], '.json': ['vibe-tools'] };
+const RAIZ_EXTS = { '.html': ['site'], '.json': ['vibe-tools'], '.yml': ['.github'] };
 const ALSO_FILES = [
   'vibe-tools/README.md',
   'README.md',
@@ -109,6 +109,7 @@ function scanFile(file) {
   const text = readFileSync(file, 'utf8');
   const lines = text.split(/\r?\n/);
   const isMd = extname(file) === '.md';
+  const isYml = extname(file) === '.yml';
 
   // CRLF en un artefacto juzgable: el guard de presupuesto mide los bytes
   // CRUDOS (los que lee el juez) y el juez trocea sobre esos bytes. Si el
@@ -149,6 +150,27 @@ function scanFile(file) {
       }
     }
   });
+
+  if (isYml) {
+    // Un escalar simple de YAML no puede contener ": " seguido de espacio:
+    // el parser corta el valor ahi y despues se queja de un mapeo donde no lo
+    // hay. El efecto real locile el 2026-10-23: un `run: echo "...: ..."` de
+    // un workflow dejo el workflow entero invalido, y GitHub lo reporto como
+    // un run fallido con el nombre del archivo y sin jobs. Un fallo que
+    // parece de logica y es de sintaxis.
+    lines.forEach((line, i) => {
+      const m = line.match(/^(\s*)([A-Za-z_][\w-]*):\s+(\S.*)$/);
+      if (!m) return;
+      const valor = m[3];
+      if (!/^['"|>&*[{]/.test(valor) && /:\s/.test(valor)) {
+        problems.push({
+          at: `${rel}:${i + 1}`,
+          kind: 'YAML escalar con dos puntos',
+          detail: `la clave "${m[2]}" tiene un valor con ": " sin comillas: el parser de GitHub rechaza el archivo entero`,
+        });
+      }
+    });
+  }
 
   if (isMd) {
     // Bloques de codigo sin cerrar
