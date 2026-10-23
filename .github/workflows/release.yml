@@ -38,8 +38,11 @@ jobs:
           node-version: '22'
 
       - name: Generar las notas
-        working-directory: vibe-tools
-        run: node scripts/generar-estado.mjs --release "${{ github.event.inputs.tag || github.ref_name }}" > notas.md
+        # Sin working-directory: los dos pasos tienen que hablar en el mismo
+        # sitio. Las notas se escriben en la raiz, que es donde las lee el
+        # paso siguiente. Con un working-directory distinto, el archivo
+        # aparecia en vibe-tools/ y el paso de abajo no lo encontraba.
+        run: node vibe-tools/scripts/generar-estado.mjs --release "${{ github.event.inputs.tag || github.ref_name }}" > notas.md
 
       - name: Crear el release como borrador
         run: |
