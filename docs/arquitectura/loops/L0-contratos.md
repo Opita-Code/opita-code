@@ -1,7 +1,7 @@
 # L0 · Contratos y type system
 
 > Parte 1 de 2 de L0. Loop L0 del plan de iteración (spec 534), cerrado bajo spec 535.
-> Diseño: este archivo. Verificación: [L0-validacion.md](L0-validacion.md).
+> Diseño: este archivo. Verificación: [L0-verificacion.md](L0-verificacion.md).
 > Commit `0639b69`. **88/88 tests · mutation 57/57 = 100%.** Gate al cierre de L0: las 17 unidades de entonces en `aligned` 3/3. Esto es el registro de L0, no un estado vivo; la fuente es `dark_memory_judgment_history`.
 
 ## Principio

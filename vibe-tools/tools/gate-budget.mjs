@@ -60,8 +60,30 @@ function walk(dir, acc = []) {
   return acc;
 }
 
-function bytesOf(rel) {
-  try { return readFileSync(join(root, rel)).length; } catch { return null; }
+/**
+ * Tamano del artefacto tal como lo veria el juez: texto con finales de linea
+ * normalizados a LF.
+ *
+ * HALLAZGO 2026-10-23. core.autocrlf=true y sin .gitattributes hacia que el MISMO
+ * documento mida 4081 B con LF y 4169 B con CRLF: 88 bytes de retorno de carro,
+ * uno por linea. Seis documentos que el repositorio tiene en verde se ponian en
+ * rojo con solo hacer checkout, y la cifra de 67 unidades / 0 exceden del cierre
+ * de L2 no se reproducia en un clon nuevo.
+ *
+ * Eso convierte el veredicto del guard en una propiedad del checkout y no del
+ * documento, que es exactamente lo contrario de lo que un guard debe ser.
+ *
+ * Y el conteo estaba mal por si mismo: ConsensusChunkSize mide el texto que
+ * chunk-ea, y un CR es espacio en blanco para el juez. Contarlo contra un
+ * presupuesto de fidelidad no tiene sentido.
+ */
+function artifactBytes(rel) {
+  try {
+    const text = readFileSync(join(root, rel), 'utf8').replace(/\r\n/g, '\n');
+    return Buffer.byteLength(text, 'utf8');
+  } catch {
+    return null;
+  }
 }
 
 function main() {
@@ -71,9 +93,9 @@ function main() {
   const faltantes = ROOTS.filter((r) => !present.includes(r));
 
   const files = present.flatMap((r) => walk(join(root, r)))
-    .concat(ALSO_FILES.filter((f) => bytesOf(f) !== null).map((f) => join(root, f)));
+    .concat(ALSO_FILES.filter((f) => artifactBytes(f) !== null).map((f) => join(root, f)));
   const rows = files
-    .map((f) => ({ path: relative(root, f).replace(/\\/g, '/'), bytes: readFileSync(f).length }))
+    .map((f) => ({ path: relative(root, f).replace(/\\/g, '/'), bytes: artifactBytes(relative(root, f).replace(/\\/g, '/')) }))
     .sort((a, b) => b.bytes - a.bytes);
   const over = rows.filter((r) => r.bytes > BUDGET);
 
@@ -89,7 +111,7 @@ function main() {
 
   console.log('\n  NO juzgables (clasificacion explicita, no silenciosa):');
   for (const [p, motivo] of NO_JUZGABLE) {
-    const b = bytesOf(p);
+    const b = artifactBytes(p);
     console.log(`    - ${p}${b === null ? '' : ` (${b} B)`}  <-  ${motivo}`);
   }
   if (faltantes.length > 0) {

@@ -165,7 +165,7 @@ Procedimiento de notificación a la SIC y a los titulares para cualquier inciden
 | 3 | Procedimiento de incidentes (art. 18) |
 | 4 | Inspección RNBD |
 | 5 | Relación de encargo (responsable vs. encargado) con apps de terceros |
-| 6 | Reglas de supresión cuando hay saldo (derecho“最”与 obligación fiscal) |
+| 6 | Reglas de supresión cuando hay saldo (derecho de supresión y obligación fiscal) |
 | 7 | **Revisión de abogado** antes de declarar conformidad |
 
 ---

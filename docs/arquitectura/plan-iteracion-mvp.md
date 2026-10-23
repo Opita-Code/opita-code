@@ -223,7 +223,7 @@ L9 (Escala)     →  (T2 real, wallet, móvil, multi-idioma)
 | L7-T2 | Número de reputación: sube con el sello, visible con badge | L7-T1 |
 | L7-T3 | **Ciclo completo**: la reputación de vibe-tools se traduce en puntaje en Opita Trabajos | L7-T2 |
 | L7-T4 | Nivel transversal: 2 monedas (reputación permanente + impulso semanal), 1 visible | L7-T2 |
-| L7-T5 | Misiones mínimas (sin LLM por ahora):门槛 baja, hook de engagement | L7-T4 |
+| L7-T5 | Misiones mínimas (sin LLM por ahora): umbral baja, hook de engagement | L7-T4 |
 
 **KPIs del loop:**
 - **K1 = 5 de 5 personas externas recorren el ciclo completo sin ayuda** (el KPI principal)

@@ -149,7 +149,7 @@ Si otra persona ya publicó las tres tools, el módulo se arma en segundos. **Es
 | Ejecución | El usuario controla su código y su infraestructura |
 | Validación | No pasa por el juez de opita — no es app de opita |
 
-`[ABIERTO]` Si una app **ya publicada** puede invocar vibe-tools generales, o si publicar es un的一句话 irreversible respecto al acceso a tools sin whitelist.
+`[ABIERTO]` Si una app **ya publicada** puede invocar vibe-tools generales, o si publicar es una decisión irreversible respecto al acceso a tools sin whitelist.
 
 `[ABIERTO]` Qué pasa al superar las 3 apps (¿costo por la 4ª+? ¿las 3 de por vida?). Nota: todo en esta plataforma tiene límite 3 — 3 identidades, 3 empresas, 3 apps. El patrón es intencional.
 
