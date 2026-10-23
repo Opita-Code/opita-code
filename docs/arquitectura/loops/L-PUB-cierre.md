@@ -10,7 +10,6 @@ Lo que este loop deja atras y lo que entrega al siguiente.
 > afirmacion se convierte en su propia evidencia. El registro autoritativo esta
 > en `dark_memory_judgment_history`, en el proyecto `opita-code`.
 
-
 ## QUE ENTREGA
 
 Una superficie publica que **no se puede envejecer en silencio**.

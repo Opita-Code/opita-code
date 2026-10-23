@@ -51,6 +51,6 @@ problema: es el numero que el guard MIDIO. Si el guard no estaba mirando, su
 numero no era del problema.
 
 Corolario de la disciplina: R5 («no se pasa a la siguiente unidad suponiendo
-que esta esta bien») tiene que incluir **«no se pasa a la siguiente unidad
+que esta bien») tiene que incluir **«no se pasa a la siguiente unidad
 suponiendo que la verificacion funciona»**. Aqui se construyeron cuatro
 unidades con la CI en rojo desde el primer push.

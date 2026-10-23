@@ -31,7 +31,9 @@ interface ToolDescriptor {
 
 ### Refinamiento respecto a la decisión original
 
-El **eje 1 (qué produce) baja de la herramienta al puerto**, porque la composición se comprueba puerto→puerto y ahí es donde el eje resulta comprobable. El **eje 2 (determinismo) se queda en la herramienta**, porque la regla de compartir es de la herramienta completa.
+El **eje 1 (qué produce) baja de la herramienta al puerto**, porque la composición se comprueba
+puerto→puerto y ahí es donde el eje resulta comprobable. El **eje 2 (determinismo) se queda en la
+herramienta**, porque la regla de compartir es de la herramienta completa.
 
 No contradice la decisión de los 2 ejes: **la hace ejecutable en vez de declarativa.**
 
@@ -49,7 +51,8 @@ Ahora `run()` **aplica** la inmutabilidad antes de entregar el contexto a la too
 
 El camino rápido usa un `WeakSet`, **no** `Object.isFrozen`. `isFrozen` solo mira la superficie: un `injected` congelado que contiene un objeto anidado mutable lo daba por sellado y se escapaba del sellado profundo por completo. **Ese bypass lo encontró el juez.**
 
-La inmutabilidad del contexto es una regla del boundary (L3): se aplica en el registry, no se confía en el llamador.
+La inmutabilidad del contexto es una regla del boundary (L3): se aplica en el registry, no se confía
+en el llamador.
 
 ---
 
@@ -77,7 +80,8 @@ const SHARING = {
 } as const satisfies Record<Determinism, string>;
 ```
 
-No configurable **a propósito**: si lo fuera, el determinismo podría mentir. El tipo lo impide en compilación y la property P1 lo comprueba en runtime.
+No configurable **a propósito**: si lo fuera, el determinismo podría mentir. El tipo lo impide en
+compilación y la property P1 lo comprueba en runtime.
 
 **Vibe-case NO participa.** Es selector de rúbrica del juez (gobernanza), no parte del lenguaje de contratos.
 

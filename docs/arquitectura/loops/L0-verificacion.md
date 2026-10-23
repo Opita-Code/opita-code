@@ -24,7 +24,8 @@ Cada regla tiene su caso con **código de rechazo exacto**. Un rechazo con el c�
 | P9 | cambiar un solo campo del contrato cambia la huella |
 | P10 | los 18 pares (determinismo × producción) quedan cubiertos |
 
-El PRNG es **sembrado y determinista a propósito**: una suite que falla al azar contradiría la propiedad del producto que protege.
+El PRNG es **sembrado y determinista a propósito**: una suite que falla al azar contradiría la
+propiedad del producto que protege.
 
 ## 3. Mutation testing — 57 mutantes (el 100% no era una medida)
 
@@ -37,7 +38,9 @@ El PRNG es **sembrado y determinista a propósito**: una suite que falla al azar
 | `context.js` | 5/5 | `axes.js` | 5/5 |
 | `tool.js` | 5/5 | **TOTAL** | **57/57** |
 
-Un test suite que pasa no demuestra nada sobre si los tests detectan errores. Los 57 mutantes borran, invierten o alteran una regla concreta del compilado; si el suite entero pasara con cualquiera, el hueco está en los tests, no en el código.
+Un test suite que pasa no demuestra nada sobre si los tests detectan errores. Los 57 mutantes
+borran, invierten o alteran una regla concreta del compilado; si el suite entero pasara con
+cualquiera, el hueco está en los tests, no en el código.
 
 Umbral de la skill: 80% por paquete. El resultado está en **100% en los once**.
 
@@ -47,7 +50,9 @@ Umbral de la skill: 80% por paquete. El resultado está en **100% en los once**.
 
 Un patrón que no aparece en el compilado se reporta `no-aplicable` y **cuenta como hueco**, no como sobreviviente. `npm run mutate` sale con código 1 si hay sobrevivientes, paquetes bajo 80%, **o un solo patrón no encontrado**.
 
-Durante L0, cuatro patrones no aparecieron y revelaron que el sellado profundo y el orden del pipeline no estaban realmente verificados. Sin esa regla, el 100% que reporté antes habría sido parcialmente inventado.
+Durante L0, cuatro patrones no aparecieron y revelaron que el sellado profundo y el orden del
+pipeline no estaban realmente verificados. Sin esa regla, el 100% que reporté antes habría sido
+parcialmente inventado.
 
 ---
 

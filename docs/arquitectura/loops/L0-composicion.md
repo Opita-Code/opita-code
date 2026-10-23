@@ -5,7 +5,8 @@
 
 ## Orden fijo
 
-Once reglas. **El orden importa**: el primer rechazo es el veredicto, y un orden fijo es lo que hace la función determinista y por tanto testeable.
+Once reglas. **El orden importa**: el primer rechazo es el veredicto, y un orden fijo es lo que hace
+la función determinista y por tanto testeable.
 
 El orden vive en `graph.ts`, el orquestador, y en ningún otro sitio. Cada regla está en su propio archivo bajo `rules/`, así que agregar una en L5 es agregar un archivo y una línea, no editar una función de 200 líneas.
 

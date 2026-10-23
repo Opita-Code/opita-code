@@ -2,11 +2,11 @@
 
 <!-- Una o dos frases. Que se ve distinto despues de esto. -->
 
-# Por que
+## Por que
 
 <!-- El porque, no el que. Si el cambio viene de un hallazgo, el hallazgo va aqui. -->
 
-# Como se verifica
+## Como se verifica
 
 <!-- Marca las casillas de lo que aplica. -->
 
@@ -16,10 +16,10 @@
 - [ ] Ningun numero sin medir antes de escribirlo
 - [ ] Si toca un artefacto juzgable, no pasa de 4096 B; y si pasa, esta partido por concepto y no amputado
 
-# Lo que este pull request NO hace
+## Lo que este pull request NO hace
 
 <!-- Importante. Escribe lo que queda fuera, aunque parezca obvio. -->
 
-# Riesgo
+## Riesgo
 
 <!-- Que se rompe si esto esta mal. Si no se ve, escribe "ninguno" y explica por que. -->

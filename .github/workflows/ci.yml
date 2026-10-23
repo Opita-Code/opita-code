@@ -25,7 +25,11 @@ jobs:
         working-directory: vibe-tools
         run: npm ci
 
-      - name: Los cuatro guards (contenido, presupuesto, tests, mutacion)
+      - name: Los guards de texto (contenido y prosa)
+        working-directory: vibe-tools
+        run: npm run content && npm run prosa
+
+      - name: Los guards de codigo (presupuesto, tests, mutacion)
         working-directory: vibe-tools
         run: npm run check
 

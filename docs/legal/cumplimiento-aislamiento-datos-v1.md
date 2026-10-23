@@ -12,7 +12,8 @@
 
 ## 1. Inventario de datos tratados
 
-Punto de partida obligatorio: no se puede cumprir un principio sobre datos que no se han inventariado.
+Punto de partida obligatorio: no se puede cumprir un principio sobre datos que no se han
+inventariado.
 
 | # | Dato | Dato personal | **Sensible** (art. 5) | Guardado en | Finalidad declarada |
 |---|---|---|---|---|---|
@@ -72,8 +73,10 @@ Modelo de 3 identidades que **nunca se cruzan**:
 **Lectura legal:** la opción L es admisible si y solo si se puede demostrar que un acceso indebido a un `project_id` ajeno es imposible en la práctica, no solo improbable. Eso obliga a:
 
 1. **Autorización en la capa de acceso**, no en la lógica de la app.
-2. **Cifrado en reposo y en tránsito**: TLS en tránsito, AES-256 en reposo, claves en KMS con rotación.
-3. **Auditoría de todo acceso**: quién, cuándo, qué dato, para qué, desde dónde (principio de accountability).
+2. **Cifrado en reposo y en tránsito**: TLS en tránsito, AES-256 en reposo, claves en KMS con
+rotación.
+3. **Auditoría de todo acceso**: quién, cuándo, qué dato, para qué, desde dónde (principio de
+accountability).
 4. **Tests de aislamiento automatizados**: intento de acceso cruzado debe fallar siempre.
 
 ---
@@ -116,9 +119,11 @@ Decisión cerrada: la memoria **se inyecta como contexto**; la tool nunca la lee
 
 ## 7. Registro de tratamientos (art. 4)
 
-Inventario obligatorio: qué datos, qué finalidades, qué bases legales, qué Transferencias. **El §1 de este documento es el punto de partida y debe mantenerse vivo.**
+Inventario obligatorio: qué datos, qué finalidades, qué bases legales, qué Transferencias. **El §1
+de este documento es el punto de partida y debe mantenerse vivo.**
 
-Si Opita Code tiene bases con datos sensibles (D2, D3) → evaluar inscripción en el **RNBD** (Registro Nacional de Bases de Datos).
+Si Opita Code tiene bases con datos sensibles (D2, D3) → evaluar inscripción en el **RNBD**
+(Registro Nacional de Bases de Datos).
 
 ---
 
@@ -138,7 +143,9 @@ Si Opita Code tiene bases con datos sensibles (D2, D3) → evaluar inscripción 
 
 ## 9. Transferencias internacionales
 
-Si la infraestructura de dark-memory o el procesamiento ocurre fuera de Colombia → aplica el principio de nivel de protección adecuado (art. 19 y ss.). Requiere análisis específico de la ubicación de la instancia de dark-memory. **[ABIERTO]**
+Si la infraestructura de dark-memory o el procesamiento ocurre fuera de Colombia → aplica el
+principio de nivel de protección adecuado (art. 19 y ss.). Requiere análisis específico de la
+ubicación de la instancia de dark-memory. **[ABIERTO]**
 
 ---
 
@@ -172,4 +179,7 @@ Procedimiento de notificación a la SIC y a los titulares para cualquier inciden
 
 ## Nota final
 
-Este documento **traduce** la norma a requisitos técnicos. No **interpreta** la norma. Los puntos donde la ley exige un juicio jurídico (suficiencia del aislamiento lógico, base legal concreta de cada tratamiento, alcance del derecho de supresión frente a obligaciones tributarias) **deben ser confirmados por abogado**.
+Este documento **traduce** la norma a requisitos técnicos. No **interpreta** la norma. Los puntos
+donde la ley exige un juicio jurídico (suficiencia del aislamiento lógico, base legal concreta de
+cada tratamiento, alcance del derecho de supresión frente a obligaciones tributarias) **deben ser
+confirmados por abogado**.

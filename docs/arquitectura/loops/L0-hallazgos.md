@@ -3,7 +3,9 @@
 > Parte 4 de 4 de L0. Diseño: [L0-contratos.md](L0-contratos.md) · Verificación: [L0-verificacion.md](L0-verificacion.md)
 > Commit `0639b69`.
 
-Nueve hallazgos. **Ninguno en la lógica de composición**: seis en los propios tests, uno en una constante mal puesta, uno de seguridad en el boundary encontrado por el juez, y uno estructural del split.
+Nueve hallazgos. **Ninguno en la lógica de composición**: seis en los propios tests, uno en una
+constante mal puesta, uno de seguridad en el boundary encontrado por el juez, y uno estructural del
+split.
 
 Se registran porque son el argumento de por qué esta verificación sirve.
 
@@ -13,7 +15,8 @@ El test de un byte comparaba contra el hash de `"abc"`. Constante inventada, esc
 
 ## 2. Propiedad falsa: "canonicalize es idempotente"
 
-No lo es: devuelve una **cadena**, y canonizar esa cadena la vuelve a escapar. La propiedad real —y la que importa— es que la forma ordenada ya no cambia al volver a canonizar:
+No lo es: devuelve una **cadena**, y canonizar esa cadena la vuelve a escapar. La propiedad real —y
+la que importa— es que la forma ordenada ya no cambia al volver a canonizar:
 
 ```ts
 canonicalize(JSON.parse(canonicalize(v))) === canonicalize(v)
@@ -37,7 +40,8 @@ El test buscaba el mensaje `estocastica`; el validador emite el literal del enum
 
 Dos patrones de `sealContext` no aparecían en el compilado. El harness los reportaba aparte y eso no era suficiente: un patrón no encontrado **cuenta como hueco, no como sobreviviente**. Ahora `npm run mutate` **se niega a cerrar el loop** si aparece uno.
 
-Cuatro de ellos aparecieron durante el split final y revelaron que el sellado profundo y el orden del pipeline no estaban realmente verificados.
+Cuatro de ellos aparecieron durante el split final y revelaron que el sellado profundo y el orden
+del pipeline no estaban realmente verificados.
 
 ## 7. Agujero de boundary — encontrado por el juez
 
@@ -53,9 +57,11 @@ Mis 83 tests no lo veían. `consensus n=3` devolvió `drift_detected 3/3`, `frac
 
 Al partir `graph.ts` en `rules/*.ts`, `ruleNoDuplicates` pasó a consultar `state.byId` — que el orquestador **ya colapsaba** al pre-indexar. En la versión monolítica `byId` se construía incrementalmente dentro de R1.
 
-Consecuencia: R1 veía todo nodo como presente y **rechazaba todos los módulos**, no solo los duplicados. 19 tests cayeron de golpe.
+Consecuencia: R1 veía todo nodo como presente y **rechazaba todos los módulos**, no solo los
+duplicados. 19 tests cayeron de golpe.
 
-Lo detectó la suite. La regla ahora cuenta los ids por su cuenta y no depende de cómo se construyó el índice.
+Lo detectó la suite. La regla ahora cuenta los ids por su cuenta y no depende de cómo se construyó
+el índice.
 
 **Lección:** partir un conjunto de reglas **cambia el contrato entre la regla y el estado**. Un archivo de reglas no puede asumir que el estado se construyó para servirle.
 

@@ -5,7 +5,7 @@
 
 ---
 
-# Las cuatro tools
+## Las cuatro tools
 
 | Tool | Tier | Efecto | Determinismo | Entrega |
 |---|---|---|---|---|

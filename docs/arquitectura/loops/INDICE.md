@@ -35,7 +35,7 @@
 | [L2-gate](L2-gate.md) | El veredicto de las 30 unidades y las 6 que no llegaron |
 | [L2-cierre](L2-cierre.md) | Lo que sigue igual y lo que queda para L3 |
 
-### L3 · boundary MEMORY, derivado de la psicometría
+## L3 · boundary MEMORY, derivado de la psicometría
 
 | Doc | Preocupación |
 |---|---|

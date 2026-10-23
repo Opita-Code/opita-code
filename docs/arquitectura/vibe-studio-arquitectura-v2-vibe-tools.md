@@ -8,20 +8,24 @@
 
 ## 0. El runtime: **vibe-tools**
 
-Nombre cerrado por el operador. Es el runtime de tools componibles — el análogo a React para crear herramientas de IA.
+Nombre cerrado por el operador. Es el runtime de tools componibles — el análogo a React para crear
+herramientas de IA.
 
 ### 0.1 Principio rector
 
 > **Opita Code no es "4 apps que comparten una API". Es 1 plataforma (vibe-tools) con N despliegues, y un marketplace donde la gente publica herramientas construidas sobre ese mismo runtime.**
 
-Corolario: vibe-tools está en el *critical path* de todo. Si vibe-tools se construye bien, Opita Trabajos y Opita Market son baratos encima. Si falla, no hay ecosistema.
+Corolario: vibe-tools está en el *critical path* de todo. Si vibe-tools se construye bien, Opita
+Trabajos y Opita Market son baratos encima. Si falla, no hay ecosistema.
 
 ### 0.2 Se rechaza MCP como core
 
 Decisión del operador, con tres razones estructurales:
 
-1. **MCP es protocolo de proceso, no de función.** Habla JSON-RPC sobre stdio/HTTP; cada llamada serializa, cruza un boundary y deserializa. Un móvil no instancia procesos.
-2. **MCP no es componible.** Para que una tool A use una tool B se necesita un puente. En vibe-tools la composición es **llamada de función directa**.
+1. **MCP es protocolo de proceso, no de función.** Habla JSON-RPC sobre stdio/HTTP; cada llamada
+serializa, cruza un boundary y deserializa. Un móvil no instancia procesos.
+2. **MCP no es componible.** Para que una tool A use una tool B se necesita un puente. En vibe-tools
+la composición es **llamada de función directa**.
 3. **MCP no tiene noción de módulo funcional.** El módulo vibe-tools es `tool + harness + runtime`, un flujo compuesto, no una función.
 
 **Adapter MCP→vibe-tool queda como fuente de tools, no como arquitectura** (opcional, posterior).
@@ -39,7 +43,8 @@ VibeTool {
 }
 ```
 
-Sin protocolo. Sin JSON-RPC. Sin proceso. Es una función con firma, como los hooks de React — eso es lo que hace posible mobile-first y lo que hace la composición gratis.
+Sin protocolo. Sin JSON-RPC. Sin proceso. Es una función con firma, como los hooks de React — eso es
+lo que hace posible mobile-first y lo que hace la composición gratis.
 
 ### 1.1 El principio: contratos confiables alrededor de magia opaca
 
@@ -49,7 +54,8 @@ De ahí sale la conclusión que ancla todo el diseño:
 
 > **vibe-tools = un sistema de CONTRATOS CONFIABLES alrededor de MAGIA OPACA.**
 
-La persona que viene a vibe-studio **no puede leer el código**. Nunca pudo. Solo puede confiar en que algo hace lo que dice. Eso no es una limitación — **es el producto**.
+La persona que viene a vibe-studio **no puede leer el código**. Nunca pudo. Solo puede confiar en
+que algo hace lo que dice. Eso no es una limitación — **es el producto**.
 
 Todo lo demás se deriva:
 
@@ -69,7 +75,8 @@ Eje 1 — QUÉ produce:    code · text · image · video · audio · multimodal
 Eje 2 — DETERMINISMO:  determinista | estocástica | con estado
 ```
 
-El **segundo eje es el que importa**: define cómo se verifica, cómo se comparte y qué puede componerse.
+El **segundo eje es el que importa**: define cómo se verifica, cómo se comparte y qué puede
+componerse.
 
 - Módulo con solo tools **deterministas** → **se compila**
 - Módulo con tools **estocásticas** → **se interpreta**
@@ -77,10 +84,12 @@ El **segundo eje es el que importa**: define cómo se verifica, cómo se compart
 ### 1.3 Las reglas que se derivan
 
 **(a) Composición: el código compone, los artifacts terminan.**
-Una tool que produce artifact es un **nodo terminal** del grafo. No se compone hacia adentro. Esto da el canvas gratis: los nodos de artifact se ven distintos a los de código.
+Una tool que produce artifact es un **nodo terminal** del grafo. No se compone hacia adentro. Esto
+da el canvas gratis: los nodos de artifact se ven distintos a los de código.
 
 **(b) Verificación: el juez verifica el artifact, no el proceso.**
-La magia es el paso de generación; la verificación es sobre lo que salió. El juez no evalúa *cómo* la tool llegó al resultado — evalúa si el resultado cumple el spec.
+La magia es el paso de generación; la verificación es sobre lo que salió. El juez no evalúa *cómo*
+la tool llegó al resultado — evalúa si el resultado cumple el spec.
 
 **(c) Mutación vs receta.**
 
@@ -89,17 +98,20 @@ La magia es el paso de generación; la verificación es sobre lo que salió. El 
 | **Determinista** | Como **mutación** — fork, idéntica, es tuya |
 | **Estocástica** | Como **receta** — cada corrida da un resultado distinto |
 
-Esto **define "mutarse sin costo"** de forma literal: la mutación es una cosa para lo determinista y una receta para lo estocástico. Sin esta distinción, "mutarse gratis" no es definible.
+Esto **define "mutarse sin costo"** de forma literal: la mutación es una cosa para lo determinista y
+una receta para lo estocástico. Sin esta distinción, "mutarse gratis" no es definible.
 
 **(d) Vibe-case queda como selector de rúbrica del juez (gobernanza), NO como type system.**
-Son cosas distintas: *qué trabajo se evalúa* vs *qué produce una tool*. Mezclarlas hace que el juez evalúe mal.
+Son cosas distintas: *qué trabajo se evalúa* vs *qué produce una tool*. Mezclarlas hace que el juez
+evalúe mal.
 
 ### 1.4 Dónde se valida
 
 - La **firma** (io-schema) se valida **en el cliente, en WASM, antes de ejecutar**. Local, instantáneo, sin red.
 - El **eje de determinismo** y el contrato se validan **en la frontera de confianza** (publicación y uso server-side).
 
-Resultado: los errores de composición se ven **instantáneamente mientras el usuario compone**. Es la sensación "todo encaja" de React con los props types.
+Resultado: los errores de composición se ven **instantáneamente mientras el usuario compone**. Es la
+sensación "todo encaja" de React con los props types.
 
 ### 1.2 Módulos
 
@@ -120,7 +132,8 @@ INV(C6→C2) + HARNESS(?→C6) + EXEC(C1→C1)
   →  módulo: "escribir Python en modo X a la perfección"  (C2→C1)
 ```
 
-Si otra persona ya publicó las tres tools, el módulo se arma en segundos. **Eso es el marketplace funcionando.**
+Si otra persona ya publicó las tres tools, el módulo se arma en segundos. **Eso es el marketplace
+funcionando.**
 
 ---
 
@@ -157,15 +170,19 @@ Si otra persona ya publicó las tres tools, el módulo se arma en segundos. **Es
 
 ## 3. Local-first
 
-Decisión del operador: **el código de las personas y todos los archivos que crean se manejan en local**, tanto en móvil como en PC.
+Decisión del operador: **el código de las personas y todos los archivos que crean se manejan en
+local**, tanto en móvil como en PC.
 
-El código **no vive en el servidor hasta que la persona elige desplegar**. Local-first + serverless-first atacan los dos costos principales de un marketplace: almacenamiento de código inactivo, y cómputo no cobrado.
+El código **no vive en el servidor hasta que la persona elige desplegar**. Local-first +
+serverless-first atacan los dos costos principales de un marketplace: almacenamiento de código
+inactivo, y cómputo no cobrado.
 
 ---
 
 ## 4. vibe-spec: el framework verificable
 
-Todo componente de vibe-tools usa el framework **vibe-spec** propio y sigue el patrón verificable para poder pasar por el juez.
+Todo componente de vibe-tools usa el framework **vibe-spec** propio y sigue el patrón verificable
+para poder pasar por el juez.
 
 ```
 tool / módulo / app
@@ -199,7 +216,8 @@ tool / módulo / app
 
 ### Por qué esto resuelve mobile-first
 
-La persona **compone, ve preview, e itera en el chat** — todo T0/T1, en su teléfono, sin costo server. Solo lo que genuinamente necesita backend (Market, Trabajos, wallet) paga T2.
+La persona **compone, ve preview, e itera en el chat** — todo T0/T1, en su teléfono, sin costo
+server. Solo lo que genuinamente necesita backend (Market, Trabajos, wallet) paga T2.
 
 ---
 
@@ -216,7 +234,9 @@ La persona **compone, ve preview, e itera en el chat** — todo T0/T1, en su tel
 
 ### 6.1 `MEMORY` es la tool más importante
 
-Toda tool que lea la memoria del usuario pasa por los permisos definidos (deny by default, consentimiento explícito, psicométrico separado bajo Ley 1581). Esa tool es **el boundary de confianza** de todo vibe-tools.
+Toda tool que lea la memoria del usuario pasa por los permisos definidos (deny by default,
+consentimiento explícito, psicométrico separado bajo Ley 1581). Esa tool es **el boundary de
+confianza** de todo vibe-tools.
 
 `[ABIERTO — decisión de seguridad]` Si la tool **lee** la memoria (puede pedir permiso para lo que quiera) o si la memoria se **inyecta como contexto** (la tool solo recibe lo que el harness decide darle). trade-off: seguridad vs. flexibilidad.
 
@@ -227,18 +247,22 @@ Toda tool que lea la memoria del usuario pasa por los permisos definidos (deny b
 Una tool **determinista** se comparte como **mutación**: fork, idéntica, es tuya.
 Una tool **estocástica** solo se comparte como **receta**: cada corrida da un resultado distinto.
 
-Esto define "mutarse sin costo" de forma literal y es la base del modelo de compartición del marketplace.
+Esto define "mutarse sin costo" de forma literal y es la base del modelo de compartición del
+marketplace.
 
 `[ABIERTO]` ¿Cómo puntúa y se diferencia una **mutación** de una **receta** en el marketplace? Una mutación es reutilizable y testeable; una receta es una promesa, no un artefacto. El juez las trata distinto.
 
 ### 7.2 Portabilidad: el `.opitpack`
 
-Dado que el usuario es dueño del código, y dado que los AI app builders tienen techo 80/20 en deployment, la portabilidad es **una feature, no un afterthought**.
+Dado que el usuario es dueño del código, y dado que los AI app builders tienen techo 80/20 en
+deployment, la portabilidad es **una feature, no un afterthought**.
 
 - El mod de dark-memory es **exportable** (derecho de portabilidad, Ley 1581).
 - El bundle de vibe-tools es un **`.opitpack`** exportable: las tools, sus versiones, y sus permisos.
 
-Hallazgo SOTA que lo respalda: el BuilderProof leaderboard 2026 de portabilidad califica v0/Bolt 8, Lovable/Replit 7, Base44 4 (de 10). Y el hallazgo: *"code ownership no es lo mismo que portability"*. Ser dueño sin poder salir es dueño a medias.
+Hallazgo SOTA que lo respalda: el BuilderProof leaderboard 2026 de portabilidad califica v0/Bolt 8,
+Lovable/Replit 7, Base44 4 (de 10). Y el hallazgo: *"code ownership no es lo mismo que
+portability"*. Ser dueño sin poder salir es dueño a medias.
 
 ---
 
@@ -270,7 +294,8 @@ Hallazgo SOTA que lo respalda: el BuilderProof leaderboard 2026 de portabilidad 
 
 **3 identidades por persona**, que nunca se mezclan ni se cruzan entre sí:
 1. **Legal/KYC** — obligatoria, fuerte, stack 100% OpenSource. Hasta 3 empresas de por vida.
-2. **Empresa** — hasta 3. Fundador = admin de roles y permisos. El organigrama se diseña en tiempo real vía chat.
+2. **Empresa** — hasta 3. Fundador = admin de roles y permisos. El organigrama se diseña en tiempo
+real vía chat.
 3. **Anónimo** — 1 por persona, nickname **inmutable** de pool cerrado. Anti-Sybil.
 
 **Permisos: deny by default**, permisos agrupados por categoría (evitar fatiga de consentimiento), psicométrico con consentimiento **separado y explícito** (Ley 1581).

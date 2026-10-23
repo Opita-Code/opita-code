@@ -10,7 +10,8 @@
 
 **Opita Code no es "4 apps que comparten una API". Es 1 plataforma (Vibe Studio) con N despliegues, y un marketplace donde la gente publica apps construidas sobre esa misma plataforma.**
 
-Corolario: Vibe Studio está en el *critical path* de todo el ecosistema. Si Vibe Studio se construye bien, Opita Trabajos y Opita Market son relativamente baratos encima. Si falla, no hay ecosistema.
+Corolario: Vibe Studio está en el *critical path* de todo el ecosistema. Si Vibe Studio se construye
+bien, Opita Trabajos y Opita Market son relativamente baratos encima. Si falla, no hay ecosistema.
 
 ---
 
@@ -64,7 +65,8 @@ Decisiones cerradas:
 **Pregunta abierta al operador.** Esto define costo, cumplimiento de Ley 1581 (aislamiento de datos personales) y dónde vive el `mod` cuando exportas.
 
 `[DECISION PENDIENTE] ¿El mod es importable?`
-Si sí → hay que sandboxearlo (un mod importado es prompt injection contra el companion a escala). Si no → hay que documentar por qué no.
+Si sí → hay que sandboxearlo (un mod importado es prompt injection contra el companion a escala). Si
+no → hay que documentar por qué no.
 
 ---
 
@@ -107,8 +109,12 @@ Cada persona tiene **3 identidades simultáneas** que nunca se mezclan ni se cru
 Modelo de permisos estilo sistema operativo móvil, con 3 reglas duras:
 
 1. **Deny by default.** Sin aceptación explícita, la app no accede.
-2. **Permiso-de-app ≠ titular-del-dato.** Una app de un tercero puede pedir permiso para leer la memoria de quien la usa, pero el dato es de la persona, no de quien escribió la app. El nivel base de confianza **no es igual para todos**.
-3. **Permisos agrupados por categoría**, no granulares — para evitar fatiga de consentimiento (si pides 8 permisos uno por uno, la gente deja de leer y acepta todo, y el deny-by-default se vuelve accept-all en la práctica).
+2. **Permiso-de-app ≠ titular-del-dato.** Una app de un tercero puede pedir permiso para leer la
+memoria de quien la usa, pero el dato es de la persona, no de quien escribió la app. El nivel base
+de confianza **no es igual para todos**.
+3. **Permisos agrupados por categoría**, no granulares — para evitar fatiga de consentimiento (si
+pides 8 permisos uno por uno, la gente deja de leer y acepta todo, y el deny-by-default se vuelve
+accept-all en la práctica).
 
 **Línea esperada de confianza:**
 
@@ -135,7 +141,8 @@ Modelo de permisos estilo sistema operativo móvil, con 3 reglas duras:
 
 ### 5.2 Mutación en tiempo real, ordenada
 
-Decisión: la mutación es en tiempo real y ordenada. Esto implica un modelo **event-sourced**, no snapshot-based:
+Decisión: la mutación es en tiempo real y ordenada. Esto implica un modelo **event-sourced**, no
+snapshot-based:
 - Cada mutación es un evento reproducible.
 - El grafo de flujo se reconstruye desde el stream.
 - Backend: event store (DynamoDB Streams / EventBridge como source of truth).

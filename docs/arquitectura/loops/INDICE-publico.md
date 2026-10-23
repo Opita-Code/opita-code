@@ -3,7 +3,7 @@
 > Continuacion de [INDICE.md](INDICE.md), el catalogo de los documentos por loop.
 > La superficie publica es lo que ve quien no programa: por eso tiene indice propio.
 
-### L-PUB · superficie pública, del repo al mundo
+## L-PUB · superficie pública, del repo al mundo
 
 | Doc | Preocupación |
 |---|---|

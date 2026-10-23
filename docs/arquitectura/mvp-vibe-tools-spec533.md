@@ -6,7 +6,9 @@
 
 ## Hipótesis a validar
 
-Si una persona construye una vibe-tool en vibe-studio, la publica, pasa el juez, y gana reputación visible en Opita Trabajos, entonces el marketplace tiene una razón de ser y el ciclo de valor funciona sin pago.
+Si una persona construye una vibe-tool en vibe-studio, la publica, pasa el juez, y gana reputación
+visible en Opita Trabajos, entonces el marketplace tiene una razón de ser y el ciclo de valor
+funciona sin pago.
 
 ---
 
@@ -14,7 +16,8 @@ Si una persona construye una vibe-tool en vibe-studio, la publica, pasa el juez,
 
 1. Primitiva `VibeTool` = función tipada. Sin protocolo.
 2. Type system de **2 ejes**: qué produce × clase de determinismo.
-3. Reglas: el código compone y los artifacts **terminan**; el juez verifica el **artifact** no el proceso; determinista → mutación, estocástica → receta.
+3. Reglas: el código compone y los artifacts **terminan**; el juez verifica el **artifact** no el
+proceso; determinista → mutación, estocástica → receta.
 4. Sandbox **solo T0**: WASM en cliente, tools puras sin I/O.
 5. 3 tools atómicas mínimas: `EXEC`, `RENDER`, `RESEARCH`.
 6. 1 módulo end-to-end: tool + harness que compone las 3.
@@ -26,7 +29,8 @@ Si una persona construye una vibe-tool en vibe-studio, la publica, pasa el juez,
 
 ## Fuera del alcance (explícito)
 
-3 identidades · empresas · organigrama · Opita Saldo · misiones LLM · sandbox T1/T2 · Firecracker · multi-idioma · móvil · levels y logros · KYC real · mod completo
+3 identidades · empresas · organigrama · Opita Saldo · misiones LLM · sandbox T1/T2 · Firecracker ·
+multi-idioma · móvil · levels y logros · KYC real · mod completo
 
 ---
 
@@ -54,4 +58,5 @@ Si una persona construye una vibe-tool en vibe-studio, la publica, pasa el juez,
 
 ## Riesgo principal
 
-Si el harness de misiones no se puede construir dentro de vibe-tools, ninguna app de terceros se podrá. **T6 es el caso de uso canónico que valida la tesis del marketplace.**
+Si el harness de misiones no se puede construir dentro de vibe-tools, ninguna app de terceros se
+podrá. **T6 es el caso de uso canónico que valida la tesis del marketplace.**

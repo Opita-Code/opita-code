@@ -25,7 +25,8 @@ Definí 6 KPIs globales. **El proyecto no se declara MVP-terminado si alguno fal
 
 ## Orden de loops — por qué este orden
 
-Cada loop cierra un **gap de conocimiento** antes del loop que lo necesita. La lógica de dependencias:
+Cada loop cierra un **gap de conocimiento** antes del loop que lo necesita. La lógica de
+dependencias:
 
 ```
 L0 (Fundación)  → (type system, primitiva)

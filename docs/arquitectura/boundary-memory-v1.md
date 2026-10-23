@@ -36,7 +36,8 @@ La decisión del operador elige la columna de la derecha. Esta spec hace que esa
 
 ## 2. Quién decide: el harness
 
-El harness es el **único actor con autoridad de selección**. La tool **nunca expresa qué contexto quiere**.
+El harness es el **único actor con autoridad de selección**. La tool **nunca expresa qué contexto
+quiere**.
 
 ```
 Tool:  run(input, ctx) -> output
@@ -127,7 +128,8 @@ Cada inyección produce un registro con:
 | `purpose` | Para qué se usa (finalidad) |
 | `actor` | Quién la invocó (persona, app, empresa) |
 
-Esto es lo que hace el aislamiento **demostrable** ante la ley: no solo "no debería poder", sino "y hay registro de cada vez que lo hizo".
+Esto es lo que hace el aislamiento **demostrable** ante la ley: no solo "no debería poder", sino "y
+hay registro de cada vez que lo hizo".
 
 ---
 
