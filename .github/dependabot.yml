@@ -18,3 +18,18 @@ updates:
       prefix: "chore(deps)"
     labels:
       - dependencies
+    # SOLO actualizaciones que no son mayores. Y no por prudencia generica:
+    # MEDIDO. Un salto mayor del compilador DEGRADA LA VERIFICACION en
+    # silencio, y la CI lo caza pero con un sintoma que parece de otra cosa.
+    #   typescript 5 -> 7: el harness de mutacion deja de funcionar y los 142
+    #     mutantes "sobreviven" todos, con cada paquete en 0%.
+    #   @types/node 22 -> 26: 19 de 142 sobreviven y el total cae a 86.6%.
+    # La causa es la misma: el harness muta el COMPILADO, y un cambio de
+    # compilador cambia lo que se compila. El verificador se debilita sin que
+    # nadie lo note, y el repo se niega a cerrar un loop con un verificador
+    # debil.
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
