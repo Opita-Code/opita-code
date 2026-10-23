@@ -3,12 +3,16 @@
 > Opita Code — vibe-studio runtime, arquitectura y cumplimiento
 
 <!-- GENERADO:vision -->
-> **PENDIENTE DEL OPERADOR.** El para que de Opita Code, a quien le duele y por
-> que se construye no esta escrito todavia. No se inventa: la superficie lo declara y
-> espera.
+**Opita Code es el lugar donde tu memoria te pertenece.**
+
+La memoria de una persona —su contexto, sus herramientas, lo que ha aprendido de ella— suele vivir en el sitio equivocado: en una sesion que se cierra, en una cuenta que no es suya, o en un perfil que la reduce a un segmento. Opita Code da a cada persona una memoria propia, fiel e incorruptible, que viaja con ella y que sus herramientas pueden usar sin que nadie mas la toque.
+
+Legal, profesional y anonima: las tres son tuyas, y ninguna se mezcla con las otras.
+
+Y no hace falta saber programar para tenerla.
 <!-- /GENERADO:vision -->
 
-## Que es esto
+## Como esta construido
 
 El runtime de **vibe-tools**: un sistema donde las herramientas se componen entre si,
 y donde la memoria se inyecta como contexto y nunca se lee desde una herramienta.

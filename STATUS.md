@@ -29,7 +29,6 @@
 
 | Que falta | De quien |
 | --- | --- |
-| La vision: por que existe Opita Code, que problema ve, a quien le duele | operador |
 | El canal de distribucion: GitHub es el argumento, no es el canal de la audiencia | operador |
 | La licencia del repo | operador |
 | Si el documento legal de cumplimiento va publico | operador |

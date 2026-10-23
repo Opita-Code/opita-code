@@ -12,9 +12,10 @@
   },
 
   "vision": {
-    "estado": "pendiente-del-operador",
-    "texto": "",
-    "nota": "El para que de Opita Code, a quien le duele y por que se construye es del operador. No sale de los documentos: sale de el. No se inventa y no se rellena con relleno. Hasta que llegue, la superficie publica lo declara como hueco, y el guard comprueba que el hueco siga declarado y no se haya perdido en una regeneracion."
+    "estado": "confirmada-por-el-operador",
+    "texto": "**Opita Code es el lugar donde tu memoria te pertenece.**\n\nLa memoria de una persona —su contexto, sus herramientas, lo que ha aprendido de ella— suele vivir en el sitio equivocado: en una sesion que se cierra, en una cuenta que no es suya, o en un perfil que la reduce a un segmento. Opita Code da a cada persona una memoria propia, fiel e incorruptible, que viaja con ella y que sus herramientas pueden usar sin que nadie mas la toque.\n\nLegal, profesional y anonima: las tres son tuyas, y ninguna se mezcla con las otras.\n\nY no hace falta saber programar para tenerla.",
+    "nota": "Vision del operador, confirmada el 2026-10-23. La derivo de su psicometria con el corte de L3 aplicado a el, y la confirmo tal cual. La derivacion y sus cuatro limites estan en la memoria 1115.",
+    "derivacion": "El corte por creencia aplicado al operador en vez de al usuario: ESPEROJO. Su frase «la memoria es el corazon de todo esto. El diseño debe ser perfecto e incorruptible» mas las tres identidades que no se cruzan, mas el mod por persona, mas 0 codigo y local-first, mas la exigencia de que la confianza se verifique y no se prometa. Y la paradoja que es parte del producto: la identidad anonima es la excepcion deliberada, la mascara donde el espejo se sustituye."
   },
 
   "audiencia": {
@@ -129,7 +130,6 @@
   },
 
   "abiertos": [
-    { "id": "A1", "titulo": "La vision: por que existe Opita Code, que problema ve, a quien le duele", "quien": "operador", "bloquea": "el README raiz" },
     { "id": "A2", "titulo": "El canal de distribucion: GitHub es el argumento, no es el canal de la audiencia", "quien": "operador", "bloquea": "que la audiencia no-coder llegue a algo" },
     { "id": "A3", "titulo": "La licencia del repo", "quien": "operador", "bloquea": "el uso del codigo por terceros" },
     { "id": "A4", "titulo": "Si el documento legal de cumplimiento va publico", "quien": "operador", "bloquea": "la superficie legal publicada" },

@@ -152,8 +152,16 @@ try {
 // 7. LA VISION. No se verifica que sea buena: se verifica que su hueco siga
 //    declarado, para que no se pierda en una regeneracion.
 const readme = existsSync(join(root, 'README.md')) ? readFileSync(join(root, 'README.md'), 'utf8') : '';
-if (estado.vision.estado === 'pendiente-del-operador' && !readme.includes('PENDIENTE DEL OPERADOR')) {
+const visionPendiente = estado.vision.estado === 'pendiente-del-operador';
+if (visionPendiente && !readme.includes('PENDIENTE DEL OPERADOR')) {
   problemas.push('la vision sigue pendiente y el README ya no lo declara: el hueco se perdio');
+}
+if (!visionPendiente && readme.includes('PENDIENTE DEL OPERADOR')) {
+  // El caso inverso, que es el que se puede dar sin querer: la vision se
+  // confirma, el README se regenera, y el hueco se queda escrito porque nadie
+  // lo quito. Un README que dice «aqui no hay nada todavia» cuando ya hay,
+  // es una pagina desactualizada, y es justo lo que este guard evita.
+  problemas.push('la vision ya esta confirmada y el README sigue declarando el hueco: el README se quedo atras');
 }
 
 if (problemas.length > 0) {
