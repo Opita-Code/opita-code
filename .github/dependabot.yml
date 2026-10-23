@@ -1,0 +1,20 @@
+# Dependabot
+#
+# El repo tiene cero dependencias de runtime, asi que esto solo cubre las dos
+# de desarrollo. Se puso porque una dependencia de desarrollo sin vigilance es
+# una dependencia que se queda sin vigilar.
+#
+# Las actualizaciones abren pull requests, no commits: la revision es de una
+# persona, y el guard decide si el cambio rompe algo.
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /vibe-tools
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+    labels:
+      - dependencies

@@ -33,7 +33,7 @@ que fue escrito y dice si el documento cumple.
 | --- | --- |
 | Tests | 263 de 263 |
 | Mutantes | 142 de 142 (100%, 28 paquetes) |
-| Unidades juzgables | 93, 0 exceden los 4096 B |
+| Unidades juzgables | 100, 0 exceden los 4096 B |
 | Veredicto del juez | 10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
 
 ### Los documentos
@@ -67,14 +67,16 @@ El detalle, que es lo que de verdad no esta escrito a mano:
 
 ## Donde mirar
 
+- **[opita-code.github.io/opita-code](https://opita-code.github.io/opita-code/)** — el sitio: que se esta construyendo ahora, con la evidencia medida
 - [docs/avances.md](docs/avances.md) — el registro en lenguaje llano, ronda por ronda
 - [docs/arquitectura/loops/INDICE.md](docs/arquitectura/loops/INDICE.md) — los documentos tecnicos, uno por preocupacion
 - [docs/arquitectura/loops/INDICE-publico.md](docs/arquitectura/loops/INDICE-publico.md) — la superficie pública y los documentos transversales
 - [docs/legal/cumplimiento-aislamiento-datos-v1.md](docs/legal/cumplimiento-aislamiento-datos-v1.md) — el inventario de datos y los principios que lo rigen
 - [vibe-tools/README.md](vibe-tools/README.md) — el paquete de runtime: estructura y comandos
+- [CONTRIBUTING.md](CONTRIBUTING.md) — como contribuir, y que partes del proyecto todavia no estan listas
+- [SECURITY.md](SECURITY.md) — como reportar un problema de seguridad, en silencio
 
 ## Licencia
 
-**Sin licencia todavia.** En un repositorio publico, sin licencia, el default legal
-es todos los derechos reservados. Es una decision abierta, y por eso se declara en
-lugar de omitirse.
+**MIT.** Ver [LICENSE](LICENSE). El codigo se puede usar, copiar, modificar y
+republicar; lo que no se puede es quitar la licencia.

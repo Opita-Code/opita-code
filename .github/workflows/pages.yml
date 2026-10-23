@@ -1,0 +1,52 @@
+name: Paginas
+
+# QUE HACE. Publica el sitio de GitHub Pages.
+#
+# El sitio se GENERA desde vibe-tools/estado.json, igual que el README y el
+# STATUS, asi que no puede divergir de ellos: salen de la misma linea. Si el
+# estado cambia, el sitio cambia.
+#
+# POR QUE UN WORKFLOW Y NO UNA RAMA gh-pages. La rama tendria que compilarse a
+# mano y podria quedarse vieja sin que nadie lo note. Aqui el sitio se arma en
+# cada push a main, y la CI verifica ademas que el sitio commiteado esta al
+# dia con la fuente.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Generar el sitio desde la fuente
+        working-directory: vibe-tools
+        run: node scripts/generar-sitio.mjs
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: despliegue
+        uses: actions/deploy-pages@v4

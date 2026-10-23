@@ -245,9 +245,11 @@ function conIslas(texto, nombre, cuerpo) {
 function renderNotas(tag) {
   const l = cerrados.find((x) => `v${x.version}` === tag);
   if (!l) throw new Error(`ningun loop corresponde al tag ${tag}`);
-  const cap1 = `**${t(l.resumen)}**
 
-Que puedes hacer ahora: ${t(l.puede)}
+  // El resumen YA es el "que puedes hacer ahora": en este proyecto las dos
+  // frases dicen lo mismo con palabras distintas, y una nota que lo dice dos
+  // veces hace mas larga justo la seccion que la mayoria va a leer.
+  const cap1 = `**${t(l.resumen)}**
 
 Lo que nos equivocamos en esta ronda: ${t(l.hallazgo)}`;
   const cap2 = tabla(

@@ -36,3 +36,7 @@ jobs:
       - name: La superficie publicada esta al dia
         working-directory: vibe-tools
         run: npm run generar-estado -- --check
+
+      - name: El sitio esta al dia
+        working-directory: vibe-tools
+        run: node scripts/generar-sitio.mjs --check

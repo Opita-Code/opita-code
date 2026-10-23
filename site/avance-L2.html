@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L2 · Composicion: encadenar sin equivocarse — Avances de Opita Code</title>
+<meta name="description" content="Puedes encadenar herramientas y el orden nunca se equivoca. Si dos se necesitan entre si, el sistema te dice cuales son, en vez de fallar en silencio.">
+<meta property="og:title" content="L2 · Composicion: encadenar sin equivocarse — Avances de Opita Code">
+<meta property="og:description" content="Puedes encadenar herramientas y el orden nunca se equivoca. Si dos se necesitan entre si, el sistema te dice cuales son, en vez de fallar en silencio.">
+<meta property="og:image" content="https://opita-code.github.io/opita-code/social-preview.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="https://opita-code.github.io/opita-code/social-preview.png">
+<style>
+:root {
+  --ink: #0D0D0D; --paper: #FAFAFA; --accent: #00D084; --accent-dark: #00AC6E;
+  --stone-500: #6B7280; --stone-200: #E5E7EB; --stone-800: #1F2937;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-sans); line-height: 1.6;
+  font-size: 16px; padding: 0 20px 72px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 760px; margin: 0 auto; }
+.hero { padding: 64px 0 40px; border-bottom: 1px solid var(--stone-200); }
+.regla { width: 56px; height: 4px; background: var(--accent); margin-bottom: 22px; }
+h1 { font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
+.sub { color: var(--accent-dark); font-weight: 500; margin-top: 10px; font-size: 18px; }
+.fecha { color: var(--stone-500); font-size: 14px; margin-top: 14px; }
+section { padding: 40px 0; border-bottom: 1px solid var(--stone-200); }
+h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+     color: var(--stone-500); font-weight: 600; margin-bottom: 18px; }
+p + p { margin-top: 12px; }
+ul, ol { padding-left: 20px; }
+li { margin-bottom: 12px; }
+li strong { color: var(--ink); }
+.score { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+.carta { background: #fff; border: 1px solid var(--stone-200); border-radius: 10px; padding: 16px; }
+.carta .n { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+.carta .d { font-size: 13px; color: var(--stone-500); margin-top: 2px; }
+.hallazgo { border-left: 3px solid var(--accent); padding-left: 14px; color: var(--stone-800); }
+.enlaces a { color: var(--accent-dark); }
+footer { padding-top: 36px; color: var(--stone-500); font-size: 13px; }
+footer a { color: var(--accent-dark); }
+@media (max-width: 560px) {
+  h1 { font-size: 32px; }
+  .hero { padding: 40px 0 32px; }
+  section { padding: 30px 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="regla"></div>
+  <h1>L2 · Composicion: encadenar sin equivocarse</h1>
+  <p class="fecha"><a href="index.html">Volver al estado</a> &middot; actualizado el 2026-10-23</p>
+</header>
+<section>
+  <h2>Que puedes hacer ahora que antes no podias</h2>
+  <p>Puedes encadenar herramientas y el orden nunca se equivoca. Si dos se necesitan entre si, el sistema te dice cuales son, en vez de fallar en silencio.</p>
+</section>
+<section>
+  <h2>Que se volvio mas tuyo o mas seguro</h2>
+  <p>Si una herramienta usa otra, solo lo hace una vez. No hay doble cobro.</p>
+</section>
+<section>
+  <h2>Lo que nos equivocamos en esta ronda</h2>
+  <p class="hallazgo">El error que veias no era el error: el orden de las comprobaciones hacia que un ciclo se reportara como «este sumidero no es terminal», cuando el problema real era un ciclo. Y el cierre anterior habia dejado un archivo 53 bytes por encima del limite, mientras el numero que lo reportaba decia que todo estaba bien. Se tapo recortando la prosa en vez de partir el archivo por donde tenia una sola responsabilidad.</p>
+</section>
+<section>
+  <h2>Lo que quedo abierto</h2>
+  <p>La herramienta de busqueda declara que puede leer la red y no puede: falta el transporte. El caso canonico existe para que ese hueco se vea en cada corrida y no se acumule en un documento que nadie vuelve a leer.</p>
+</section>
+<footer><a href="https://github.com/Opita-Code/opita-code">Repositorio</a></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+name: Una propuesta o una pregunta
+description: Una idea, un cambio propuesto, o una duda sobre el diseno.
+title: ""
+labels: ["decision"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Este repositorio se construye por **loops**: cada loop cierra una pregunta
+        concreta. Las propuestas que no se pueden meter en un loop van a esperar,
+        y por eso conviene decir a que loop pertenecen.
+
+        Los cambios de codigo se hacen pull request, no issue. Este formulario es
+        para lo que todavia no es un cambio.
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Que es
+      options:
+        - Una decision de diseno
+        - Una pregunta
+        - Una funcionalidad nueva
+        - Una mejora de la superficie publica
+    validations:
+      required: true
+
+  - type: input
+    id: loop
+    attributes:
+      label: A que loop pertenece
+      description: L0, L1, L2, L3, L-PUB, u otro.
+      placeholder: L-PUB
+    validations:
+      required: false
+
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: La propuesta
+      description: Que se quiere cambiar, y por que.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: La evidencia
+      description: Que hace que esto sea un problema, y no una preferencia.
+      placeholder: El guard de presupuesto hoy mide los bytes normalizados, y el juez trocea sobre los crudos.
+    validations:
+      required: false

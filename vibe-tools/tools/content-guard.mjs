@@ -47,7 +47,25 @@ const root = join(here, '..', '..');
 
 const MD_ROOTS = ['docs'];
 const TS_ROOTS = ['vibe-tools/src'];
-const ALSO_FILES = ['vibe-tools/README.md', 'README.md', 'STATUS.md'];
+/**
+ * La raiz del repositorio es superficie publica: los archivos que ve quien
+ * llega de fuera. Antes de L-PUB2 no la cubria nadie, y se noto: al escribir
+ * SECURITY.md aparecieron dos caracteres arabes dentro de una palabra, y
+ * CODE_OF_CONDUCT.md tres mas. El guard que caza la intrusion de guion no
+ * los podia ver porque no miraba esos archivos.
+ */
+const RAIZ_ROOTS = ['site'];
+const RAIZ_EXTS = { '.html': ['site'], '.json': ['vibe-tools'] };
+const ALSO_FILES = [
+  'vibe-tools/README.md',
+  'README.md',
+  'STATUS.md',
+  'CONTRIBUTING.md',
+  'SECURITY.md',
+  'CODE_OF_CONDUCT.md',
+  'LICENSE',
+  'vibe-tools/estado.json',
+];
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.git']);
 
 /** Rangos de guion que no aparecen en castellano con tipografia. */
@@ -209,6 +227,9 @@ function main() {
     : []
       .concat(MD_ROOTS.flatMap((r) => walk(join(root, r), new Set(['.md']))))
       .concat(TS_ROOTS.flatMap((r) => walk(join(root, r), new Set(['.ts']))))
+      .concat(RAIZ_ROOTS.flatMap((r) => walk(join(root, r), new Set(['.html']))))
+      .concat(Object.entries(RAIZ_EXTS).flatMap(([ext, raices]) =>
+        raices.flatMap((r) => walk(join(root, r), new Set([ext])))))
       .concat(ALSO_FILES.filter((f) => existsSync(join(root, f))).map((f) => join(root, f)));
 
   const all = files.flatMap(scanFile);

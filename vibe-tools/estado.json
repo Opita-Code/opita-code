@@ -7,7 +7,8 @@
     "repo": "https://github.com/Opita-Code/opita-code",
     "version": "0.4.0",
     "tag": "v0.4.0",
-    "actualizado": "2026-10-23"
+    "actualizado": "2026-10-23",
+    "pagina": { "url": "https://opita-code.github.io/opita-code/" }
   },
 
   "vision": {
@@ -108,7 +109,7 @@
     "mutantes_paquetes": 28,
     "mutantes_score": 100.0,
     "mutantes_umbral": 80,
-    "unidades_juzgables": 93,
+    "unidades_juzgables": 100,
     "unidades_exceden": 0,
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,

@@ -1,0 +1,56 @@
+name: Reportar un bug
+description: Algo no hace lo que dice que hace.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportarlo. Lo que mas ayuda es un caso minimo que se pueda
+        reproducir sin contexto.
+
+        Si lo que vas a reportar es un problema de **seguridad**, no uses esta
+        via: mira [SECURITY.md](../blob/main/SECURITY.md).
+
+  - type: input
+    id: que-pasa
+    attributes:
+      label: Que pasa
+      description: Que esperabas, y que paso en su lugar.
+      placeholder: Esperaba que el modulo rechazara el puerto no emitido, y acepto la entrega.
+    validations:
+      required: true
+
+  - type: input
+    id: como-reproducir
+    attributes:
+      label: Como se reproduce
+      description: Los pasos, o el comando.
+      placeholder: npm run check
+    validations:
+      required: true
+
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Que esperabas
+    validations:
+      required: true
+
+  - type: textarea
+    id: version
+    attributes:
+      label: Donde y cuando
+      description: Sistema operativo, version de Node, y el commit si lo sabes.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checked
+    attributes:
+      label: Antes de enviar
+      options:
+        - label: He buscado si el problema ya esta reportado.
+          required: true
+        - label: He leido [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md), y se que parte esta todavia sin hacer.
+          required: false

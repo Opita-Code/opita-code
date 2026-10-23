@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opita Code — que se esta construyendo ahora</title>
+<meta name="description" content="Runtime de tools componibles para Opita Code. Que se esta construyendo ahora, con la evidencia medida.">
+<meta property="og:title" content="Opita Code — que se esta construyendo ahora">
+<meta property="og:description" content="Runtime de tools componibles para Opita Code. Que se esta construyendo ahora, con la evidencia medida.">
+<meta property="og:image" content="https://opita-code.github.io/opita-code/social-preview.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="https://opita-code.github.io/opita-code/social-preview.png">
+<style>
+:root {
+  --ink: #0D0D0D; --paper: #FAFAFA; --accent: #00D084; --accent-dark: #00AC6E;
+  --stone-500: #6B7280; --stone-200: #E5E7EB; --stone-800: #1F2937;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-sans); line-height: 1.6;
+  font-size: 16px; padding: 0 20px 72px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 760px; margin: 0 auto; }
+.hero { padding: 64px 0 40px; border-bottom: 1px solid var(--stone-200); }
+.regla { width: 56px; height: 4px; background: var(--accent); margin-bottom: 22px; }
+h1 { font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
+.sub { color: var(--accent-dark); font-weight: 500; margin-top: 10px; font-size: 18px; }
+.fecha { color: var(--stone-500); font-size: 14px; margin-top: 14px; }
+section { padding: 40px 0; border-bottom: 1px solid var(--stone-200); }
+h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+     color: var(--stone-500); font-weight: 600; margin-bottom: 18px; }
+p + p { margin-top: 12px; }
+ul, ol { padding-left: 20px; }
+li { margin-bottom: 12px; }
+li strong { color: var(--ink); }
+.score { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+.carta { background: #fff; border: 1px solid var(--stone-200); border-radius: 10px; padding: 16px; }
+.carta .n { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+.carta .d { font-size: 13px; color: var(--stone-500); margin-top: 2px; }
+.hallazgo { border-left: 3px solid var(--accent); padding-left: 14px; color: var(--stone-800); }
+.enlaces a { color: var(--accent-dark); }
+footer { padding-top: 36px; color: var(--stone-500); font-size: 13px; }
+footer a { color: var(--accent-dark); }
+@media (max-width: 560px) {
+  h1 { font-size: 32px; }
+  .hero { padding: 40px 0 32px; }
+  section { padding: 30px 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="regla"></div>
+  <h1>Opita Code</h1>
+  <p class="sub">Runtime de tools componibles. La memoria se inyecta como contexto y nunca se lee desde una herramienta.</p>
+  <p class="fecha">Actualizado el 2026-10-23 &middot; generado desde <code>vibe-tools/estado.json</code>, no se edita a mano</p>
+</header>
+
+<section>
+  <h2>Ahora</h2>
+  <p><strong>L4 · Identidad: un stub, y despues tres identidades.</strong> Es el siguiente loop del plan. Arranca cuando esten resueltas las tres decisiones abiertas de L3.</p>
+</section>
+
+<section>
+  <h2>La evidencia, medida</h2>
+  <div class="score">
+<div class="carta"><div class="n">263 de 263</div><div class="d">Tests</div></div>
+<div class="carta"><div class="n">142 de 142</div><div class="d">Mutantes</div></div>
+<div class="carta"><div class="n">100</div><div class="d">Unidades juzgables</div></div>
+<div class="carta"><div class="n">4</div><div class="d">Loops cerrados</div></div>
+  </div>
+  <p style="margin-top:18px;font-size:14px;color:var(--stone-500)">10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded.</p>
+</section>
+
+<section>
+  <h2>Como se llega hasta aqui</h2>
+  <ol>
+
+    <li>
+      <strong>L0 · Fundacion: los contratos</strong><br>
+      Cada herramienta declara que produce y si puede dar el mismo resultado dos veces. Antes de ejecutarla, el sistema ya sabe que esperar de ella.<br>
+      <span class="hallazgo"><em>Lo que nos equivocamos:</em> Un agujero en el sellado del contexto que 83 tests no veian. Lo encontro el verificador automatico, no nosotros: el sellado miraba solo la superficie, y un objeto anidado mutable se escapaba entero. Cerrado con WeakSet y sellado profundo, con 5 tests y 9 mutantes nuevos.</span>
+    </li>
+
+    <li>
+      <strong>L1 · Runtime: la caja de cada herramienta</strong><br>
+      Cada herramienta vive en una caja: solo puede hacer lo que su caja le concede, y se comprueba antes de dejarla correr. Si intenta salirse, la ejecucion falla aunque la herramienta hubiera funcionado.<br>
+      <span class="hallazgo"><em>Lo que nos equivocamos:</em> El constructor de WASM escribia un byte de mas. Y un test estaba mal planteado: tomaba env.memory por el disco, y no lo es.</span>
+    </li>
+
+    <li>
+      <strong>L2 · Composicion: encadenar sin equivocarse</strong><br>
+      Puedes encadenar herramientas y el orden nunca se equivoca. Si dos se necesitan entre si, el sistema te dice cuales son, en vez de fallar en silencio.<br>
+      <span class="hallazgo"><em>Lo que nos equivocamos:</em> El error que veias no era el error: el orden de las comprobaciones hacia que un ciclo se reportara como «este sumidero no es terminal», cuando el problema real era un ciclo. Y el cierre anterior habia dejado un archivo 53 bytes por encima del limite, mientras el numero que lo reportaba decia que todo estaba bien. Se tapo recortando la prosa en vez de partir el archivo por donde tenia una sola responsabilidad.</span>
+    </li>
+
+    <li>
+      <strong>L3 · Boundary MEMORY: la memoria es tuya y de nadie mas</strong><br>
+      La memoria paso a ser tuya y de nadie mas. Las herramientas que instales en tu proyecto no pueden leerla ni reescribirla, y queda registrado quien pidio que y para que.<br>
+      <span class="hallazgo"><em>Lo que nos equivocamos:</em> La spec decia que el contexto nunca cruza identidades, y el nombre publico del dueno es un cruce deliberado y ya decidido. Una spec que dice «nunca» mientras el producto cruza enseña al implementador que la spec miente. Y el flag antifraude que no se puede impugnar es un conflicto real con el derecho de rectificacion, sin solucion de ingenieria.</span>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>Lo que esta abierto</h2>
+  <ul>
+<li>La vision: por que existe Opita Code, que problema ve, a quien le duele <em>(operador)</em></li>
+<li>El canal de distribucion: GitHub es el argumento, no es el canal de la audiencia <em>(operador)</em></li>
+<li>La licencia del repo <em>(operador)</em></li>
+<li>Si el documento legal de cumplimiento va publico <em>(operador)</em></li>
+<li>El eje del corte de L3: por creencia, y no por edad, rol o cohorte <em>(operador)</em></li>
+<li>Cual se degrada si hay que elegir: el anonimato o el antifraude <em>(operador)</em></li>
+<li>El sexto consentimiento, en contexto de organizacion, y el techo de falsos positivos <em>(operador)</em></li>
+<li>Los bindings reales de Pyodide, WebContainers y Firecracker <em>(equipo)</em></li>
+  </ul>
+</section>
+
+<section class="enlaces">
+  <h2>El detalle</h2>
+  <ul>
+<li><a href="https://opita-code.github.io/opita-code/avances.html">El registro en lenguaje llano</a></li>
+<li><a href="https://github.com/Opita-Code/opita-code/tree/main/docs/arquitectura/loops">Los documentos tecnicos</a></li>
+<li><a href="https://github.com/Opita-Code/opita-code/blob/main/docs/como-verificar.md">Como se verifica</a></li>
+<li><a href="https://github.com/Opita-Code/opita-code/blob/main/docs/arquitectura/loops/INDICE-publico.md">El indice de la superficie</a></li>
+  </ul>
+</section>
+<footer>Generado desde <code>vibe-tools/estado.json</code> y verificado contra la realidad medida en cada push. <a href="https://github.com/Opita-Code/opita-code">Repositorio</a></footer>
+</div>
+</body>
+</html>
