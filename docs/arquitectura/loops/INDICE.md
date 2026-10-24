@@ -26,7 +26,7 @@
 | [L2-harness](L2-harness.md) | «Responde en modo X», y la ambigüedad rechazada |
 | [L2-canonico](L2-canonico.md) | Los tres casos canónicos y qué prueba cada uno |
 | [L2-verificacion](L2-verificacion.md) | 99 unitarios y las properties P25–P34 |
-| [L2-aritmetica](L2-aritmetica.md) | El total de 263 reconciliado por prefijo y por archivo |
+| [L2-aritmetica](L2-aritmetica.md) | El total de 282 reconciliado por prefijo, por archivo y por loop |
 | [L2-mutacion](L2-mutacion.md) | Los 142 mutantes y los que importan |
 | [L2-presupuesto](L2-presupuesto.md) | El guard de 4096 B y las seis particiones |
 | [L2-hallazgo-runner](L2-hallazgo-runner.md) | L1 cerró con el runner 53 B sobre el tope, y cómo se tapó |

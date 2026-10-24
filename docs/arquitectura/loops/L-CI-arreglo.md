@@ -43,6 +43,12 @@ paquete») se cumplia con un verificador que no ejecutaba los tests.
 «VEREDOR DEBIL - no se cierra el loop con esto». Fijar los 19 huecos es una
 unidad de trabajo propia, con sus 19 tests.
 
+**CIERRE: los 19 huecos estan cerrados.** Los 19 tests viven en
+`test/verification-gaps.test.ts`, la suite pasa **282 de 282**, y la mutacion
+que se mide ahora es **142/142 = 100%**: 0 sobrevivientes, en 28 paquetes. El
+123/142 de arriba era el numero del problema; este es el de la suite ya
+entera.
+
 ## LA REGLA QUE DEJA ESTE HALLAZGO
 
 **Un guard que nunca se ha visto en verde no es un guard: es un adorno que

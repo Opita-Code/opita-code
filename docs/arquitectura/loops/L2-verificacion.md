@@ -20,10 +20,11 @@ sola preocupación y no caben aquí sin amputarse.
 | `tools.test.ts` | las cuatro tools y el escapado | 30 |
 | `property-module.test.ts` | P25–P34 sobre 6 semillas | 10 |
 
-La aritmética por prefijo está en [L2-canonico.md](L2-canonico.md):
-**263 = 88 de L0 + 76 de L1 + 99 de L2**. Y la reconciliación por archivo, que
-es la que se puede reproducir sin el historial de renombres, está en
-[aritmética](L2-aritmetica.md). Las dos vías dan el mismo total.
+La aritmética está en [aritmética](L2-aritmetica.md), por sus dos vías:
+**282 = 88 de L0 + 87 de L1 + 107 de L2** por prefijo, y
+**282 = 88 de L0 + 76 de L1 + 99 de L2 + 19 de L-CI** por archivo, que es la que
+se reproduce sin consultar el historial de renombres. Las dos dan el mismo
+total.
 
 ## 2. Properties — P25 a P34
 

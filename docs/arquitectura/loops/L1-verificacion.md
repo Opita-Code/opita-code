@@ -25,10 +25,12 @@ verifican el comportamiento.
 =164 total
 ```
 
-**Contando prefijos salen 165**, y por eso hace falta decirlo: uno de los casos
-de L0 **se renombró** y pasó a llevar nombre `L1-*`. Es *el host por defecto
-(cliente) no sostiene T2, y dice que le falta*, antes *el MVP solo ejecuta T0:
-una tool T2 se rechaza con mensaje claro*.
+**Contando prefijos salen 175**, y por eso hace falta decirlo: once de los
+casos son los huecos de L-CI, que llevan el nombre del loop al que cubren y
+viven en su propio archivo. Y para L1 sigue contando el caso de L0 **que se
+renombró** y pasó a llevar nombre `L1-*`. Es *el host por defecto (cliente) no
+sostiene T2, y dice que le falta*, antes *el MVP solo ejecuta T0: una tool T2 se
+rechaza con mensaje claro*.
 
 No se eliminó nada ni se relajó nada: ese caso se **fortaleció**. Antes probaba
 que el mensaje contuviera un texto; ahora comprueba el código de fallo exacto y

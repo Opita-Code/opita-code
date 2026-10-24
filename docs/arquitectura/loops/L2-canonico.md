@@ -87,27 +87,5 @@ Tres casos cubren las tres formas de terminar una corrida: **completa**,
 
 ## La aritmética
 
-```
-88  casos de L0, intactos
-+76  casos de L1
-=164 al cierre de L1
-+99  casos nuevos de L2
-=263 total
-```
-
-Y **esta vez los prefijos cuadran sin nota al pie**:
-
-```
-77  L0-*      \  los 88 de L0: 77 con nombre + 10 properties con nombre P*
-77  L1-*       |
-10  P*        /
-99  L2-*
-─────
-263
-```
-
-Ni uno de los 263 tests de L0 ni de L1 fue tocado en este loop — `git diff`
-contra `456ad85` sale vacío. No hubo renombrado, ni eliminación, ni relajación.
-
-La segunda reconciliación —por archivo, que no depende del historial de
-renombres— está en [verificación](L2-verificacion.md). Las dos vías dan 263.
+El total de este loop, por prefijo y por archivo, y las dos vías que lo
+reconcilian, están en [aritmética](L2-aritmetica.md).

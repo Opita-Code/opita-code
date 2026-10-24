@@ -82,7 +82,7 @@ src/
 ```bash
 npm install
 npm run budget   # falla si un artefacto juzgable cruza 4096 B
-npm run test     # tsc + 263 tests
+npm run test     # tsc + 282 tests
 npm run mutate   # 142 mutantes; se niega a cerrar si alguno sobrevive
 npm run check    # los tres
 ```

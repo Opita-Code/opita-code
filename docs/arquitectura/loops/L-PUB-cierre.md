@@ -33,8 +33,8 @@ Una superficie publica que **no se puede envejecer en silencio**.
 
 | Medida | Resultado |
 |---|---|
-| Tests | 263 de 263, 0 fallos |
-| Reparto por prefijo | L0 77, P 10, L1 77, L2 99 |
+| Tests | 282 de 282, 0 fallos |
+| Reparto por prefijo | L0 78, P 10, L1 87, L2 107 |
 | Mutantes | 142 de 142, 100% en 28 paquetes, umbral 80% |
 | Unidades juzgables | 93, y 0 exceden los 4096 B |
 | Guards de contenido | 8 clases probadas contra defectos deliberados |

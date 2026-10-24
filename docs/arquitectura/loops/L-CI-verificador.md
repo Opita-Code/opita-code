@@ -12,7 +12,7 @@ Desde el primer push, **la CI de `main` fallo**. Los cuatro runs de los
 cuatro pushes: `failure`. Y nadie lo habia mirado, porque la sesion estaba
 ocupada construyendo la superficie publica.
 
-Lo que decia la CI:
+Lo que decia la CI **en esos cuatro runs**:
 
 ```
 tests 263, pass 263, fail 0     la suite completa, en verde
@@ -56,4 +56,6 @@ La puerta era el gate de presupuesto, que miraba los bytes, y el gate de
 drift, que miraba el texto. Nadie mire **si el gate estaba mirando**.
 
 El arreglo, la verdad medida y lo que esto invalida estan en
-[L-CI-arreglo](L-CI-arreglo.md).
+[L-CI-arreglo](L-CI-arreglo.md). Los 19 huecos que ese documento nombro ya estan
+cerrados: la suite pasa **282 de 282** y la mutacion, medida de verdad, da
+**142/142 = 100%**.
