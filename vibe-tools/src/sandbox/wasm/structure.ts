@@ -87,6 +87,9 @@ export function readStructure(bytes: Uint8Array): Structure {
       };
     }
     if (id !== 0) {
+      if (id === IMPORT_SECTION && seenImports) {
+        return { ok: false, code: 'E_DUPLICATE_SECTION', detail: 'hay dos secciones de imports' };
+      }
       if (id <= lastId) {
         return {
           ok: false,
@@ -96,9 +99,6 @@ export function readStructure(bytes: Uint8Array): Structure {
               ? `la seccion ${sectionName(id)} aparece mas de una vez`
               : `la seccion ${sectionName(id)} aparece despues de la ${sectionName(lastId)}`,
         };
-      }
-      if (id === IMPORT_SECTION && seenImports) {
-        return { ok: false, code: 'E_DUPLICATE_SECTION', detail: 'hay dos secciones de imports' };
       }
       lastId = id;
       if (id === IMPORT_SECTION) seenImports = true;
