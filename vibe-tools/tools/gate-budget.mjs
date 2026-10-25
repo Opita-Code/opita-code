@@ -34,7 +34,7 @@ const BUDGET = 4096;
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..', '..');
 
-const ROOTS = ['vibe-tools/src', 'docs/arquitectura/loops', 'docs/avances'];
+const ROOTS = ['vibe-tools/src', 'docs/arquitectura/loops', 'docs/avances', 'docs/canal'];
 const ALSO_FILES = [
   'vibe-tools/README.md',
   'README.md',
@@ -42,6 +42,7 @@ const ALSO_FILES = [
   'docs/avances.md',
   'docs/como-verificar.md',
   'docs/controles.md',
+  'docs/canal.md',
   'CONTRIBUTING.md',
   'SECURITY.md',
   'CODE_OF_CONDUCT.md',

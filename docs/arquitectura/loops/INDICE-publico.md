@@ -24,5 +24,6 @@ Documento transversal, no de un loop:
 |---|---|
 | [gate-veredictos](gate-veredictos.md) | Qué significa cada veredicto, y por qué se para a los dos intentos |
 | [controles](../../controles.md) | Qué corre en cada push, qué mide, y qué NO ve cada control |
+| [canal](../../canal.md) | Cómo se distribuye: Facebook, Instagram y LinkedIn, y qué se publicó |
 
 Plan completo: [plan-iteracion-mvp.md](../plan-iteracion-mvp.md)
