@@ -37,6 +37,11 @@ cuando la fuente ya decía 107, y «104 documentos verificados por un juez
 automático» cuando el juez había resuelto 10. Tres defectos en una línea, y
 ninguno visible al leerla.
 
+Y qué se mide lo decide el índice del canal: una entrada que no está en el
+índice va a salir y se mide contra la fuente de hoy; una que ya está es un
+registro y no se vuelve a mirar. La regla completa está en
+[canal.md](canal.md).
+
 ## POR QUÉ ESTA TABLA NO ES UNA GARANTÍA
 
 Cada control ve una clase de defecto y no ve las demás. `content` no juzga si

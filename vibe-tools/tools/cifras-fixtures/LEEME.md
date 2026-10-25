@@ -45,9 +45,18 @@ guard no dependa de las cifras de hoy. Si el corpus se midiera contra
 `vibe-tools/estado.json`, cada commit que moviera un numero decia que el
 corpus estaba roto.
 
-**LA REGLA DE LAS DOS FECHAS.** Una entrada cuya fecha es de hoy o de
-despues esta pendiente de publicar, y sus cifras se miden contra la fuente
-de hoy. Una entrada cuya fecha ya paso es un registro: dice lo que era
-verdad el dia en que salio, y no se vuelve a medir. El guion
-(`docs/canal.md`) no tiene fecha porque no es un post: es una regla
+**LA REGLA DEL INDICE.** El indice del canal (`docs/canal/INDICE.md`) es el
+registro de lo que se publico, y por eso decide que se mide. Una entrada que
+**no** esta en el indice todavia no ha salido: sus cifras tienen que ser las de
+hoy, y se miden contra la fuente de hoy. Una entrada que **ya** esta en el
+indice salio: sus cifras son las del momento en que salio, y no se vuelven a
+medir. Sin eso, la CI se pondria vieja sola con cada commit que toca la
+fuente, y un post publicado ayer seria un fallo hoy.
+
+Y la regla de proceso que hace verdadera la anterior: **una entrada entra en
+el indice cuando se publica, no antes.** El 2026-10-25 la entrada se listo a
+las 11:41 y se publico horas despues; en ese hueco el guard la daba por
+publicada y era ciego.
+
+El guion (`docs/canal.md`) no tiene fecha porque no es un post: es una regla
 vigente, y siempre se mide contra la fuente de hoy.

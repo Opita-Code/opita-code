@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import type { Port, ToolDescriptor } from '../src/contract.js';
 import { ToolRegistry } from '../src/tool.js';
 import { emptyContext, sealContext, type ToolContext } from '../src/context.js';
+import { IDENTIDAD } from './identity-fixture.js';
 
 const p = (name: string, produces: Port['produces'], artifact = false): Port => ({ name, produces, artifact });
 
@@ -22,7 +23,7 @@ const EXEC: ToolDescriptor = {
 const HEAVY: ToolDescriptor = { ...EXEC, id: 'heavy', version: '1.0.0', tier: 'T2', effect: 'process', outputs: [p('out', 'code', true)] };
 
 test('L0-T1 · el contexto por defecto es profile=none e inyectado vacio', () => {
-  const ctx = emptyContext('actor-1');
+  const ctx = emptyContext('actor-1', IDENTIDAD);
   assert.equal(ctx.profile, 'none');
   assert.deepEqual(Object.keys(ctx.injected), []);
   assert.equal(ctx.actorId, 'actor-1');
@@ -35,7 +36,7 @@ test('L0-T1 · el registry sella un contexto que el llamador dejo mutable', () =
     return { ok: true, outputs: [] };
   });
   // El llamador construye un contexto SIN congelar. El registry debe sellarlo.
-  const mutable = { profile: 'minimal' as const, injected: { secreto: 'x' }, actorId: 'a', deadlineMs: 10 };
+  const mutable = { profile: 'minimal' as const, injected: { secreto: 'x' }, identity: IDENTIDAD, actorId: 'a', deadlineMs: 10 };
   assert.equal(Object.isFrozen(mutable.injected), false, 'precondicion del test');
   reg.run('exec', '0.1.0', {}, mutable);
   const visto = recibidos[0] as ToolContext;
@@ -56,7 +57,7 @@ test('L0-T1 · el sellado es PROFUNDO: congelar solo la superficie no alcanza', 
   const mutable = {
     profile: 'minimal' as const,
     injected: { perfil: { nombre: 'ana', edad: 30 } },
-    actorId: 'a',
+    identity: IDENTIDAD, actorId: 'a',
     deadlineMs: 10,
   };
   reg.run('exec', '0.1.0', {}, mutable);
@@ -70,7 +71,7 @@ test('L0-T1 · el sellado es PROFUNDO: congelar solo la superficie no alcanza', 
 
 test('L0-T1 · el sellado no altera el contexto original del llamador', () => {
   const reg = new ToolRegistry().register(EXEC, () => ({ ok: true, outputs: [] }));
-  const mutable = { profile: 'minimal' as const, injected: { a: 1 }, actorId: 'x', deadlineMs: 5 };
+  const mutable = { profile: 'minimal' as const, injected: { a: 1 }, identity: IDENTIDAD, actorId: 'x', deadlineMs: 5 };
   reg.run('exec', '0.1.0', {}, mutable);
   assert.equal(Object.isFrozen(mutable), false, 'el registry congelo el objeto del llamador, no una copia');
 });
@@ -87,7 +88,7 @@ test('L0-T1 · el bypass por Object.isFrozen queda cerrado', () => {
   const sneaky = Object.freeze({
     profile: 'minimal' as const,
     injected: Object.freeze({ perfil: { edad: 30 } }),
-    actorId: 'a',
+    identity: IDENTIDAD, actorId: 'a',
     deadlineMs: 10,
   });
   reg.run('exec', '0.1.0', {}, sneaky);
@@ -100,9 +101,9 @@ test('L0-T1 · el bypass por Object.isFrozen queda cerrado', () => {
 });
 
 test('L0-T1 · sealContext es idempotente y devuelve la misma instancia ya sellada', () => {
-  const c = emptyContext('a');
+  const c = emptyContext('a', IDENTIDAD);
   assert.equal(sealContext(c), c, 'un contexto ya sellado deberia volver por identidad');
-  const una = sealContext({ profile: 'none', injected: {}, actorId: 'a', deadlineMs: 1 });
+  const una = sealContext({ profile: 'none', injected: {}, identity: IDENTIDAD, actorId: 'a', deadlineMs: 1 });
   assert.equal(sealContext(una), una, 'el segundo sellado debe devolver la misma instancia');
 });
 
@@ -117,7 +118,7 @@ test('L0-T1 · una tool que intenta escribir devuelve fallo en vez de corromper 
       return { ok: false, error: `escritura rechazada: ${excepcion}` };
     }
   });
-  const r = reg.run('exec', '0.1.0', {}, { profile: 'minimal', injected: {}, actorId: 'a', deadlineMs: 1 });
+  const r = reg.run('exec', '0.1.0', {}, { profile: 'minimal', injected: {}, identity: IDENTIDAD, actorId: 'a', deadlineMs: 1 });
   assert.equal(r.ok, false);
   if (!r.ok) assert.match(r.detail, /escritura rechazada/);
 });
@@ -128,7 +129,7 @@ test('L0-T1 · la tool recibe el contexto inyectado tal cual', () => {
     vistos.push(ctx);
     return { ok: true, outputs: [{ port: 'out', value: 'x' }] };
   });
-  const ctx = emptyContext('actor-7');
+  const ctx = emptyContext('actor-7', IDENTIDAD);
   const r = reg.run('exec', '0.1.0', { prompt: 'hola' }, ctx);
   assert.equal(r.ok, true);
   assert.equal(vistos.length, 1);
@@ -144,7 +145,7 @@ test('L0-T1 · la tool no tiene ninguna referencia a la memoria en su alcance', 
     }
     return { ok: true, outputs: [{ port: 'out', value: null }] };
   });
-  reg.run('exec', '0.1.0', {}, emptyContext('a'));
+  reg.run('exec', '0.1.0', {}, emptyContext('a', IDENTIDAD));
   // Esto no es una prueba fuerte por si misma (es un smoke test), pero falla
   // si el runtime inyecta un store global en el mismo espacio de proceso.
   assert.ok(Array.isArray(alcance));
@@ -154,7 +155,7 @@ test('L0-T1 · el registry no resuelve una herramienta ausente', () => {
   const reg = new ToolRegistry();
   assert.equal(reg.has('exec', '0.1.0'), false);
   assert.equal(reg.resolve('exec', '0.1.0'), undefined);
-  const r = reg.run('exec', '0.1.0', {}, emptyContext('a'));
+  const r = reg.run('exec', '0.1.0', {}, emptyContext('a', IDENTIDAD));
   assert.equal(r.ok, false);
 });
 
@@ -175,7 +176,7 @@ test('L0-T1 · el registry corre dos versiones distintas del mismo id', () => {
   const reg = new ToolRegistry()
     .register(v1, () => ({ ok: true, outputs: [{ port: 'out', value: 'v1' }] }))
     .register(v2, () => ({ ok: true, outputs: [{ port: 'out', value: 'v2' }] }));
-  const ctx = emptyContext('a');
+  const ctx = emptyContext('a', IDENTIDAD);
   const a = reg.run('exec', '0.1.0', {}, ctx);
   const b = reg.run('exec', '0.2.0', {}, ctx);
   assert.equal(a.ok && a.outputs[0]?.value, 'v1');
@@ -186,7 +187,7 @@ test('L0-T1 · el registry corre dos versiones distintas del mismo id', () => {
 test('L0-T1 · una tool determinista da el mismo resultado con la misma entrada', () => {
   let n = 0;
   const reg = new ToolRegistry().register(EXEC, () => ({ ok: true, outputs: [{ port: 'out', value: ++n }] }));
-  const ctx = emptyContext('a');
+  const ctx = emptyContext('a', IDENTIDAD);
   const a = reg.run('exec', '0.1.0', { prompt: 'x' }, ctx);
   const b = reg.run('exec', '0.1.0', { prompt: 'x' }, ctx);
   assert.equal(a.ok && a.outputs[0]?.value, 1);
@@ -195,7 +196,7 @@ test('L0-T1 · una tool determinista da el mismo resultado con la misma entrada'
 
 test('L1 · el host por defecto (cliente) no sostiene T2, y dice que le falta', () => {
   const reg = new ToolRegistry().register(HEAVY, () => ({ ok: true, outputs: [] }));
-  const r = reg.run('heavy', '1.0.0', {}, emptyContext('a'));
+  const r = reg.run('heavy', '1.0.0', {}, emptyContext('a', IDENTIDAD));
   assert.equal(r.ok, false);
   if (!r.ok) {
     assert.equal(r.code, 'E_HOST_UNSUPPORTED');
@@ -205,7 +206,7 @@ test('L1 · el host por defecto (cliente) no sostiene T2, y dice que le falta', 
 
 test('L0-T1 · un fallo de la tool se reporta como fallo, no como excepcion', () => {
   const reg = new ToolRegistry().register(EXEC, () => ({ ok: false, error: 'entrada invalida' }));
-  const r = reg.run('exec', '0.1.0', {}, emptyContext('a'));
+  const r = reg.run('exec', '0.1.0', {}, emptyContext('a', IDENTIDAD));
   assert.equal(r.ok, false);
   if (!r.ok) assert.equal(r.detail, 'entrada invalida');
 });

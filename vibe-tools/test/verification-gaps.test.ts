@@ -17,6 +17,7 @@ import { readStructure } from '../src/sandbox/wasm/structure.js';
 import { ToolRegistry } from '../src/tool.js';
 import { draft } from '../src/tools/draft.js';
 import { renderSvg } from '../src/tools/render.js';
+import { IDENTIDAD } from './identity-fixture.js';
 import {
   importEntry,
   importSection,
@@ -78,7 +79,7 @@ test('L1-S5 · el registry entrega el binario a la capa estatica del sandbox', (
     SIN_ENTRADA.id,
     SIN_ENTRADA.version,
     {},
-    emptyContext('estatico'),
+    emptyContext('estatico', IDENTIDAD),
     {
       module: wasm(moduleWithImports([
         { module: 'env', field: 'memory', kind: 0x02, payload: limits(1) },
@@ -102,7 +103,7 @@ test('L1-S5 · deniedCount cuenta solo los intentos que fueron denegados', () =>
       },
     },
     input: {},
-    ctx: emptyContext('conteo'),
+    ctx: emptyContext('conteo', IDENTIDAD),
     backend: { net: () => 'respuesta' },
   });
   assert.equal(resultado.ok, false);
@@ -271,7 +272,7 @@ test('L2-S10 · una corrida fallida no entrega el artifact de un nodo que si com
       () => ({ ok: false, error: 'fallo previsto' }),
     );
 
-  const corrida = runModule(validacion.plan, registry, emptyContext('fallo'));
+  const corrida = runModule(validacion.plan, registry, emptyContext('fallo', IDENTIDAD));
   assert.equal(corrida.ok, false);
   assert.equal(corrida.deliveries.size, 0);
 });

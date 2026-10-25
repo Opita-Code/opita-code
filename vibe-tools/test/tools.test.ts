@@ -8,6 +8,7 @@ import { escapeXml, renderSvg } from '../src/tools/render.js';
 import { baseRegistry } from '../src/tools/index.js';
 import { emptyContext } from '../src/context.js';
 import { HOSTS } from '../src/sandbox/tier.js';
+import { IDENTIDAD } from './identity-fixture.js';
 
 // ---------------------------------------------------------------------------
 // Los descriptores dicen la verdad
@@ -49,7 +50,7 @@ test('L2-S6 · EXEC respects la precedencia', () => {
     ['2*3+4*5', '26'],
     ['100/5/2', '10'],
   ] as const) {
-    const r = EXEC_IMPL({ expr }, emptyContext('t'), undefined as never);
+    const r = EXEC_IMPL({ expr }, emptyContext('t', IDENTIDAD), undefined as never);
     assert.equal(r.ok, true, `${expr}: ${r.ok ? '' : r.error}`);
     if (!r.ok) return;
     assert.equal(r.outputs[0]?.value, want, expr);
@@ -57,14 +58,14 @@ test('L2-S6 · EXEC respects la precedencia', () => {
 });
 
 test('L2-S6 · EXEC maneja el menos unario y los espacios', () => {
-  const r = EXEC_IMPL({ expr: '  -3 + - (2) ' }, emptyContext('t'), undefined as never);
+  const r = EXEC_IMPL({ expr: '  -3 + - (2) ' }, emptyContext('t', IDENTIDAD), undefined as never);
   assert.equal(r.ok, true);
   if (!r.ok) return;
   assert.equal(r.outputs[0]?.value, '-5');
 });
 
 test('L2-S6 · EXEC NO redondea: el valor es el exacto de IEEE754', () => {
-  const r = EXEC_IMPL({ expr: '0.1+0.2' }, emptyContext('t'), undefined as never);
+  const r = EXEC_IMPL({ expr: '0.1+0.2' }, emptyContext('t', IDENTIDAD), undefined as never);
   assert.equal(r.ok, true);
   if (!r.ok) return;
   assert.equal(r.outputs[0]?.value, '0.30000000000000004');
@@ -72,7 +73,7 @@ test('L2-S6 · EXEC NO redondea: el valor es el exacto de IEEE754', () => {
 
 test('L2-S6 · EXEC falla con un mensaje, nunca con una excepcion', () => {
   for (const expr of ['', '1+', '((1)', '1 2', '1/0', 'a+b', '*3', '1++']) {
-    const r = EXEC_IMPL({ expr }, emptyContext('t'), undefined as never);
+    const r = EXEC_IMPL({ expr }, emptyContext('t', IDENTIDAD), undefined as never);
     assert.equal(r.ok, false, `deberia fallar: ${JSON.stringify(expr)}`);
     if (r.ok) continue;
     assert.equal(typeof r.error, 'string');
@@ -81,14 +82,14 @@ test('L2-S6 · EXEC falla con un mensaje, nunca con una excepcion', () => {
 });
 
 test('L2-S6 · EXEC dice "division por cero", que es distinto de "expresion invalida"', () => {
-  const r = EXEC_IMPL({ expr: '1/0' }, emptyContext('t'), undefined as never);
+  const r = EXEC_IMPL({ expr: '1/0' }, emptyContext('t', IDENTIDAD), undefined as never);
   assert.equal(r.ok, false);
   if (r.ok) return;
   assert.match(r.error, /division por cero/);
 });
 
 test('L2-S6 · EXEC sin puerto de entrada no inventa nada', () => {
-  const r = EXEC_IMPL({}, emptyContext('t'), undefined as never);
+  const r = EXEC_IMPL({}, emptyContext('t', IDENTIDAD), undefined as never);
   assert.equal(r.ok, false);
   if (r.ok) return;
   assert.match(r.error, /expr/);
@@ -97,7 +98,7 @@ test('L2-S6 · EXEC sin puerto de entrada no inventa nada', () => {
 test('L2-S6 · EXEC es determinista 10/10', () => {
   const outs = new Set<string>();
   for (let i = 0; i < 10; i++) {
-    const r = EXEC_IMPL({ expr: '2*(3+4)' }, emptyContext('t'), undefined as never);
+    const r = EXEC_IMPL({ expr: '2*(3+4)' }, emptyContext('t', IDENTIDAD), undefined as never);
     assert.equal(r.ok, true);
     if (!r.ok) return;
     outs.add(String(r.outputs[0]?.value));
@@ -155,7 +156,7 @@ test('L2-S6 · RENDER es determinista 10/10', () => {
 });
 
 test('L2-S6 · RENDER sin puerto de entrada no inventa nada', () => {
-  const r = RENDER_IMPL({}, emptyContext('t'), undefined as never);
+  const r = RENDER_IMPL({}, emptyContext('t', IDENTIDAD), undefined as never);
   assert.equal(r.ok, false);
   if (r.ok) return;
   assert.match(r.error, /value/);
@@ -187,7 +188,7 @@ test('L2-S6 · el borrador menciona el tema', () => {
 });
 
 test('L2-S6 · DRAFT sin puertos de entrada falla en vez de improvisar', () => {
-  const r = DRAFT_IMPL({ topic: 'x' }, emptyContext('t'), undefined as never);
+  const r = DRAFT_IMPL({ topic: 'x' }, emptyContext('t', IDENTIDAD), undefined as never);
   assert.equal(r.ok, false);
   if (r.ok) return;
   assert.match(r.error, /nonce/);
@@ -198,7 +199,7 @@ test('L2-S6 · DRAFT sin puertos de entrada falla en vez de improvisar', () => {
 // ---------------------------------------------------------------------------
 
 test('L2-S9 · RESEARCH propaga `unimplemented`, no lo disfraza de exito', () => {
-  const out = baseRegistry().run('opita.research', '0.1.0', { query: 'x' }, emptyContext('t'), {
+  const out = baseRegistry().run('opita.research', '0.1.0', { query: 'x' }, emptyContext('t', IDENTIDAD), {
     env: HOSTS.clientFull,
   });
   assert.equal(out.ok, false);
@@ -208,7 +209,7 @@ test('L2-S9 · RESEARCH propaga `unimplemented`, no lo disfraza de exito', () =>
 });
 
 test('L2-S9 · el intento queda registrado como CONCEDIDO: lo que falta es el transporte', () => {
-  const out = baseRegistry().run('opita.research', '0.1.0', { query: 'x' }, emptyContext('t'), {
+  const out = baseRegistry().run('opita.research', '0.1.0', { query: 'x' }, emptyContext('t', IDENTIDAD), {
     env: HOSTS.clientFull,
   });
   assert.equal(out.ok, false);
@@ -219,7 +220,7 @@ test('L2-S9 · el intento queda registrado como CONCEDIDO: lo que falta es el tr
 });
 
 test('L2-S9 · con el host de cliente el motivo es que el host no sostiene T1', () => {
-  const out = baseRegistry().run('opita.research', '0.1.0', { query: 'x' }, emptyContext('t'));
+  const out = baseRegistry().run('opita.research', '0.1.0', { query: 'x' }, emptyContext('t', IDENTIDAD));
   assert.equal(out.ok, false);
   if (out.ok) return;
   assert.equal(out.code, 'E_HOST_UNSUPPORTED');
@@ -230,7 +231,7 @@ test('L2-S9 · con un backend, RESEARCH funciona: lo unico que faltaba era el tr
   // transporte, la tool funciona y el sandbox no molesta. El problema NUNCA fue
   // la politica; fue que no hay cable.
   const vistas: string[] = [];
-  const out = baseRegistry().run('opita.research', '0.1.0', { query: 'memoria' }, emptyContext('t'), {
+  const out = baseRegistry().run('opita.research', '0.1.0', { query: 'memoria' }, emptyContext('t', IDENTIDAD), {
     env: HOSTS.clientFull,
     backend: { net: (u: string) => { vistas.push(u); return 'notas'; } },
   });
@@ -242,7 +243,7 @@ test('L2-S9 · con un backend, RESEARCH funciona: lo unico que faltaba era el tr
 test('L2-S9 · el endpoint NO sale del input: la query se codifica y se anade al final', () => {
   // Un fetch cuya URL arma el usuario es un SSRF esperando que alguien lo pruebe.
   const vistas: string[] = [];
-  baseRegistry().run('opita.research', '0.1.0', { query: '../../etc/passwd' }, emptyContext('t'), {
+  baseRegistry().run('opita.research', '0.1.0', { query: '../../etc/passwd' }, emptyContext('t', IDENTIDAD), {
     env: HOSTS.clientFull,
     backend: { net: (u: string) => { vistas.push(u); return ''; } },
   });
@@ -252,7 +253,7 @@ test('L2-S9 · el endpoint NO sale del input: la query se codifica y se anade al
 });
 
 test('L2-S9 · RESEARCH con T1 pero sin query no sale a la red', () => {
-  const r = RESEARCH_IMPL({}, emptyContext('t'), undefined as never);
+  const r = RESEARCH_IMPL({}, emptyContext('t', IDENTIDAD), undefined as never);
   assert.equal(r.ok, false);
   if (r.ok) return;
   assert.match(r.error, /query/);

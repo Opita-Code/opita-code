@@ -16,6 +16,7 @@ import { emptyContext } from '../src/context.js';
 import type { ToolDescriptor, Port } from '../src/contract.js';
 import type { ToolImpl } from '../src/tool.js';
 import { bytes, emptyModule, moduleWithImports } from './wasm-builder.js';
+import { IDENTIDAD } from './identity-fixture.js';
 
 const OUT: Port = { name: 'out', produces: 'text', artifact: true };
 
@@ -46,7 +47,7 @@ test('L1-S5 · DIFERENCIAL: la tool pura da igual bajo T0, T1 y T2', () => {
       env: hosts[tier],
       binding: { descriptor: descriptor(tier), impl: PURA },
       input: { n: 21 },
-      ctx: emptyContext('a'),
+      ctx: emptyContext('a', IDENTIDAD),
     });
     assert.equal(r.ok, true, `${tier} tiene que ejecutar una tool pura`);
     return r.ok ? r.outputs[0]?.value : null;
@@ -63,7 +64,7 @@ test('L1-S5 · EXFILTRACION: pedir red bajo T0 falla aunque la tool devuelva exi
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: EXFILTRA },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(r.ok, false, 'el intento es la senal, no el exito declarado');
   if (!r.ok) {
@@ -82,7 +83,7 @@ test('L1-S5 · EXFILTRACION: escribir al disco bajo T0 tambien falla', () => {
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: ESCRIBE },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(r.ok, false);
   if (!r.ok) assert.equal(r.code, 'E_EFFECT_DENIED');
@@ -97,7 +98,7 @@ test('L1-S5 · EXFILTRACION: lanzar procesos bajo T1 tambien falla', () => {
     env: HOSTS.clientFull,
     binding: { descriptor: descriptor('T1', 'none'), impl: EJECUTA },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(r.ok, false);
   if (!r.ok) assert.match(r.detail, /T1 no concede process/);
@@ -114,7 +115,7 @@ test('L1-S5 · ignorarse el retorno del deniego tampoco escapa', () => {
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: IGNORA },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(r.ok, false);
   if (!r.ok) assert.equal(deniedCount(r), 2, 'los dos intentos quedan auditados');
@@ -129,7 +130,7 @@ test('L1-S5 · lo concedido con backend si funciona', () => {
     env: HOSTS.clientFull,
     binding: { descriptor: descriptor('T1', 'read'), impl: USA_RED },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
     backend: { net: () => 'respuesta' },
   });
   assert.equal(r.ok, true);
@@ -141,7 +142,7 @@ test('L1-S5 · ESTATICA: un modulo con un import no se ejecuta', () => {
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: PURA },
     input: { n: 1 },
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
     module: bytes(moduleWithImports([{ module: 'wasi_snapshot_preview1', field: 'sock_send', kind: 0x00 }])),
   });
   assert.equal(r.ok, false);
@@ -156,7 +157,7 @@ test('L1-S5 · ESTATICA: un modulo limpio si se ejecuta', () => {
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: PURA },
     input: { n: 4 },
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
     module: bytes(emptyModule()),
   });
   assert.equal(r.ok, true);
@@ -173,7 +174,7 @@ test('L1-S5 · la capa estatica corre antes que la tool, no despues', () => {
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: OBSERVA },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
     module: bytes(moduleWithImports([{ module: 'env', field: 'memory', kind: 0x02, payload: [0x00, 0x01] }])),
   });
   assert.equal(r.ok, false);
@@ -185,7 +186,7 @@ test('L1-S5 · un host sin WASM no sostiene ni T0', () => {
     env: HOSTS.none,
     binding: { descriptor: descriptor('T0'), impl: PURA },
     input: { n: 1 },
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(r.ok, false);
   if (!r.ok) {
@@ -200,7 +201,7 @@ test('L1-S5 · un host de cliente no sostiene T1 ni T2', () => {
       env: HOSTS.client,
       binding: { descriptor: descriptor(tier), impl: PURA },
       input: {},
-      ctx: emptyContext('a'),
+      ctx: emptyContext('a', IDENTIDAD),
     });
     assert.equal(r.ok, false);
     if (!r.ok) assert.equal(r.code, 'E_HOST_UNSUPPORTED');
@@ -217,7 +218,7 @@ test('L1-S5 · el contexto sigue llegando sellado dentro del sandbox', () => {
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: MIRA },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(eraSellado, true, 'el sandbox no afloja la garantia de L0');
 });
@@ -228,7 +229,7 @@ test('L1-S5 · un fallo de la tool se reporta tipado, no como excepcion', () => 
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: FALLA },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(r.ok, false);
   if (!r.ok) {
@@ -242,7 +243,7 @@ test('L1-S5 · deniedCount es cero en un rechazo que no fue por intento', () => 
     env: HOSTS.none,
     binding: { descriptor: descriptor('T0'), impl: PURA },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(r.ok, false);
   if (!r.ok) assert.equal(deniedCount(r), 0);
@@ -257,7 +258,7 @@ test('L1-S5 · la bitacora del veredicto registra la capacidad, el granted y la 
     env: HOSTS.client,
     binding: { descriptor: descriptor('T0'), impl: MIRA },
     input: {},
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.equal(r.ok, false);
   if (!r.ok) {

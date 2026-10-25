@@ -10,6 +10,7 @@ import { sharePolicy, ValueStore } from '../src/module/share.js';
 import { EXEC_DESCRIPTOR, EXEC_IMPL, RENDER_DESCRIPTOR, RENDER_IMPL } from '../src/tools/index.js';
 import { renderSvg } from '../src/tools/render.js';
 import { Rng } from './rng.js';
+import { IDENTIDAD } from './identity-fixture.js';
 
 /**
  * PROPIEDADES DE L2.
@@ -31,7 +32,7 @@ const CANON = {
   sinks: ['dibuja:svg'],
 } satisfies ModuleDescriptor;
 const SEEDS = [1, 7, 42, 1337, 90210, 0xdeadbeef];
-const ctx = emptyContext('INV-1');
+const ctx = emptyContext('INV-1', IDENTIDAD);
 
 // ---------------------------------------------------------------------------
 // Generadores

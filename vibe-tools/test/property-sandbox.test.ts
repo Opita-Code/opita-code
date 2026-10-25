@@ -28,6 +28,7 @@ import { emptyContext } from '../src/context.js';
 import type { ToolDescriptor, ToolOutput, Port } from '../src/contract.js';
 import type { ToolImpl } from '../src/tool.js';
 import { bytes, moduleWithImports, type RawImport } from './wasm-builder.js';
+import { IDENTIDAD } from './identity-fixture.js';
 
 const SEEDS = [11, 23, 37, 41, 59, 71];
 const OUT: Port = { name: 'out', produces: 'text', artifact: true };
@@ -149,7 +150,7 @@ test('L1-P18 · DIFERENCIAL: una tool pura da el mismo valor bajo los tres tiers
           env: HOST_POR_TIER[tier],
           binding: { descriptor: desc(tier), impl: pura(delta) },
           input: { n },
-          ctx: emptyContext('a'),
+          ctx: emptyContext('a', IDENTIDAD),
         });
         assert.equal(r.ok, true, `${tier} no puede negarse a ejecutar una tool pura`);
         return r.ok ? (r.outputs[0] as ToolOutput).value : null;
@@ -177,7 +178,7 @@ test('L1-P19 · EXFILTRACION: cualquier efecto bajo T0 falla la ejecucion', () =
           env: HOSTS.client,
           binding: { descriptor: desc('T0'), impl },
           input: {},
-          ctx: emptyContext(`a${rng.int(1000)}`),
+          ctx: emptyContext(`a${rng.int(1000)}`, IDENTIDAD),
         });
         assert.equal(r.ok, false, `T0 dejo pasar ${op}`);
         if (!r.ok) assert.equal(r.code, 'E_EFFECT_DENIED');
@@ -201,13 +202,13 @@ test('L1-P21 · el resultado no depende del orden de las claves del input', () =
     env: HOSTS.client,
     binding: { descriptor: desc('T0'), impl: pura(1) },
     input: { a: 1, n: 41 },
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   const r2 = runInSandbox({
     env: HOSTS.client,
     binding: { descriptor: desc('T0'), impl: pura(1) },
     input: { n: 41, a: 1 },
-    ctx: emptyContext('a'),
+    ctx: emptyContext('a', IDENTIDAD),
   });
   assert.deepEqual(r1, r2);
 });
@@ -237,13 +238,13 @@ test('L1-P23 · el sandbox no altera las salidas, y el sobre SI dice que corrio 
       env: HOSTS.client,
       binding: { descriptor: desc('T0'), impl: pura(delta) },
       input: { n: delta },
-      ctx: emptyContext('a'),
+      ctx: emptyContext('a', IDENTIDAD),
     });
     const t2 = runInSandbox({
       env: HOSTS.backend,
       binding: { descriptor: desc('T2'), impl: pura(delta) },
       input: { n: delta },
-      ctx: emptyContext('a'),
+      ctx: emptyContext('a', IDENTIDAD),
     });
     assert.equal(t0.ok, true);
     assert.equal(t2.ok, true);

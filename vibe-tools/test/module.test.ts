@@ -13,8 +13,9 @@ import { CANONICO_COMPLETO, ENTRADA_COMPLETO } from '../src/canonical/completo.j
 import { CANONICO_RECETA, ENTRADA_RECETA } from '../src/canonical/receta.js';
 import { CANONICO_INVESTIGACION, ENTRADA_INVESTIGACION } from '../src/canonical/investigacion.js';
 import { baseRegistry, EXEC_DESCRIPTOR, EXEC_IMPL, RENDER_DESCRIPTOR } from '../src/tools/index.js';
+import { IDENTIDAD } from './identity-fixture.js';
 
-const ctx = emptyContext('INV-1');
+const ctx = emptyContext('INV-1', IDENTIDAD);
 
 function planOf(m: ModuleDescriptor) {
   const v = validate(m);

@@ -106,6 +106,25 @@ const MUTANTS = [
   ['src/context.js', 'boundary: emptyContext sin sellar',
     'const ctx = Object.freeze({', 'const ctx = ({'],
 
+  // ---- identity.ts : la identidad stub y su comparacion ----------------
+  ['src/identity.js', 'L4: el stub nace como empresa, no como legal',
+    "kind: 'legal'", "kind: 'empresa'"],
+  ['src/identity.js', 'L4: el stub dice KYC verificado sin stack de KYC',
+    "kyc: 'simulada'", "kyc: 'verificada'"],
+  ['src/identity.js', 'L4: toda identidad es la misma',
+    'return a.id === b.id && a.kind === b.kind && a.projectId === b.projectId;',
+    'return true;'],
+
+  // ---- context.ts : la identidad viaja sellada -------------------------
+  ['src/context.js', 'L4: el camino rapido deja la identidad del llamador',
+    'identity: Object.freeze({ ...identity }),', 'identity,'],
+  ['src/context.js', 'L4: la identidad sellada no se congela',
+    'identity: Object.freeze({ ...ctx.identity }),', 'identity: { ...ctx.identity },'],
+  ['src/context.js', 'L4: la identidad sellada es la del llamador',
+    'identity: Object.freeze({ ...ctx.identity }),', 'identity: ctx.identity,'],
+  ['src/context.js', 'L4: sellar congela el objeto del llamador',
+    'identity: Object.freeze({ ...ctx.identity }),', 'identity: Object.freeze(ctx.identity),'],
+
   // ---- tool.ts : el registry y la delegacion ----------------------------
   ['src/tool.js', 'registro: permitir sobreescribir id@version',
     'if (this.#byKey.has(k))', 'if (false)'],

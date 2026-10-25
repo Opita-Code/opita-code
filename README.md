@@ -29,15 +29,15 @@ que fue escrito y dice si el documento cumple.
 <!-- GENERADO:estado -->
 ### Ahora
 
-**L4 · Identidad: un stub, y despues tres identidades.** Es el siguiente loop del plan. Arranca cuando esten resueltas las tres decisiones abiertas de L3.
+**L4 · Identidad: un stub, y despues tres identidades.** En curso: la identidad ya viaja dentro del contexto sellado, con su clave de aislamiento.
 
 ### La evidencia, medida
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 282 de 282 |
-| Mutantes | 142 de 142 (100%, 28 paquetes) |
-| Unidades juzgables | 107, 0 exceden los 4096 B |
+| Tests | 291 de 291 |
+| Mutantes | 149 de 149 (100%, 29 paquetes) |
+| Unidades juzgables | 109, 0 exceden los 4096 B |
 | Veredicto del juez | 10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
 
 ### Los documentos

@@ -13,8 +13,8 @@
   el texto cuesta entre un 40 % y un 60 % de alcance: va en el primer
   comentario. En Instagram el enlace del caption ni siquiera es pulsable: va
   en la bio.
-- **Las cifras son las medidas.** 282 pruebas, 142 de 142 mutaciones
-  detectadas, 107 unidades juzgables. Si un número no está medido, no se
+- **Las cifras son las medidas.** 291 pruebas, 149 de 149 mutaciones
+  detectadas, 109 unidades juzgables. Si un número no está medido, no se
   escribe.
 - **La distribución es manual.** La máquina no publica: la persona copia y
   pega. Por eso no aplican las reglas de sigilo del navegador: no hay
@@ -55,6 +55,11 @@ avisa de nada.
 
 Cada entrada es un documento: lo que se publicó, en cada plataforma, con el
 texto exacto. El índice está en [canal/INDICE.md](canal/INDICE.md).
+
+Y una entrada entra en el índice **cuando se publica**, no antes. El índice es
+el registro de lo publicado, y el guard de cifras lo usa para saber qué medir:
+lo que todavía no está en el índice va a salir, y sus cifras tienen que ser las
+de hoy; lo que ya está, es un registro y sus cifras son las de aquel día.
 
 ## Las imágenes, y por qué hay una por plataforma
 

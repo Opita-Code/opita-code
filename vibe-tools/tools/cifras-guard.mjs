@@ -23,20 +23,28 @@
  * Ese hueco lo cubre este guard: extrae las cifras del kit y las mide contra
  * la fuente.
  *
- * LA REGLA DE LAS DOS FECHAS.
- *   - Una entrada cuya fecha NO ha pasado todavia esta pendiente de
- *     publicarse: sus cifras se miden contra la fuente de HOY. Si la fuente se
- *     movio, el guard avisa: el numero que se va a publicar esta viejo.
- *   - Una entrada cuya fecha YA paso es un REGISTRO: dice lo que era verdad el
- *     dia en que salio, y no se vuelve a medir. Sin esto la CI se pondria vieja
- *     sola con cada commit que toca la fuente.
- *   - Y cuando la fuente se movio DESPUES de la fecha de una entrada, el guard
- *     lo dice, porque hay dos maneras de que eso pase: la entrada se publico
+ * LA REGLA DEL INDICE. El indice del canal (docs/canal/INDICE.md) es el
+ * registro de lo que se publico, y por eso decide que se mide:
+ *   - Una entrada QUE NO esta en el indice todavia no ha salido: sus cifras
+ *     tienen que ser las de HOY, y se miden contra la fuente de hoy. Si la
+ *     fuente se movio, el guard avisa: el numero que se va a publicar esta
+ *     viejo.
+ *   - Una entrada QUE YA esta en el indice salio: sus cifras son las del
+ *     momento en que salio, y no se vuelven a medir. Sin esto la CI se pondria
+ *     vieja sola con cada commit que toca la fuente, y un post publicado
+ *     ayer seria un fallo hoy.
+ *   - Y cuando la fuente se movio DESPUES de la fecha de una entrada, el
+ *     guard lo dice, porque hay dos maneras de que eso pase: la entrada salio
  *     ese dia y sus cifras son un registro fiel, o la publicacion se aplazo y
  *     sus cifras ya estan viejas. El guard no puede distinguirlas; puede solo
  *     no callarse.
  *   - El guion (docs/canal.md) no tiene fecha porque no es un post: es una
  *     regla vigente. Se mide contra la fuente de HOY, siempre.
+ *
+ * LA REGLA DE PROCESO QUE HACE VERDADERA LA ANTERIOR. Una entrada entra en el
+ * indice cuando SE PUBLICA, no antes. Si se lista antes, el guard la da por
+ * publicada y deja de mirarla: el 2026-10-25 la entrada se listo a las 11:41
+ * y se publico horas despues, y en ese hueco el guard fue ciego.
  *
  * LO QUE ESTE GUARD NO HACE, Y POR QUE.
  *   - No mide nada: no corre tests ni mutacion. Las cifras de la fuente las
@@ -66,8 +74,6 @@ const root = join(here, '..', '..');
 const KIT = 'docs/canal';
 /** La fuente de verdad de las cifras. */
 const FUENTE = 'vibe-tools/estado.json';
-/** La zona horaria con la que se cuenta el dia del canal. */
-const ZONA = 'America/Bogota';
 
 /**
  * LA TABLA DE REGLAS. Cada regla dice: que frase de la prosa lleva una cifra
@@ -142,11 +148,6 @@ const RE_FECHA = /^(\d{4}-\d{2}-\d{2})\.md$/;
 /** Archivos que no llevan cifras: el indice y la nota de los fixtures. */
 const SIN_CIFRAS = new Set(['LEEME.md', 'INDICE.md']);
 
-/** Hoy, en la zona del canal. */
-function hoyDelCanal() {
-  return new Date().toLocaleDateString('en-CA', { timeZone: ZONA });
-}
-
 /** La fuente de verdad, tal cual esta hoy (o la que se le indique). */
 function fuenteDe(ruta) {
   return JSON.parse(readFileSync(resolve(ruta), 'utf8'));
@@ -174,6 +175,19 @@ function resolve(dir) {
 }
 
 /**
+ * El indice del canal: el registro de lo que se publico.
+ *
+ * Se lee entero y se busca el enlace a la entrada. Una entrada entra en el
+ * indice cuando SALE, no antes: esa es la regla de proceso que hace que este
+ * guard sepa que medir.
+ */
+function leerIndice() {
+  const ruta = join(root, KIT, 'INDICE.md');
+  if (!existsSync(ruta)) return '';
+  return readFileSync(ruta, 'utf8');
+}
+
+/**
  * Que se mide de cada archivo del kit.
  *
  * Con una ruta de override (el corpus de fixtures) todo se mide contra la
@@ -181,7 +195,6 @@ function resolve(dir) {
  * fuente congelada con la que se prueba.
  */
 function objetivos(override, fuente) {
-  const hoy = hoyDelCanal();
   const lista = [];
 
   if (override) {
@@ -211,26 +224,27 @@ function objetivos(override, fuente) {
     });
   }
 
+  const indice = leerIndice();
+
   for (const abs of markdownDe(join(root, KIT))) {
     const nombre = basename(abs);
     if (SIN_CIFRAS.has(nombre)) continue;
     const m = nombre.match(RE_FECHA);
     if (!m) continue; // un archivo sin fecha no se sabe contra que medirlo
     const fecha = m[1];
-    const pendiente = fecha >= hoy;
+    const publicada = indice.includes(`(${nombre})`);
     const movida = String(fuente.proyecto?.actualizado ?? '');
     lista.push({
       abs,
       rel: `${KIT}/${nombre}`,
-      medir: pendiente,
+      medir: !publicada,
       estado: fuente,
       fecha,
-      hoy,
-      nota: pendiente
-        ? 'pendiente de publicar: se mide contra la fuente de hoy'
-        : movida && movida > fecha
-          ? `REGISTRO, con aviso: la fuente se movio el ${movida}, despues de esa fecha`
-          : 'REGISTRO: ya se publico, sus cifras son las de ese dia',
+      nota: publicada
+        ? (movida && movida > fecha
+            ? `REGISTRO: ya se publico; la fuente se movio el ${movida}, despues de esa fecha`
+            : 'REGISTRO: ya se publico, sus cifras son las de ese dia')
+        : 'sin publicar todavia: se mide contra la fuente de hoy',
     });
   }
   return lista;

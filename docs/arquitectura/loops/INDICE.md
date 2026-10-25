@@ -50,5 +50,11 @@
 | [L3-reconciliacion](L3-reconciliacion.md) | Qué sobrevive de las 8 reglas y los 12 bordes de la spec |
 | [L3-cambios](L3-cambios.md) | Lo que hay que añadir, y lo que queda abierto para el operador |
 
+## L4 · Identidad, de stub a tres identidades
+
+| Doc | Preocupación |
+|---|---|
+| [L4-identidad](L4-identidad.md) | El stub legal, y el contexto sellado que lo lleva |
+
 La superficie publica, los documentos de L-PUB y los documentos transversales estan en
 [INDICE-publico.md](INDICE-publico.md).
