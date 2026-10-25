@@ -8,7 +8,12 @@
     "version": "0.4.0",
     "tag": "v0.4.0",
     "actualizado": "2026-10-25",
-    "pagina": { "url": "https://opita-code.github.io/opita-code/" }
+    "pagina": { "url": "https://opita-code.github.io/opita-code/" },
+    "canales": {
+      "plataformas": ["Facebook", "Instagram", "LinkedIn"],
+      "decidido": "2026-10-25",
+      "nota": "Decidido por el operador. GitHub sigue siendo el argumento y el sitio la puerta sin cuenta; el canal es donde alguien se entera de que esto existe. Cada plataforma lleva su propia adaptacion nativa: el mismo texto copiado entre plataformas se detecta, y un enlace externo en el cuerpo de un post de LinkedIn cuesta entre 40% y 60% de alcance, asi que el enlace va en la bio y en el primer comentario, no en el texto."
+    }
   },
 
   "vision": {
@@ -143,7 +148,6 @@
   },
 
   "abiertos": [
-    { "id": "A2", "titulo": "El canal de distribucion: GitHub es el argumento, no es el canal de la audiencia", "quien": "operador", "bloquea": "que la audiencia no-coder llegue a algo" },
     { "id": "A4", "titulo": "Si el documento legal de cumplimiento va publico", "quien": "operador", "bloquea": "la superficie legal publicada" },
     { "id": "A5", "titulo": "El eje del corte de L3: por creencia, y no por edad, rol o cohorte", "quien": "operador", "bloquea": "el cierre semantico de L3" },
     { "id": "A6", "titulo": "Cual se degrada si hay que elegir: el anonimato o el antifraude", "quien": "operador", "bloquea": "el diseno del mod antifraude" },

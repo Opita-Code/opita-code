@@ -57,6 +57,8 @@ body {
 .regla { width: 56px; height: 4px; background: var(--accent); margin-bottom: 22px; }
 h1 { font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
 .sub { color: var(--accent-dark); font-weight: 500; margin-top: 10px; font-size: 18px; }
+.gancho { color: var(--stone-800); font-weight: 500; margin-top: 10px; font-size: 20px; }
+.nota { color: var(--stone-500); margin-top: 10px; font-size: 14px; }
 .fecha { color: var(--stone-500); font-size: 14px; margin-top: 14px; }
 section { padding: 40px 0; border-bottom: 1px solid var(--stone-200); }
 h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
@@ -111,6 +113,15 @@ ${cuerpo}
 }
 
 function portada() {
+  // La promesa y el gancho salen de la vision del operador, que esta en la
+  // fuente. Antes esta pagina abria con una linea tecnica ("runtime de tools
+  // componibles"), y eso solo la entiende quien ya conoce el proyecto. Con el
+  // canal, el primer clic de alguien que llega de Facebook aterriza aqui: la
+  // pagina tiene que decir que es esto antes de decir como esta construida.
+  const bloques = String(estado.vision.texto ?? '').split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean);
+  const promesa = bloques[0] ?? '';
+  const gancho = bloques[bloques.length - 1] ?? '';
+
   const ahora = siguiente
     ? `<p><strong>${esc(siguiente.id)} · ${esc(siguiente.nombre)}.</strong> ${esc(t(siguiente.abierto))}</p>`
     : '<p>No hay ningun loop en cola.</p>';
@@ -142,7 +153,9 @@ function portada() {
   const cuerpo = `<header class="hero">
   <div class="regla"></div>
   <h1>Opita Code</h1>
-  <p class="sub">Runtime de tools componibles. La memoria se inyecta como contexto y nunca se lee desde una herramienta.</p>
+  <p class="sub">${esc(promesa.replace(/\*\*/g, ''))}</p>
+  <p class="gancho">${esc(gancho.replace(/\*\*/g, ''))}</p>
+  <p class="nota">Runtime de tools componibles. La memoria se inyecta como contexto y nunca se lee desde una herramienta.</p>
   <p class="fecha">Actualizado el ${esc(fecha)} &middot; generado desde <code>vibe-tools/estado.json</code>, no se edita a mano</p>
 </header>
 
