@@ -188,7 +188,7 @@ const MUTANTS = [
     'if (end > b.length)', 'if (false)'],
   ['src/sandbox/wasm/binary.js', 'limits siempre busca un max que puede no existir',
     'if ((flags & 0x01) === 0)', 'if (false)'],
-  ['src/sandbox/wasm/binary.js', 'byteAt nunca dice que no hay byte',
+  ['src/sandbox/wasm/binary.js', 'byteAt lee el byte sin comprobar el rango antes',
     'return i >= 0 && i < b.length ? b[i] : null;', 'return b[i] ?? null;'],
   ['src/sandbox/wasm/binary.js', 'la clave de la lista blanca une con otro separador',
     'return `${mod}#${field}`;', "return `${mod}.${field}`;"],
@@ -287,7 +287,7 @@ const MUTANTS = [
   ['src/rules/order.js', 'R10 el desempate pasa a ser alfabetico, no de declaracion',
     'for (const n of names) {\n            c.count();\n            if (done.has(n))\n                continue;\n            if (remaining.get(n).size === 0) {',
     'for (const n of [...names].sort()) {\n            c.count();\n            if (done.has(n))\n                continue;\n            if (remaining.get(n).size === 0) {'],
-  ['src/rules/order.js', 'R10 toda arista cuenta como predecesor, no cada nodo distinto',
+  ['src/rules/order.js', 'R10 cada arista hace que un nodo se espere a si mismo',
     'preds.get(e.to)?.add(e.from);', 'preds.get(e.to)?.add(e.from);\n        succ.get(e.from)?.push(e.from);'],
   ['src/rules/order.js', 'R10 no descontar al colocar un nodo: nadie llega a estar listo',
     'for (const s of succ.get(pick))\n            remaining.get(s).delete(pick);', ''],
@@ -361,7 +361,7 @@ const MUTANTS = [
     ".replace(/\"/g, '&quot;')", ''],
   ['src/tools/render.js', 'renderSvg: el ancho deja de seguir al texto',
     'const width = Math.max(...lines.map((l) => l.length)) * CHAR_W + PAD * 2;', 'const width = 100;'],
-  ['src/tools/render.js', 'renderSvg: cada linea se renderiza una sola vez',
+  ['src/tools/render.js', 'renderSvg: cada linea sale sin la coordenada horizontal',
     '.map((l, i) => `<text x="${PAD}" y="${PAD + i * LINE_H}"', '.map((l, i) => `<text y="${PAD + i * LINE_H}"'],
 
   // ---- tools/draft.ts : la variabilidad esta en el input -----------------
