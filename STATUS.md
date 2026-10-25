@@ -21,7 +21,7 @@
 | --- | --- |
 | Tests | 282 de 282, 0 fallos |
 | Mutantes | 142 de 142, 100% en 28 paquetes (umbral 80%) |
-| Unidades juzgables | 104, y 0 exceden los 4096 B |
+| Unidades juzgables | 103, y 0 exceden los 4096 B |
 | Gates de loop | 4 loops cerrados |
 | Veredicto del juez | 10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
 
