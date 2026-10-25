@@ -51,10 +51,26 @@ avisa de nada.
 Cada entrada es un documento: lo que se publicó, en cada plataforma, con el
 texto exacto. El índice está en [canal/INDICE.md](canal/INDICE.md).
 
+## Las imágenes, y por qué hay una por plataforma
+
+La tarjeta dice lo que el proyecto promete, y esa frase sale de la fuente: el
+renderizador la toma de `vibe-tools/estado.json`. Si la promesa cambia, la
+imagen cambia, y no puede quedar una frase vieja que diga otra cosa.
+
+Un HTML, cuatro formatos. El diseño se mide en unidades de lienzo, así que lo
+que se lee a 400 px de ancho (lo que muestra un feed) se lee igual en todos:
+
+| Archivo | Lienzo | Para |
+|---|---|---|
+| `docs/social-preview.png` | 1280x640 | la vista previa de un enlace: GitHub y el og:image del sitio |
+| `docs/posts/instagram.png` | 1080x1350 | Instagram, 4:5 |
+| `docs/posts/linkedin.png` | 1200x627 | LinkedIn, 1.91:1 |
+| `docs/posts/facebook.png` | 1080x1080 | Facebook y el perfil de Instagram, 1:1 |
+
+La fuente es `docs/social-preview.html` y el procedimiento es
+`vibe-tools/tools/render-preview.mjs`, que ademas mide el contraste, comprueba
+que nada se sale del lienzo y falla si el PNG pesa mas de 1 MB.
+
 ## Qué falta
 
-- **La imagen de cada plataforma.** La que hay es de social preview
-  (1280x640) y lleva la línea técnica del proyecto. Para esta audiencia
-  tiene que rehacerse con la promesa, en el formato nativo de cada una:
-  Instagram 4:5 (1080x1350), LinkedIn 1.91:1 (1200x627).
 - **Qué cuentas.** Las personales o unas del proyecto, en cada plataforma.

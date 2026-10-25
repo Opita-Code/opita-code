@@ -40,10 +40,38 @@ import { tmpdir } from 'node:os';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..', '..');
 const HTML = join(root, 'docs', 'social-preview.html');
-const PNG = join(root, 'docs', 'social-preview.png');
 
-const ANCHO = 1280;
-const ALTO = 640;
+/**
+ * USO
+ *   node tools/render-preview.mjs                              la vista previa (1280x640)
+ *   node tools/render-preview.mjs 1080 1350 docs/posts/ig.png  el formato de Instagram
+ *
+ * El lienzo y el destino son argumentos, porque el mismo diseno se publica en
+ * formatos distintos y no puede haber una fuente por formato: eso seria
+ * varias fuentes de la misma frase.
+ */
+const args = process.argv.slice(2);
+const ANCHO = Number(args[0] ?? 1280);
+const ALTO = Number(args[1] ?? 640);
+const PNG = args[2] ? join(root, args[2]) : join(root, 'docs', 'social-preview.png');
+
+/**
+ * LA PROMESA, DE LA FUENTE.
+ *
+ * La tarjeta dice lo que el proyecto promete, y esa frase vive en
+ * `vibe-tools/estado.json` (la vision del operador). Si la tarjeta la
+ * escribiera a mano, podria quedar diciendo algo que la fuente ya no dice.
+ */
+function promesaDeLaFuente() {
+  const fuente = join(root, 'vibe-tools', 'estado.json');
+  const j = JSON.parse(readFileSync(fuente, 'utf8'));
+  const bloques = String(j.vision?.texto ?? '').split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean);
+  const primera = (bloques[0] ?? '').replace(/\*\*/g, '').trim();
+  // La tarjeta ya dice "Opita Code" en el titulo: la promesa no lo repite.
+  const sinMarca = primera.replace(/^Opita Code es\s+/i, '');
+  if (!sinMarca) throw new Error('la vision de la fuente no tiene una promesa que poner en la tarjeta');
+  return sinMarca.charAt(0).toUpperCase() + sinMarca.slice(1);
+}
 
 const NAVEGADORES = [
   process.env.SOCIAL_PREVIEW_BROWSER,
@@ -181,7 +209,22 @@ try {
     width: ANCHO, height: ALTO, deviceScaleFactor: 1, mobile: false,
   });
 
-  const url = 'file:///' + HTML.replace(/\\/g, '/');
+  // El HTML que se renderiza lleva la promesa ya puesta. Se escribe aparte
+  // porque el archivo del repo es la fuente legible, y el que se renderiza
+  // lleva el texto resuelto.
+  const html = readFileSync(HTML, 'utf8');
+  // El marcador se busca DENTRO del <p>: tambien aparece en el comentario del
+  // HTML, y un replace del primero solo cambiaria el comentario, dejando la
+  // tarjeta con el texto sin resolver.
+  const marcador = '<p>{{PROMESA}}</p>';
+  if (!html.includes(marcador)) {
+    throw new Error('el HTML no tiene el marcador de la promesa en su <p>: la tarjeta se quedaria sin texto');
+  }
+  const renderizado = html.replace(marcador, '<p>' + promesaDeLaFuente() + '</p>');
+  const htmlTemporal = join(tmpdir(), 'opita-card-render.html');
+  writeFileSync(htmlTemporal, renderizado, 'utf8');
+
+  const url = 'file:///' + htmlTemporal.replace(/\\/g, '/');
   const cargado = new Promise((res) => cliente.al('Page.loadEventFired', res));
   await cliente.enviar('Page.navigate', { url });
   await Promise.race([cargado, dormir(15000)]);
@@ -210,12 +253,21 @@ try {
         pTexto: p ? Math.round(p.getBoundingClientRect().width) : 0,
         pAlto: p ? Math.round(parseFloat(getComputedStyle(p).fontSize)) : 0,
         h1Alto: h1 ? Math.round(parseFloat(getComputedStyle(h1).fontSize)) : 0,
+        pContenido: p ? (p.textContent || '').trim() : '',
       };
     })()`,
   });
   const m = medidas.result.value;
   if (m.scrollW > ANCHO || m.scrollH > ALTO || m.sueltos.length > 0) {
     throw new Error(`el diseno se sale del lienzo: scroll ${m.scrollW}x${m.scrollH}, sueltos: ${m.sueltos.join(' | ') || 'ninguno'}`);
+  }
+  // GUARD DEL TEXTO RENDERIZADO. El contraste, el peso y el desbordamiento
+  // pasaron con la tarjeta mostrando el marcador sin resolver: todas las
+  // medidas de una tarjeta se pueden cumplir y la tarjeta estar rota. Lo que
+  // se comprueba aqui es que lo que se VE es la promesa de la fuente.
+  const promesaEsperada = promesaDeLaFuente();
+  if (m.pContenido !== promesaEsperada) {
+    throw new Error(`la tarjeta no muestra la promesa de la fuente: renderizo "${m.pContenido}" y esperaba "${promesaEsperada}"`);
   }
 
   const shot = await cliente.enviar('Page.captureScreenshot', {
@@ -235,12 +287,13 @@ try {
   writeFileSync(PNG, buf);
   ws.close();
 
-  console.log('\n=== IMAGEN DE SOCIAL PREVIEW ===\n');
-  console.log(`  lienzo        ${ancho}x${alto} (2:1, el que GitHub recorta sin perder nada)`);
+  console.log('\n=== LA TARJETA ===\n');
+  console.log(`  lienzo        ${ancho}x${alto} (${(ANCHO / ALTO).toFixed(2)}:1)`);
   console.log(`  peso          ${(buf.length / 1024).toFixed(1)} KB, tope 1024 KB`);
   console.log(`  tipografia    nombre ${m.h1Alto} px, subtitulo ${m.pAlto} px, que a 400 px son ${(m.h1Alto * 400 / ANCHO).toFixed(0)} y ${(m.pAlto * 400 / ANCHO).toFixed(0)} px`);
   console.log('  desbordamiento  ninguno: nada se sale del lienzo');
   console.log('  legible a     400 px de ancho (lo que muestra un feed)');
+  console.log(`  promesa       ${promesaDeLaFuente()}`);
   for (const [nombre, a, b] of paresDelHtml()) {
     const r = contraste(a, b);
     const nivel = r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : 'FALLA';

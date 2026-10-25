@@ -1,31 +1,45 @@
 <!doctype html>
 <!--
-  SOCIAL PREVIEW — la imagen que se ve al compartir el enlace del repo.
+  LA TARJETA. La imagen que se ve al compartir un enlace, en cualquier
+  plataforma.
 
   POR QUE ESTA EN HTML Y NO ES UN PNG SUELTO. Un PNG versionado es un
   archivo binario que no se puede revisar ni regenerar: nadie sabe que
   dice, y nadie sabe como se cambio. Aqui esta la fuente, y el PNG sale de
   aqui. `vibe-tools/tools/render-preview.mjs` lo produce.
 
+  UNA FUENTE, VARIOS FORMATOS. El mismo HTML se renderiza en el lienzo que
+  cada plataforma usa:
+    - 1280x640  la vista previa de un enlace (GitHub y el og:image del sitio)
+    - 1080x1350 Instagram, 4:5, que es lo que ocupa mas pantalla en el feed
+    - 1200x627  LinkedIn, 1.91:1
+    - 1080x1080 Facebook y el perfil de Instagram, 1:1
+  Por eso el layout se mide en unidades de lienzo (vw) y no en pixeles: lo
+  que se lee a 400 px de ancho se lee igual en todos los formatos.
+
   POR QUE NO HAY UNA SOLA FUENTE DE LETRA. El estado del arte de las imagenes
-  de compartilhado es explicito: cero peticiones de red, solo fuentes del
+  de compartido es explicito: cero peticiones de red, solo fuentes del
   sistema, porque el render tiene que salir igual en cualquier maquina. La
   pila de la marca de Opita ya trae ese fallback ('Inter', system-ui, Segoe
   UI...), asi que se usa tal cual: si Inter esta instalada, sale Inter; si no,
   sale la del sistema. Y ningun CDN, porque una imagen que depende de la red
   no se puede reproducir.
 
-  LAS MEDIDAS NO SON DECORATIVAS. Cada numero de aqui sale de la medicion:
-  1280x640 es el lienzo (2:1, el que GitHub recorta sin perder nada), el
-  nombre va a 76 px porque el feed muestra la miniatura a 400 px de ancho y
+  LAS MEDIDAS NO SON DECORATIVAS. Cada numero sale de la medicion: el
+  nombre va a 6 vw porque el feed muestra la miniatura a 400 px de ancho y
   por debajo de 24 px no se lee nada, y los tres colores son los de la
   paleta de Opita con su auditoria WCAG ya hecha: blanco sobre negro 19.7:1
   y verde de acento sobre negro 12.4:1, ambos AAA.
+
+  EL TEXTO VIENE DE LA FUENTE, NO DE AQUI. {{PROMESA}} lo rellena el
+  renderizador con la vision del operador, que vive en
+  `vibe-tools/estado.json`. Si la promesa cambia, la tarjeta cambia: no
+  puede quedar una frase vieja que diga otra cosa.
 -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>Opita Code — social preview</title>
+<title>Opita Code</title>
 <style>
   :root {
     --ink: #0D0D0D;
@@ -33,42 +47,49 @@
     --accent: #00D084;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { width: 1280px; height: 640px; overflow: hidden; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
   body {
     background-color: var(--ink);
-    background-image: radial-gradient(1100px 560px at 14% -12%, rgba(0,208,132,0.16), rgba(13,13,13,0) 62%);
+    background-image: radial-gradient(86vw 44vw at 14% -12%, rgba(0,208,132,0.16), rgba(13,13,13,0) 62%);
     color: var(--paper);
     font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 76px;
+    padding: 5.9vw;
   }
   .rule {
-    width: 88px;
-    height: 6px;
+    width: 6.9vw;
+    height: 0.47vw;
     background: var(--accent);
-    margin-bottom: 34px;
+    margin-bottom: 2.6vw;
   }
   h1 {
-    font-size: 76px;
+    font-size: 6vw;
     line-height: 1.05;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
   p {
-    margin-top: 22px;
-    font-size: 38px;
+    margin-top: 1.7vw;
+    font-size: 3vw;
     line-height: 1.25;
     font-weight: 500;
     letter-spacing: -0.01em;
     color: var(--accent);
+  }
+  /* El lienzo horizontal se compose abajo a la izquierda, que es donde el
+     ojo empieza. Uno vertical (Instagram, 4:5) dejaria el 80% de la imagen
+     vacio arriba, asi que se centra. El navegador sabe la forma del
+     lienzo: no hace falta pasarle el formato. */
+  @media (max-aspect-ratio: 9/10) {
+    body { justify-content: center; }
   }
 </style>
 </head>
 <body>
   <div class="rule"></div>
   <h1>Opita Code</h1>
-  <p>vibe-studio runtime &middot; arquitectura &middot; cumplimiento</p>
+  <p>{{PROMESA}}</p>
 </body>
 </html>
