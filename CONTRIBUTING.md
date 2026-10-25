@@ -1,74 +1,74 @@
-# Como contribuir
+# Cómo contribuir
 
 > Antes de nada: lee [README.md](README.md). Este proyecto es temprano y hay
-> cosas que **todavia no funcionan**. Esta guia dice cuales, para que nadie
-> desperdicie un dia en algo que no esta listo.
+> cosas que **todavía no funcionan**. Esta guía dice cuáles, para que nadie
+> desperdicie un día en algo que no está listo.
 
-## Que se espera de un cambio
+## Qué se espera de un cambio
 
 El proyecto se construye por **loops**: cada loop cierra una pregunta y deja
 su razonamiento escrito. Un cambio entra en el loop al que pertenece, no por
-encima de el.
+encima de él.
 
-Un cambio esta **terminado** cuando:
+Un cambio está **terminado** cuando:
 
 1. Los cuatro guards pasan: `npm run check`.
 2. El estado publicado cuadra con la realidad: `npm run verificar-estado`.
 3. Si el cambio toca prosa, el documento se **juzga** contra el criterio con el
    que fue escrito, y el veredicto es `aligned`.
-4. Si el veredicto dice `needs_human`, el cambio **no** esta terminado. Se
+4. Si el veredicto dice `needs_human`, el cambio **no** está terminado. Se
    para y se pregunta, no se reintenta hasta que salga bien.
-5. El documento que describe el cambio se lee despues de escribirlo. El
-   content-guard caza la intrusion de otro guion y los enlaces rotos; **no**
-   caza el ingles mal puesto, y esa es la parte que toca la persona.
+5. El documento que describe el cambio se lee después de escribirlo. El
+   content-guard caza la intrusión de otro guión y los enlaces rotos; **no**
+   caza el inglés mal puesto, y esa es la parte que toca la persona.
 
-## Los guards, y que no ven
+## Los guards, y qué no ven
 
 Cada guard caza una cosa distinta, y **cada uno deja cosas sin ver**. Por eso
 **el guard y la persona se necesitan**: un guard que se puede satisfacer
-editando el contenido que deberia proteger no es un guard, y una prosa con el
-ingles mal puesto no la caza ninguna maquina.
+editando el contenido que debería proteger no es un guard, y una prosa con el
+inglés mal puesto no la caza ninguna máquina.
 
-La tabla completa, con que mide cada control y que no ve, esta en
+La tabla completa, con qué mide cada control y qué no ve, está en
 [docs/controles.md](docs/controles.md).
 
 ## El presupuesto de 4096 bytes
 
 Todo artefacto que se pasa al juez tiene que caber en 4096 bytes, porque el
-juez lo trocea ahi: con dos trozos, el criterio escrito sobre el todo se
+juez lo trocea ahí: con dos trozos, el criterio escrito sobre el todo se
 aplica a un fragmento, y el veredicto es ruido.
 
 Cuando un documento se pasa del tope, **se parte por concepto**, nunca se
-amputa: cada mitad tiene que tener una sola preocupacion. Si se amputa prosa
-para que el numero pase, el guard esta contando el recorte y no la verdad.
+amputa: cada mitad tiene que tener una sola preocupación. Si se amputa prosa
+para que el número pase, el guard está contando el recorte y no la verdad.
 
 ## Reglas de estilo
 
-- **Espanol neutro**, con mayusculas y sin tildes cuando la palabra se escribe
-  siempre asi. Sin jerga de_region en la prosa.
-- **El codigo y los mensajes de error, en ingles**, porque son la API.
-- **Ningun numero sin medirlo antes.** Un numero que no se ha medido se
+- **Español neutro**, con mayúsculas y sin tildes cuando la palabra se escribe
+  siempre así. Sin jerga de región en la prosa.
+- **El código y los mensajes de error, en inglés**, porque son la API.
+- **Ningún número sin medirlo antes.** Un número que no se ha medido se
   escribe como pendiente, no como afirmación.
-- **Ninguna afirmacion sobre el estado del juez.** El registro autoritativo
-  esta en `dark_memory_judgment_history`, no en un documento.
+- **Ninguna afirmación sobre el estado del juez.** El registro autoritativo
+  está en `dark_memory_judgment_history`, no en un documento.
 
-## Lo que todavia no esta listo
+## Lo que todavía no está listo
 
 Esto es lo que **no** hay que asumir al trabajar en este repositorio:
 
-- **Los niveles de aislamiento del sandbox son politica verificada, no
-  ejecucion real.** No hay Pyodide, ni WebContainers, ni Firecracker
+- **Los niveles de aislamiento del sandbox son política verificada, no
+  ejecución real.** No hay Pyodide, ni WebContainers, ni Firecracker
   conectados. Por eso el repositorio no publica que el sistema ejecuta con
   red.
-- **La herramienta de busqueda declara una capacidad que no tiene.** El
-  transporte falta, y el caso canonico existe para que ese hueco se vea en
+- **La herramienta de búsqueda declara una capacidad que no tiene.** El
+  transporte falta, y el caso canónico existe para que ese hueco se vea en
   cada corrida.
 - **El veredicto del juez no corre en la CI de este repositorio.** El gate
   vive en `dark-memory-mcp`, que no es parte de este repositorio.
-- **La memoria boundary esta especificada, no implementada.** Los bordes que
-  hacen falta estan escritos en `docs/arquitectura/loops/`.
+- **La memoria boundary está especificada, no implementada.** Los bordes que
+  hacen falta están escritos en `docs/arquitectura/loops/`.
 
-## Como ejecutar
+## Cómo ejecutar
 
 ```bash
 cd vibe-tools
@@ -77,7 +77,7 @@ npm run check              # los cuatro guards
 npm run verificar-estado   # el estado publicado contra la realidad
 ```
 
-Los otros comandos, y que mira cada uno, estan en
+Los otros comandos, y qué mira cada uno, están en
 [docs/como-verificar.md](docs/como-verificar.md).
 
 ## Antes de commitear
@@ -85,15 +85,15 @@ Los otros comandos, y que mira cada uno, estan en
 ```bash
 git update-index --really-refresh   # fuerza la relectura de lo que git da por igual
 git add -A
-git diff --cached --stat             # esto es lo que se commitea, miralo
+git diff --cached --stat             # esto es lo que se commitea, míralo
 ```
 
-Un numero que se puede cambiar sin cambiar el tamano del archivo se le escapa
-a git. El porque, y el metodo, estan en
+Un número que se puede cambiar sin cambiar el tamaño del archivo se le escapa
+a git. El por qué, y el método, están en
 [docs/como-verificar.md](docs/como-verificar.md).
 
 ## Reportar un problema
 
-Un bug, por la via normal: un issue. Un problema de seguridad, por la via
+Un bug, por la vía normal: un issue. Un problema de seguridad, por la vía
 silenciosa: [SECURITY.md](SECURITY.md). Ese canal existe para que el detalle
-no quede publico antes de tiempo.
+no quede público antes de tiempo.

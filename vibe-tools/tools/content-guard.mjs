@@ -39,7 +39,7 @@
  */
 
 import { readdirSync, statSync, readFileSync, existsSync } from 'node:fs';
-import { join, relative, dirname, extname } from 'node:path';
+import { join, relative, dirname, extname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -234,6 +234,57 @@ function scanFile(file) {
         }
       }
     });
+    // Enlaces internos con la CAJA equivocada.
+    //
+    // POR QUE ES UN GUARD APARTE. El chequeo de arriba usa existsSync, y en
+    // Windows el sistema de archivos NO distingue mayusculas: un enlace a
+    // «Indice-publico.md» pasa porque «INDICE-publico.md» existe. En Linux y
+    // en GitHub el enlace esta roto, y el guard decia que no habia enlaces
+    // rotos. Lo que se rompio fue un pase de ortografia, que acentuo el
+    // nombre de un archivo y luego le quito el acento de la ruta sin
+    // recuperar las mayusculas originales.
+    //
+    // El arreglo: comparar el nombre escrito con el nombre REAL del
+    // directorio. Eso funciona igual en cualquier sistema, porque compara
+    // strings, no archivos.
+    lines.forEach((line, i) => {
+      for (const m of line.matchAll(/\]\(([^)]+)\)/g)) {
+        const href = m[1].split('#')[0].trim();
+        if (!href || /^(https?:|mailto:|tel:)/.test(href)) continue;
+        const abs = href.startsWith('/') ? join(root, href) : join(dirname(file), href);
+        if (!existsSync(abs)) continue; // eso lo ve el chequeo de arriba
+        const padre = dirname(abs);
+        const escrito = basename(abs);
+        if (!existsSync(padre)) continue;
+        const real = readdirSync(padre).find((x) => x.toLowerCase() === escrito.toLowerCase());
+        if (real && real !== escrito) {
+          problems.push({
+            at: `${rel}:${i + 1}`,
+            kind: 'enlace con la caja equivocada',
+            detail: `${escrito} (el archivo se llama ${real})`,
+          });
+        }
+      }
+    });
+    // URLs con caracteres que no son ASCII. Una URL es un camino de bytes: un
+    // acento la rompe, y el fallo no se ve al leerla, porque el enlace sigue
+    // pareciendo un enlace. El pase de ortografia del 2026-10-25 rompio una
+    // sin que nadie lo viera: /version/2/1/ se volvio /versión/2/1/, y los
+    // enlaces externos estaban fuera del chequeo de enlaces, asi que el
+    // content-guard no los miraba. Una URL no lleva tilde: el TILDE va en el
+    // texto del enlace, nunca en la ruta.
+    //
+    // UN DEFECTO, UN HALLAZGO. La misma URL puede aparecer dos veces: en el
+    // texto del enlace y en su destino. Eso es un defecto, no dos, asi que
+    // se cuenta una vez por URL distinta.
+    const vistas = new Set();
+    for (const m of text.matchAll(/https?:\/\/[^\s)\]"'`]+/g)) {
+      if (!/[^\x00-\x7F]/.test(m[0])) continue;
+      if (vistas.has(m[0])) continue;
+      vistas.add(m[0]);
+      const linea = text.slice(0, m.index).split('\n').length;
+      problems.push({ at: `${rel}:${linea}`, kind: 'URL con acento', detail: m[0] });
+    }
   }
 
   // Comandos npm que no existen. El repo le dice al lector que corra

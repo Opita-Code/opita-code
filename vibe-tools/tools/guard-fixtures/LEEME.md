@@ -21,10 +21,32 @@ Y deben dar exactamente esto:
 | `fx7-enlace.md` | enlaces internos rotos | 2 |
 | `fx9-ts.ts` | intrusión dentro de un `.ts` | 3 |
 | `fx11-crlf.md` | finales de línea CRLF | 1 |
+| `fx12-url.md` | URL con acento | 1 |
+| `fx13-caja.md` | enlace con la caja equivocada | 1 |
 | `fx8-limpio.md` | **control** | **0** |
 | `fx10-limpio.ts` | **control** | **0** |
 
-Total: 21 hallazgos, 8 clases distintas, 0 en los tres controles.
+Total: 23 hallazgos, 11 clases distintas, 0 en los dos controles.
+
+(Y una correccion: antes de este cambio, el total decia «21 hallazgos, 8
+clases». Los 21 eran correctos, pero las clases eran nueve: el guion CJK y
+el cirílico se contaban como una sola, y son dos detecciones distintas.)
+
+## Las dos clases que se añadieron el 2026-10-25
+
+`fx12-url.md` y `fx13-caja.md` nacieron de un pase de ortografía, no de una
+idea. El pase acentúó una URL y dejó diez enlaces con la caja equivocada
+(`Indice-publico.md` en vez de `INDICE-publico.md`).
+
+Lo importante de `fx13-caja.md`: en **Windows** ese enlace no se ve roto,
+porque el sistema de archivos no distingue mayúsculas. El guard daba verde
+sobre algo que en Linux y en GitHub estaba roto. Por eso la comprobación
+compara el nombre escrito con el nombre real del directorio, y no se apoya
+en que el archivo exista.
+
+Y lo importante de `fx12-url.md`: el texto del enlace y su destino cuentan
+como **un** defecto, no dos. Por eso el hallazgo esperado es 1, aunque la
+URL con acento aparezca en los dos sitios de un enlace de markdown.
 
 ## Por qué los controles son la parte importante
 
