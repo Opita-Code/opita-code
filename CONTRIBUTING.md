@@ -22,19 +22,15 @@ Un cambio esta **terminado** cuando:
    content-guard caza la intrusion de otro guion y los enlaces rotos; **no**
    caza el ingles mal puesto, y esa es la parte que toca la persona.
 
-## Los cuatro guards, y que no ven
+## Los guards, y que no ven
 
-`content`, `budget`, `test` y `mutate`. Cada uno caza una cosa distinta, y
-**cada uno deja cosas sin ver**: el de contenido no juzga si el texto dice la
-verdad, el de presupuesto no juzga si la particion es por donde tiene sentido,
-y el de mutacion no dice que el diseño sea el mejor.
+Cada guard caza una cosa distinta, y **cada uno deja cosas sin ver**. Por eso
+**el guard y la persona se necesitan**: un guard que se puede satisfacer
+editando el contenido que deberia proteger no es un guard, y una prosa con el
+ingles mal puesto no la caza ninguna maquina.
 
-La tabla completa, con que mide cada uno y que no ve, esta en
-[docs/como-verificar.md](docs/como-verificar.md).
-
-Por eso **el guard y la persona se necesitan**. Un guard que se puede
-satisfacer editando el contenido que deberia proteger no es un guard, y una
-prosa con el ingles mal puesto no la caza ninguna maquina.
+La tabla completa, con que mide cada control y que no ve, esta en
+[docs/controles.md](docs/controles.md).
 
 ## El presupuesto de 4096 bytes
 
@@ -79,9 +75,22 @@ cd vibe-tools
 npm install
 npm run check              # los cuatro guards
 npm run verificar-estado   # el estado publicado contra la realidad
-npm run generar-estado     # rehace la superficie publica
-npm run generar-sitio      # rehace el sitio
 ```
+
+Los otros comandos, y que mira cada uno, estan en
+[docs/como-verificar.md](docs/como-verificar.md).
+
+## Antes de commitear
+
+```bash
+git update-index --really-refresh   # fuerza la relectura de lo que git da por igual
+git add -A
+git diff --cached --stat             # esto es lo que se commitea, miralo
+```
+
+Un numero que se puede cambiar sin cambiar el tamano del archivo se le escapa
+a git. El porque, y el metodo, estan en
+[docs/como-verificar.md](docs/como-verificar.md).
 
 ## Reportar un problema
 
