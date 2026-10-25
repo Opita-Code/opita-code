@@ -14,11 +14,11 @@ Runtime de tools componibles para Opita Code.
 **L2 cerrado** — Composicion: encadenar sin equivocarse.
 **L3 cerrado** — Boundary MEMORY: la memoria es tuya y de nadie mas.
 
-282 tests · mutation 142/142 = 100% en 28 paquetes · 103 unidades juzgables.
+282 tests · mutation 142/142 = 100% en 28 paquetes · 104 unidades juzgables.
 Siguiente según el plan: **L4** — Identidad: un stub, y despues tres identidades.
 <!-- /GENERADO:estado -->
 
-> Este bloque se **genera** desde `estado.json` y lo verifica `npm run estado`. El
+> Este bloque se **genera** desde `estado.json` y lo verifica `npm run verificar-estado`. El
 > estado publicado del repositorio entero esta en [STATUS.md](../STATUS.md).
 
 > `RESEARCH` (T1) **no se puede ejecutar**: T1 concede `net` y no hay transporte.

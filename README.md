@@ -37,7 +37,7 @@ que fue escrito y dice si el documento cumple.
 | --- | --- |
 | Tests | 282 de 282 |
 | Mutantes | 142 de 142 (100%, 28 paquetes) |
-| Unidades juzgables | 103, 0 exceden los 4096 B |
+| Unidades juzgables | 104, 0 exceden los 4096 B |
 | Veredicto del juez | 10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
 
 ### Los documentos
@@ -68,13 +68,14 @@ que fue escrito y dice si el documento cumple.
 ```bash
 cd vibe-tools
 npm install
-npm run check      # contenido, presupuesto, tests y mutacion
-npm run estado     # el estado publicado, contrastado contra la realidad
+npm run check              # contenido, presupuesto, tests y mutacion
+npm run verificar-estado   # el estado publicado, contrastado contra la realidad
 ```
 
-`npm run estado` es el guard que hace que esta pagina no pueda envejecer en
-silencio: mide lo que el repositorio afirma de si mismo y cae si un numero no
-cuadra. Por eso el estado que se publica arriba no se escribe a mano.
+`npm run verificar-estado` es el guard que hace que esta pagina no pueda
+envejecer en silencio: mide lo que el repositorio afirma de si mismo y cae si
+un numero no cuadra. Por eso el estado que se publica arriba no se escribe a
+mano.
 
 El detalle, que es lo que de verdad no esta escrito a mano:
 [docs/como-verificar.md](docs/como-verificar.md).

@@ -1,30 +1,24 @@
 # Como se verifica
 
 > Que corre, que mide cada cosa, y que NO puede ver cada guard. Un guard que
-> no dice que no ve se cita como si lo cubriera todo.
+> no dice que no ve se cita como si lo cubriera todo. La tabla completa,
+> control por control, esta en [controles.md](controles.md).
 
 ## Los comandos
 
 ```bash
 cd vibe-tools
 npm install
-npm run check      # contenido, presupuesto, tests y mutacion
-npm run estado     # el estado publicado, contrastado contra la realidad
+npm run check                     # contenido, prosa, presupuesto, tests y mutacion
+npm run verificar-estado          # el estado publicado, contrastado contra la realidad
+npm run generar-estado -- --check # la superficie escrita, contra la fuente
+npm run generar-sitio -- --check  # el sitio en disco, contra la fuente
 ```
 
-`npm run check` es lo que corre en cada push. `npm run estado` es el guard de la
-superficie publica: mide lo que el repositorio afirma de si mismo y **cae si un
-numero no cuadra**.
-
-## Los cinco guards, y que ven
-
-| Guard | Que mide | Que NO ve |
-|---|---|---|
-| `content` | intrusion de otro guion, caracteres de reemplazo, marcadores pendientes, tablas con columnas distintas, bloques sin cerrar, enlaces internos rotos, falta de titulo de primer nivel, finales de linea CRLF | si el texto dice la verdad; si una frase esta bien escrita |
-| `budget` | los bytes crudos de cada artefacto juzgable, contra el tope de 4096 B | si el contenido es el correcto; si el artefacto esta partido por donde tiene una sola responsabilidad |
-| `test` | que la suite pase | si los tests afirman lo que dicen afirmar |
-| `mutate` | que los mutantes mueran: si un test sobrevive a una mutacion, no esta mirando | que el diseño sea el mejor; el umbral es 80% por paquete |
-| `verificar-estado` | que los numeros publicados cuadren con la realidad medida, que cada loop declarado cerrado tenga su documento, y que la superficie generada este al dia | que el veredicto del juez sea el que se cita (vive en la base de dark-memory, no en el repo) |
+`npm run check` es lo que corre en cada push. `npm run verificar-estado` es el
+guard de la superficie publica: mide lo que el repositorio afirma de si mismo y
+**cae si un numero no cuadra**. Los dos `--check` comparan lo publicado con lo
+que sale de la fuente, y caen si alguien edito a mano un archivo generado.
 
 ## Por que el estado no se escribe a mano
 
@@ -34,8 +28,9 @@ falsos, ninguno detectado, porque no habia nada que los mirara.
 
 Ahora el estado vive en un solo archivo, `vibe-tools/estado.json`, y de ahi se
 genera todo lo que el mundo ve: `STATUS.md`, `docs/avances.md`, un archivo por
-loop en `docs/avances/`, las islas generadas del `README.md`, y las notas de
-release. Lo que no se puede medir se declara; lo que se puede medir, se mide.
+loop en `docs/avances/`, las islas generadas del `README.md`, las notas de
+release y las paginas del sitio. Lo que no se puede medir se declara; lo que se
+puede medir, se mide.
 
 El guard mide de verdad: corre `node --test` con informe TAP, el runner de
 mutacion en modo `--json`, y el guard de presupuesto en modo `--json`. No lee

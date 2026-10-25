@@ -23,5 +23,6 @@ Documento transversal, no de un loop:
 | Doc | Preocupación |
 |---|---|
 | [gate-veredictos](gate-veredictos.md) | Qué significa cada veredicto, y por qué se para a los dos intentos |
+| [controles](../../controles.md) | Qué corre en cada push, qué mide, y qué NO ve cada control |
 
 Plan completo: [plan-iteracion-mvp.md](../plan-iteracion-mvp.md)

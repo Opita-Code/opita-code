@@ -55,7 +55,7 @@ const TS_ROOTS = ['vibe-tools/src'];
  * los podia ver porque no miraba esos archivos.
  */
 const RAIZ_ROOTS = ['site'];
-const RAIZ_EXTS = { '.html': ['site'], '.json': ['vibe-tools'], '.yml': ['.github'] };
+const RAIZ_EXTS = { '.html': ['site'], '.json': ['vibe-tools'], '.yml': ['.github'], '.md': ['.github'] };
 const ALSO_FILES = [
   'vibe-tools/README.md',
   'README.md',
@@ -67,6 +67,26 @@ const ALSO_FILES = [
   'vibe-tools/estado.json',
 ];
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.git']);
+
+/**
+ * Los scripts que el repo REALMENTE tiene.
+ *
+ * ORIGEN (medido, 2026-10-25). La prosa le pedia al lector ocho veces
+ * `npm run estado`, y ese script no existe: el que existe es
+ * `verificar-estado`. El reader que lo copiaba recibia "Missing script".
+ *
+ * Un comando que no existe es un enlace roto que no se parece a un enlace,
+ * y por eso ningun guard lo veia: el de enlaces mira las rutas, y un comando
+ * no es una ruta. Este lo contrasta con la lista real de package.json.
+ */
+const SCRIPTS = (() => {
+  try {
+    const pkg = JSON.parse(readFileSync(join(root, 'vibe-tools', 'package.json'), 'utf8'));
+    return new Set(Object.keys(pkg.scripts ?? {}));
+  } catch {
+    return new Set();
+  }
+})();
 
 /** Rangos de guion que no aparecen en castellano con tipografia. */
 const FOREIGN_SCRIPTS = [
@@ -214,6 +234,19 @@ function scanFile(file) {
         }
       }
     });
+  }
+
+  // Comandos npm que no existen. El repo le dice al lector que corra
+  // comandos, y un comando inexistente no se parece a un enlace roto: es un
+  // error de ejecucion que solo aparece cuando alguien lo copia.
+  for (const m of text.matchAll(/npm run ([A-Za-z0-9_:.-]+)/g)) {
+    // El nombre de un script no lleva dos puntos ni punto al final: eso es
+    // puntuacion de la frase ("npm run verificar-estado: si un numero...").
+    const script = m[1].replace(/[.:,]+$/, '');
+    if (!SCRIPTS.has(script)) {
+      const linea = text.slice(0, m.index).split('\n').length;
+      problems.push({ at: `${rel}:${linea}`, kind: 'comando npm que no existe', detail: `npm run ${script}` });
+    }
   }
   return problems;
 }

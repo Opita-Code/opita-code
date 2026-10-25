@@ -41,6 +41,7 @@ const ALSO_FILES = [
   'STATUS.md',
   'docs/avances.md',
   'docs/como-verificar.md',
+  'docs/controles.md',
   'CONTRIBUTING.md',
   'SECURITY.md',
   'CODE_OF_CONDUCT.md',

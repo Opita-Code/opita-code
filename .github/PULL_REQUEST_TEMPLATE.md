@@ -11,7 +11,7 @@
 <!-- Marca las casillas de lo que aplica. -->
 
 - [ ] `npm run check` pasa (contenido, presupuesto, tests, mutacion)
-- [ ] `npm run estado` pasa (el estado publicado cuadra con la realidad)
+- [ ] `npm run verificar-estado` pasa (el estado publicado cuadra con la realidad)
 - [ ] Si toca prosa, el documento se ha releido despues de escribirlo
 - [ ] Ningun numero sin medir antes de escribirlo
 - [ ] Si toca un artefacto juzgable, no pasa de 4096 B; y si pasa, esta partido por concepto y no amputado

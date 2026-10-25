@@ -13,7 +13,7 @@ encima de el.
 Un cambio esta **terminado** cuando:
 
 1. Los cuatro guards pasan: `npm run check`.
-2. El estado publicado cuadra con la realidad: `npm run estado`.
+2. El estado publicado cuadra con la realidad: `npm run verificar-estado`.
 3. Si el cambio toca prosa, el documento se **juzga** contra el criterio con el
    que fue escrito, y el veredicto es `aligned`.
 4. Si el veredicto dice `needs_human`, el cambio **no** esta terminado. Se
@@ -77,10 +77,10 @@ Esto es lo que **no** hay que asumir al trabajar en este repositorio:
 ```bash
 cd vibe-tools
 npm install
-npm run check       # los cuatro guards
-npm run estado      # el estado publicado contra la realidad
-npm run generar-estado   # rehace la superficie publica
-npm run generar-sitio    # rehace el sitio
+npm run check              # los cuatro guards
+npm run verificar-estado   # el estado publicado contra la realidad
+npm run generar-estado     # rehace la superficie publica
+npm run generar-sitio      # rehace el sitio
 ```
 
 ## Reportar un problema
