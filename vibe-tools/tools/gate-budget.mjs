@@ -106,6 +106,30 @@ function artifactBytes(rel) {
   }
 }
 
+/**
+ * EL CONTEO DECLARADO, CONTRA EL MEDIDO.
+ *
+ * El numero de unidades juzgables que publica la superficie sale de este
+ * guard, asi que este guard es quien puede decir si el declarado y el medido
+ * son el mismo numero. Sin esta comprobacion, anadir un documento al
+ * presupuesto deja la superficie publicando un numero que ya no existe, y
+ * solo lo nota el verificador del estado, que corre mas tarde y en otro
+ * paso de la CI.
+ *
+ * Y esto no es hipotetico: pasa cada vez que se anade un documento al
+ * conjunto juzgable. Tres veces en un dia, y las tres las atrapo la CI.
+ */
+function declaradoUnidades() {
+  const p = join(root, 'vibe-tools', 'estado.json');
+  try {
+    const j = JSON.parse(readFileSync(p, 'utf8'));
+    const n = Number(j?.kpis?.unidades_juzgables);
+    return Number.isFinite(n) ? n : null;
+  } catch {
+    return null;
+  }
+}
+
 function main() {
   const present = ROOTS.filter((r) => {
     try { return statSync(join(root, r)).isDirectory(); } catch { return false; }
@@ -119,6 +143,11 @@ function main() {
     .sort((a, b) => b.bytes - a.bytes);
   const over = rows.filter((r) => r.bytes > BUDGET);
 
+  // El declarado, contra el medido. Si no coinciden, la superficie publica
+  // un numero que no existe, y eso se cae aqui, no tres pasos despues.
+  const declarado = declaradoUnidades();
+  const conteoDescuadrado = declarado !== null && declarado !== rows.length;
+
   // Modo JSON: la superficie publica necesita estos numeros en forma
   // MACHINE-READABLE, no parseando prosa. Un guard que hay que leer con
   // regexp es un guard que se rompe en silencio el dia que cambia el formato
@@ -127,10 +156,16 @@ function main() {
     console.log(JSON.stringify({
       presupuesto: BUDGET,
       unidades: rows.length,
+      declaradas: declarado,
       exceden: over.length,
       sobre_el_tope: over.map((r) => ({ ruta: r.path, bytes: r.bytes })),
     }));
     if (over.length > 0) process.exit(1);
+    if (conteoDescuadrado) {
+      console.error(`\n  EL CONTEO DECLARADO NO ES EL MEDIDO: declarado ${declarado}, medido ${rows.length}`);
+      console.error('  Actualiza vibe-tools/estado.json (kpis.unidades_juzgables) y regenera la superficie.\n');
+      process.exit(1);
+    }
     return;
   }
 
@@ -158,7 +193,14 @@ function main() {
     for (const r of over) console.log(`    - ${r.path} (${r.bytes} B, +${r.bytes - BUDGET} sobre el tope)`);
     process.exit(1);
   }
-  console.log('\n  OK: todo artefacto juzgable cabe en un solo chunk.\n');
+  if (conteoDescuadrado) {
+    console.error(`\n  EL CONTEO DECLARADO NO ES EL MEDIDO: declarado ${declarado}, medido ${rows.length}`);
+    console.error('  La superficie publica un numero que no existe. Actualiza');
+    console.error('  vibe-tools/estado.json (kpis.unidades_juzgables) y regenera la superficie.\n');
+    process.exit(1);
+  }
+  console.log('\n  OK: todo artefacto juzgable cabe en un solo chunk.');
+  console.log(`  Y el conteo declarado (${declarado}) es el medido (${rows.length}).\n`);
 }
 
 main();
