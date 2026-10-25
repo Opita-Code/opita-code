@@ -7,7 +7,7 @@
     "repo": "https://github.com/Opita-Code/opita-code",
     "version": "0.4.0",
     "tag": "v0.4.0",
-    "actualizado": "2026-10-23",
+    "actualizado": "2026-10-25",
     "pagina": { "url": "https://opita-code.github.io/opita-code/" }
   },
 
@@ -111,7 +111,7 @@
     "mutantes_score": 100.0,
     "mutantes_umbral": 80,
     "mutantes_nota": "El 142/142 que se reporto desde L0 no era una medida: el harness corria los tests con shell:true, y en Windows el glob no lo expandia nadie, asi que Node no encontraba el archivo y salia con codigo 1, y el harness contaba ese error como «el mutante murio». El numero real de entonces era 123/142, con 19 huecos. Los 19 se cerraron con sus tests, y al hacerlo la mutation testing destapo que el chequeo de secciones de imports duplicadas estaba detras del chequeo de orden, y era codigo muerto. Ver docs/arquitectura/loops/L-CI-arreglo.md.",
-    "unidades_juzgables": 102,
+    "unidades_juzgables": 103,
     "unidades_exceden": 0,
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,
@@ -122,13 +122,15 @@
   "superficie": {
     "readme_raiz": "La puerta. Que es esto, que hay hoy, la evidencia medida, el indice, y que queda abierto.",
     "status": "Que hay hoy. Generado. La respuesta a «que se esta construyendo ahora», con fecha visible.",
+    "now": "La pagina del ahora. Generada. Una sola entrada, con la fecha visible, y un bloque para copiar y pegar.",
     "avances": "El registro en lenguaje llano. Generado. Como se llega hasta aqui, loop por loop.",
     "release_notes": "Generadas desde este archivo, en tres capas, con los KPI y el veredicto del juez.",
     "pagina": "El sitio estatico con la linea de tiempo. Lo construye CI desde los mismos datos.",
     "social_preview": "Imagen de 1280x640. GitHub solo la acepta por la interfaz web; la autogenerada existe mientras tanto.",
     "licencia": "PolyForm Noncommercial 1.0.0. Codigo abierto (se puede leer, estudiar, modificar y compartir) con una restriccion de uso comercial. NO esta aprobada por la OSI, y por eso el repositorio no se autodenomina «open source»: segun la OSI, toda licencia open source permite el uso comercial.",
     "enlaces": [
-      { "texto": "El sitio: que se esta construyendo ahora, con la evidencia medida", "url": "https://opita-code.github.io/opita-code/" },
+      { "texto": "El ahora, con fecha", "url": "https://opita-code.github.io/opita-code/now.html" },
+      { "texto": "El sitio: el estado completo, con la evidencia medida", "url": "https://opita-code.github.io/opita-code/" },
       { "texto": "El registro en lenguaje llano, ronda por ronda", "url": "docs/avances.md" },
       { "texto": "Los documentos tecnicos, uno por preocupacion", "url": "docs/arquitectura/loops/INDICE.md" },
       { "texto": "La superficie publica y los documentos transversales", "url": "docs/arquitectura/loops/INDICE-publico.md" },

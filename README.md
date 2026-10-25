@@ -37,7 +37,7 @@ que fue escrito y dice si el documento cumple.
 | --- | --- |
 | Tests | 282 de 282 |
 | Mutantes | 142 de 142 (100%, 28 paquetes) |
-| Unidades juzgables | 102, 0 exceden los 4096 B |
+| Unidades juzgables | 103, 0 exceden los 4096 B |
 | Veredicto del juez | 10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
 
 ### Los documentos
@@ -51,7 +51,8 @@ que fue escrito y dice si el documento cumple.
 
 ### Donde mirar
 
-- [El sitio: que se esta construyendo ahora, con la evidencia medida](https://opita-code.github.io/opita-code/)
+- [El ahora, con fecha](https://opita-code.github.io/opita-code/now.html)
+- [El sitio: el estado completo, con la evidencia medida](https://opita-code.github.io/opita-code/)
 - [El registro en lenguaje llano, ronda por ronda](docs/avances.md)
 - [Los documentos tecnicos, uno por preocupacion](docs/arquitectura/loops/INDICE.md)
 - [La superficie publica y los documentos transversales](docs/arquitectura/loops/INDICE-publico.md)

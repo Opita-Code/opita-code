@@ -70,6 +70,8 @@ li strong { color: var(--ink); }
 .carta .n { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
 .carta .d { font-size: 13px; color: var(--stone-500); margin-top: 2px; }
 .hallazgo { border-left: 3px solid var(--accent); padding-left: 14px; color: var(--stone-800); }
+.bloque { background: #fff; border: 1px dashed var(--stone-200); border-radius: 10px;
+          padding: 16px; color: var(--stone-800); font-size: 15px; }
 .enlaces a { color: var(--accent-dark); }
 footer { padding-top: 36px; color: var(--stone-500); font-size: 13px; }
 footer a { color: var(--accent-dark); }
@@ -130,6 +132,7 @@ function portada() {
   const abiertos = estado.abiertos.map((a) => `<li>${esc(t(a.titulo))} <em>(${esc(t(a.quien))})</em></li>`).join('\n');
 
   const enlaces = [
+    ['El ahora: una pagina con fecha', `${PAGINA}now.html`],
     ['El registro en lenguaje llano', `${PAGINA}avances.html`],
     ['Los documentos tecnicos', `${REPO}/tree/main/docs/arquitectura/loops`],
     ['Como se verifica', `${REPO}/blob/main/docs/como-verificar.md`],
@@ -189,7 +192,7 @@ function avance(l) {
   const cuerpo = `<header class="hero">
   <div class="regla"></div>
   <h1>${esc(l.id)} · ${esc(l.nombre)}</h1>
-  <p class="fecha"><a href="index.html">Volver al estado</a> &middot; actualizado el ${esc(fecha)}</p>
+  <p class="fecha"><a href="now.html">El ahora</a> &middot; <a href="index.html">Volver al estado</a> &middot; actualizado el ${esc(fecha)}</p>
 </header>
 <section>
   <h2>Que puedes hacer ahora que antes no podias</h2>
@@ -222,7 +225,7 @@ function indiceAvances() {
   const cuerpo = `<header class="hero">
   <div class="regla"></div>
   <h1>Avances</h1>
-  <p class="fecha"><a href="index.html">Volver al estado</a> &middot; actualizado el ${esc(fecha)}</p>
+  <p class="fecha"><a href="now.html">El ahora</a> &middot; <a href="index.html">Volver al estado</a> &middot; actualizado el ${esc(fecha)}</p>
 </header>
 <section>
   <ul>
@@ -237,11 +240,93 @@ ${items}
   });
 }
 
+/**
+ * LA PAGINA DEL AHORA — el preview entre updates.
+ *
+ * QUE ES. Una pagina, con FECHA VISIBLE, que responde "que estoy haciendo
+ * ahora". No es un feed: cuenta una sola entrada, la que esta en marcha, y
+ * la anterior, para que se vea de donde viene.
+ *
+ * POR QUE UNA PAGINA Y NO UNA LINEA EN EL ESTADO. La fecha visible es la
+ * senal de frescura: una pagina sin fecha no es evidencia de nada. Y el
+ * bloque del final se puede copiar y pegar donde haga falta, que es lo que
+ * la hace util para alguien que no lee codigo.
+ *
+ * POR QUE GENERADA Y NO ESCRITA. Por la misma razon que el resto de la
+ * superficie: si el estado cambia, la pagina cambia, y no pueden divergir.
+ */
+function paginaAhora() {
+  const promesa = String(estado.vision.texto ?? '').split('\n')[0].replace(/\*\*/g, '');
+  const enCurso = siguiente
+    ? `<p><strong>${esc(siguiente.id)} · ${esc(siguiente.nombre)}.</strong> ${esc(t(siguiente.abierto))}</p>`
+    : '<p>No hay ningun loop en cola.</p>';
+  const ultimo = cerrados.length ? cerrados[cerrados.length - 1] : null;
+  const score = [
+    ['Tests', `${k.tests_pasan} de ${k.tests_total}`],
+    ['Mutantes', `${k.mutantes_muertos} de ${k.mutantes_total}`],
+    ['Unidades juzgables', `${k.unidades_juzgables}`],
+    ['Loops cerrados', `${k.loops_cerrados}`],
+  ].map(([d, n]) => `<div class="carta"><div class="n">${esc(n)}</div><div class="d">${esc(d)}</div></div>`).join('\n');
+  const bloque = [
+    promesa,
+    siguiente ? `Ahora: ${siguiente.id} · ${siguiente.nombre}.` : '',
+    ultimo ? `Lo ultimo que se cerro: ${ultimo.id} · ${ultimo.nombre}.` : '',
+    `Hoy: ${k.tests_pasan} de ${k.tests_total} tests y ${k.mutantes_muertos} de ${k.mutantes_total} mutantes, medidos en cada push.`,
+    `${PAGINA}now.html`,
+  ].filter(Boolean).join(' ');
+
+  const cuerpo = `<header class="hero">
+  <div class="regla"></div>
+  <h1>Ahora</h1>
+  <p class="sub">${esc(promesa)}</p>
+  <p class="fecha">Actualizado el ${esc(fecha)} &middot; una sola entrada, no un archivo &middot; generado desde <code>vibe-tools/estado.json</code></p>
+</header>
+
+<section>
+  <h2>Que estoy haciendo ahora</h2>
+  ${enCurso}
+</section>
+
+<section>
+  <h2>Lo que se cerro por ultima vez</h2>
+  <p>${ultimo ? esc(t(ultimo.puede)) : 'Todavia no hay nada cerrado.'}</p>
+</section>
+
+<section>
+  <h2>La evidencia, medida</h2>
+  <div class="score">
+${score}
+  </div>
+</section>
+
+<section>
+  <h2>Para copiar y pegar</h2>
+  <p class="bloque">${esc(bloque)}</p>
+</section>
+
+<section class="enlaces">
+  <h2>El detalle</h2>
+  <ul>
+    <li><a href="index.html">El estado completo, con la linea de tiempo</a></li>
+    <li><a href="avances.html">El registro en lenguaje llano, ronda por ronda</a></li>
+    <li><a href="${esc(REPO)}">Repositorio</a></li>
+  </ul>
+</section>`;
+
+  return paginaEnvolvente({
+    titulo: 'Ahora — Opita Code',
+    descripcion: 'Que se esta construyendo ahora en Opita Code, con la fecha y la evidencia medida.',
+    cuerpo,
+    pie: `Actualizado el ${esc(fecha)}. Generado desde <code>vibe-tools/estado.json</code> y verificado contra la realidad medida en cada push. <a href="${esc(REPO)}">Repositorio</a>`,
+  });
+}
+
 // TODO el sitio se arma en un mapa primero. Asi el modo --check puede
 // compararlo con lo que hay en disco, y la CI puede detectar que el sitio se
 // quedo viejo sin que nadie lo note.
 const paginas = new Map();
 paginas.set('index.html', portada());
+paginas.set('now.html', paginaAhora());
 paginas.set('avances.html', indiceAvances());
 for (const l of cerrados) paginas.set(`avance-${l.id}.html`, avance(l));
 
@@ -276,4 +361,4 @@ for (const [nombre, contenido] of paginas) {
 if (existsSync(PREVIEW_ORIGEN)) copyFileSync(PREVIEW_ORIGEN, join(RAIZ, 'social-preview.png'));
 
 console.log(`\n  sitio: ${RAIZ}`);
-console.log(`  ${paginas.size + 1} archivos: index, avances, un archivo por loop y la imagen\n`);
+console.log(`  ${paginas.size + 1} archivos: index, now, avances, un archivo por loop y la imagen\n`);
