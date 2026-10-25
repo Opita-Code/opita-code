@@ -14,13 +14,18 @@
   comentario. En Instagram el enlace del caption ni siquiera es pulsable: va
   en la bio.
 - **Las cifras son las medidas.** 282 pruebas, 142 de 142 mutaciones
-  detectadas, 104 unidades juzgables. Si un número no está medido, no se
+  detectadas, 107 unidades juzgables. Si un número no está medido, no se
   escribe.
 - **La distribución es manual.** La máquina no publica: la persona copia y
   pega. Por eso no aplican las reglas de sigilo del navegador: no hay
   automatización que detectar.
 
 ## Las bios, y dónde va el enlace
+
+El enlace es el sitio: `https://opita-code.github.io/opita-code/`. Es la puerta
+sin cuenta, y lleva la fecha de la última medición. El repositorio es el
+argumento para quien quiera leer el código, pero el que llega por el canal
+no sabe programar: por eso el enlace no es el repositorio.
 
 | Plataforma | Dónde va el enlace | Texto |
 |---|---|---|

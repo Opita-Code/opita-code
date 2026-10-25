@@ -1,0 +1,19 @@
+{
+  "_nota": "FUENTE CONGELADA del corpus de fixtures del cifras-guard. No es la fuente real del proyecto: es una fuente de mentira, con cifras redondas, para que el contrato del guard no dependa de las cifras de hoy. Si el corpus se midiera contra vibe-tools/estado.json, cada commit que moviera un numero dira que el corpus estaba roto.",
+  "proyecto": {
+    "nombre": "Fixture",
+    "actualizado": "2026-10-25"
+  },
+  "kpis": {
+    "tests_total": 10,
+    "tests_pasan": 9,
+    "mutantes_total": 4,
+    "unidades_juzgables": 7,
+    "documentos_judge_aligned": 3
+  },
+  "abiertos": [
+    { "id": "A1", "titulo": "Una", "quien": "operador" },
+    { "id": "A2", "titulo": "Dos", "quien": "operador" },
+    { "id": "A3", "titulo": "Tres", "quien": "equipo" }
+  ]
+}

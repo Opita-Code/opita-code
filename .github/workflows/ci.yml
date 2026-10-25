@@ -29,6 +29,10 @@ jobs:
         working-directory: vibe-tools
         run: npm run content && npm run prosa
 
+      - name: Las cifras del kit del canal, contra la fuente
+        working-directory: vibe-tools
+        run: npm run cifras
+
       - name: Los guards de codigo (presupuesto, tests, mutacion)
         working-directory: vibe-tools
         run: npm run check

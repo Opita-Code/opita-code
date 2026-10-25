@@ -83,7 +83,14 @@ const LIMITE_LINEA = 100;
 
 const PROSA_EXTS = new Set(['.md']);
 const TEXTO_EXTS = new Set(['.md', '.ts', '.mjs', '.json', '.yml', '.html']);
-const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', 'guard-fixtures', 'prosa-fixtures']);
+/**
+ * Los directorios de fixtures quedan fuera del chequeo de prosa, igual que
+ * los otros dos. No es una atencion: un corpus de fixtures contiene
+ * frases copiadas de otros archivos, y a veces estan mal a proposito. Un
+ * guard de prosa que las marcara estaria lamentandose de su propio
+ * material de prueba.
+ */
+const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', 'guard-fixtures', 'prosa-fixtures', 'cifras-fixtures']);
 
 function walk(dir, acc = []) {
   if (!existsSync(dir)) return acc;

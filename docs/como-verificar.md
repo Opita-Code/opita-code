@@ -9,10 +9,11 @@
 ```bash
 cd vibe-tools
 npm install
-npm run check                     # contenido, prosa, presupuesto, tests y mutación
+npm run check                     # contenido, prosa, cifras, presupuesto, tests y mutación
 npm run verificar-estado          # el estado publicado, contrastado contra la realidad
 npm run generar-estado -- --check # la superficie escrita, contra la fuente
 npm run generar-sitio -- --check  # el sitio en disco, contra la fuente
+npm run cifras                   # el kit del canal
 ```
 
 `npm run check` es lo que corre en cada push. `npm run verificar-estado` es el
@@ -78,5 +79,5 @@ juez trocea el artefacto sobre los bytes **crudos**, y si el archivo trae CRLF
 mide más de lo que el guard permitió. Seis documentos estaban en esa banda de
 divergencia, y uno de ellos salió neutral por el troceado, no por el documento.
 La independencia del checkout se consigue **fijando** los finales de línea, no
-normalizando dentro del guard: normalizar en el punto de medición hacia el
-guard estable y lo dejaba mintiendo sobre lo que el juez ve.
+normalizando dentro del guard: si el guard normaliza al medir, mide otra cosa
+de la que ve el juez.
