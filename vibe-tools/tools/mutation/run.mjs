@@ -99,7 +99,6 @@ const MUTANTS = [
   ['src/sandbox/runner.js', 'la identidad invalida se reporta como fallo de la tool',
     "'E_IDENTITY_INVALID'", "'E_TOOL_ERROR'"],
 
-
   // ---- rules/edges.ts : R2..R6 ------------------------------------------
   ['src/rules/edges.js', 'R2 origen: aceptar arista desde nodo inexistente',
     'if (src === undefined) {', 'if (false) {'],
