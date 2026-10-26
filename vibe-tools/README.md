@@ -14,7 +14,7 @@ Runtime de tools componibles para Opita Code.
 **L2 cerrado** — Composicion: encadenar sin equivocarse.
 **L3 cerrado** — Boundary MEMORY: la memoria es tuya y de nadie mas.
 
-316 tests · mutation 176/176 = 100% en 33 paquetes · 122 unidades juzgables.
+316 tests · mutation 176/176 = 100% en 33 paquetes · 126 unidades juzgables.
 Siguiente según el plan: **L4** — Identidad: las tres identidades y la puerta que las comprueba.
 <!-- /GENERADO:estado -->
 

@@ -29,7 +29,7 @@ que fue escrito y dice si el documento cumple.
 <!-- GENERADO:estado -->
 ### Ahora
 
-**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T2 (KYC), L4-T4 (RLS sobre project_id) y L4-T5 (los permisos).
+**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T4 (RLS sobre project_id), L4-T5 (los permisos) y L4-T6 (exportar el .opitpack).
 
 ### La evidencia, medida
 
@@ -37,8 +37,8 @@ que fue escrito y dice si el documento cumple.
 | --- | --- |
 | Tests | 316 de 316 |
 | Mutantes | 176 de 176 (100%, 33 paquetes) |
-| Unidades juzgables | 122, 0 exceden los 4096 B |
-| Veredicto del juez | 24 de 24 partes en aligned: 10 de L3 y 14 de L4-T3. Confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
+| Unidades juzgables | 126, 0 exceden los 4096 B |
+| Veredicto del juez | 28 de 28 partes en aligned: 10 de L3, 14 de L4-T3 y 4 de L4-T2. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 
 ### Los documentos
 

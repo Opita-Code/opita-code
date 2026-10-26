@@ -3,7 +3,7 @@
 > Las preguntas que L3 dejó abiertas, escritas con la evidencia que el
 > repositorio ya tenía, las opciones y lo que costaría cada una. Cada
 > documento es una decisión: [el catálogo por loop](INDICE.md). Las cuatro
-> están contestadas desde el 2026-10-26.
+> están contestadas desde el 2026-10-26, y una más está abierta.
 
 | Decisión | Qué pregunta | Respuesta | Documento |
 |---|---|---|---|
@@ -11,12 +11,22 @@
 | A6 | Cuál se degrada si hay que elegir: el anonimato o el antifraude | Opción 4: se degrada el antifraude | [A6](decision-A6.md) |
 | A7 (C6) | El sexto consentimiento en contexto de organización | A1: un C6 propio y separado | [A7-consentimiento](decision-A7-consentimiento.md) |
 | A7 (techo) | El techo de falsos positivos, y si el flag es rectificable | T1: la regla ahora, el techo medido cuando exista el clasificador | [A7-techo](decision-A7-techo.md) |
+| A9 | Qué se puede publicar de la identidad legal si el registro oficial no es libre | Abierta: A1, A2 o A3 | [A9](L4-T2-decision.md) |
 
 ## Dónde vive cada respuesta
 
 Las respuestas no son prosa: son código. [L4-alcance](L4-alcance.md) dice qué
 cambió en el repositorio con cada una, y [L4-identidades](L4-identidades.md)
 describe el modelo que las sostiene.
+
+## Y la quinta, que está abierta
+
+A9 no salió de L3: salió de L4-T2, y es la única que no se responde con una
+medición. El stack libre de KYC cubre cuatro de las cinco señales, y la
+quinta —que la cédula exista en el registro oficial— no es código abierto: es
+un contrato con la Registraduría. La pregunta no es técnica: es qué puede
+afirmar el producto sobre una identidad legal. Las tres opciones están en [la
+decisión del stack](L4-T2-decision.md), con la recomendada a la vista.
 
 ## Y por qué están partidas en cuatro documentos
 

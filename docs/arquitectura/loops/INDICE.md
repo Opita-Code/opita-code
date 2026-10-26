@@ -52,11 +52,7 @@
 
 ## L4 · Identidad, de stub a tres identidades
 
-| Doc | Preocupación |
-|---|---|
-| [L4-identidad](L4-identidad.md) | El stub legal, y el contexto sellado que lo lleva |
-| [L4-identidades](L4-identidades.md) | Las tres identidades, la clave y la puerta |
-| [L4-alcance](L4-alcance.md) | Qué cierra y qué no entrega |
+Las cinco piezas de este loop están en su propio [índice de L4](INDICE-L4.md).
 
 La superficie publica y los documentos transversales estan en
 [INDICE-publico.md](INDICE-publico.md).

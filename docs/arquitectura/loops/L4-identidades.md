@@ -72,3 +72,14 @@ sistema**. Es el único que no se puede defender y el único que no deja rastro
 para defenderse. Y por eso el tipo anónimo no tiene dónde guardar un
 localizador: el validador rechaza un `ip` en el perfil con
 `E_ANONIMO_LOCALIZABLE`.
+
+## Por qué el punto débil está declarado y no escondido
+
+El operador lo dijo el 2026-10-26, y es la razón de la degradación: «El punto
+débil debe existir, porque todos tenemos una parte débil. Y es mejor ser
+regulada que ignorada».
+
+La degradación **queda**, y por eso se escribe. El perfil anónimo es la parte
+débil del sistema: está acotada, nombrada y es el precio consciente de que el
+anonimato no se pueda defender. Un punto débil escondido no se regula: lo
+descubre el primero que lo usa.

@@ -17,10 +17,11 @@ L3 dejó tres preguntas abiertas (A5, A6 y A7). El operador las respondió el
 
 ## Lo que L4-T3 NO entrega
 
-- **El KYC real.** El plan declara que L4-T3 depende de L4-T2, y L4-T2 no
-  existe. Por eso la fábrica legal no acepta un KYC: sin stack, `verificada`
-  sería una mentira publicable, y el validador la rechaza con
-  `E_KYC_SIN_STACK`.
+- **El KYC real.** L4-T2 ya existe, y su conclusión es que el stack libre
+  cubre cuatro de las cinco señales y no la registral. La fábrica legal sigue
+  sin aceptar un KYC y `verificada` sigue rechazada con `E_KYC_SIN_STACK`,
+  porque la señal que falta cuesta dinero. Está en [la decisión del
+  stack](L4-T2-decision.md).
 - **El pool cerrado de nicknames.** Es una lista, y el «nunca reciclado» exige
   un registro con estado durable: no es cosa del runtime. Lo que sí está es la
   inmutabilidad, en código: la identidad sale congelada.
@@ -52,8 +53,18 @@ Y el juez: **14 de 14 partes en `aligned`**, con confianza 1.0000 y
 caído, y en el segundo intento salió `aligned`: eso fue infraestructura, no
 veredicto.
 
+## Y lo que midió L4-T2
+
+L4-T2 fue investigación, y por eso no dejó tests ni mutantes: no cambió el
+código. Midió once piezas contra la API de GitHub (licencia, estrellas y última
+subida), dos catálogos de datos abiertos, los límites de AWS Lambda y el README
+de dos proyectos. Su entregable son tres documentos: [la matriz](L4-T2-matriz.md),
+[las piezas](L4-T2-piezas.md) y [la decisión](L4-T2-decision.md).
+
 ## Y lo que queda para el siguiente
 
 L4-T4 (aislamiento lógico con RLS sobre `project_id`) y L4-T5 (permisos) ya
 no dependen de una decisión abierta del operador: las tres identidades están
-escritas y A5, A6 y A7 están contestadas.
+escritas y A5, A6 y A7 están contestadas. L4-T6 (exportar el `.opitpack`) y la
+pregunta A9 —qué se puede publicar de una identidad legal sin registro
+oficial— siguen abiertos.
