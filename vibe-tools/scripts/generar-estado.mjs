@@ -33,6 +33,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CLASES, cuerpoDe, matriz as matrizSpec, renderMatriz } from './matriz.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..', '..');
@@ -291,11 +292,82 @@ function leer(rel) {
   return existsSync(p) ? readFileSync(p, 'utf8') : null;
 }
 
+// --------------------------------------------------------------- LA MATRIZ
+
+/**
+ * Las partes de una spec: lo que se materializa cuando existe.
+ *
+ * Dos clases, porque los bytes se miden distinto. El registro en lenguaje
+ * llano lo genera este pipeline, y el documento de cierre lo escribe una
+ * persona. Cada clase tiene su banda medida, y mezclar las dos daria una
+ * estimacion sin sentido.
+ */
+function partesDeSpec(l) {
+  const claim = t(l.puede) || t(l.resumen);
+  // Un loop que no esta cerrado todavia no tiene registro en lenguaje llano:
+  // esa parte todavia no existe, y su tamano se proyecta.
+  const cerrado = l.estado === 'cerrado';
+  const partes = [
+    {
+      id: `${l.id}-avances`,
+      clase: 'avances',
+      claim,
+      bytes: cerrado ? Buffer.byteLength(renderAvancesLoop(l), 'utf8') : null,
+    },
+  ];
+  if (l.documento_cierre) {
+    const enDisco = leer(l.documento_cierre);
+    partes.push({
+      id: `${l.id}-cierre`,
+      clase: 'cierre',
+      claim: t(l.hallazgo),
+      bytes: enDisco === null ? null : Buffer.byteLength(enDisco, 'utf8'),
+    });
+  }
+  return partes;
+}
+
+/** El corpus medido: las partes que ya existen, agrupadas por clase. */
+function cuerposMedidos(specs) {
+  const todas = specs.flatMap((s) => s.partes);
+  const cuerpos = {};
+  for (const clase of Object.keys(CLASES)) {
+    cuerpos[clase] = cuerpoDe(clase, todas.filter((p) => Number.isFinite(p.bytes)));
+  }
+  return cuerpos;
+}
+
+/** La matriz de cada spec, con el corpus de todas las medidas. */
+function matricesDeSpecs(specs) {
+  const cuerpos = cuerposMedidos(specs);
+  return specs.map((s) => matrizSpec({ id: s.l.id, nombre: s.l.nombre }, s.partes, cuerpos));
+}
+
+/**
+ * La estimacion de una spec que todavia no existe.
+ *
+ * Es el caso para el que sirve la matriz: antes de escribir el plan, saber
+ * cuantas partes va a tener y cuanto van a medir. Sin esto, el corte se
+ * descubre cuando el documento ya esta escrito y ya hay que partirlo.
+ */
+function estimarSpec(id) {
+  const specs = estado.loops.map((l) => ({ l, partes: partesDeSpec(l) }));
+  const cuerpos = cuerposMedidos(specs);
+  const partes = [
+    { id: `${id}-avances`, clase: 'avances', claim: '', bytes: null },
+    { id: `${id}-cierre`, clase: 'cierre', claim: '', bytes: null },
+  ];
+  return matrizSpec({ id, nombre: 'Spec por escribir' }, partes, cuerpos);
+}
+
 function construir() {
   const archivos = [];
   archivos.push(['STATUS.md', renderStatus()]);
   archivos.push(['docs/avances.md', renderAvancesIndice()]);
   for (const l of cerrados) archivos.push([`docs/avances/${l.id}.md`, renderAvancesLoop(l)]);
+
+  const specs = estado.loops.map((l) => ({ l, partes: partesDeSpec(l) }));
+  archivos.push(['docs/arquitectura/loops/MATRIZ.md', renderMatriz(matricesDeSpecs(specs))]);
 
   const readme = leer('README.md');
   if (readme === null) throw new Error('falta README.md con las islas generadas');
@@ -313,6 +385,19 @@ const args = process.argv.slice(2);
 if (args.includes('--release')) {
   const i = args.indexOf('--release');
   process.stdout.write(renderNotas(args[i + 1]));
+  process.exit(0);
+}
+
+// La estimacion de una spec que todavia no existe. Es el mismo pipeline: el
+// corpus es el de las partes ya medidas, y el resultado se imprime.
+if (args.includes('--estimar')) {
+  const i = args.indexOf('--estimar');
+  const id = String(args[i + 1] ?? '').trim();
+  if (!id) {
+    console.error('\n  Falta el id de la spec: --estimar L5\n');
+    process.exit(2);
+  }
+  process.stdout.write(renderMatriz([estimarSpec(id)]));
   process.exit(0);
 }
 

@@ -17,7 +17,7 @@
  * L0 y cuatro mas en L1, y todos revelaron huecos reales de verificacion.
  */
 
-import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
@@ -124,6 +124,20 @@ const MUTANTS = [
     'identity: Object.freeze({ ...ctx.identity }),', 'identity: ctx.identity,'],
   ['src/context.js', 'L4: sellar congela el objeto del llamador',
     'identity: Object.freeze({ ...ctx.identity }),', 'identity: Object.freeze(ctx.identity),'],
+
+  // ---- scripts/matriz.mjs : la matriz del pipeline ---------------------
+  ['scripts/matriz.mjs', 'L5: la p50 de la clase es en realidad la p75',
+    'p50: q(0.5),', 'p50: q(0.75),'],
+  ['scripts/matriz.mjs', 'L5: la proyeccion usa el maximo en vez de la mediana',
+    'return cuerpo.resumen.p50 + extra;', 'return cuerpo.resumen.max + extra;'],
+  ['scripts/matriz.mjs', 'L5: un numero proyectado se escribe como medido',
+    "origen: medido !== null ? 'medido' : 'proyectado',", "origen: 'medido',"],
+  ['scripts/matriz.mjs', 'L5: ninguna parte se marca fuera del tope',
+    'fueraDeTope: bytes !== null && bytes > tope,', 'fueraDeTope: false,'],
+  ['scripts/matriz.mjs', 'L5: ninguna parte se marca sin afirmacion',
+    'sinAfirmacion: claim.length === 0,', 'sinAfirmacion: false,'],
+  ['scripts/matriz.mjs', 'L5: el total de la matriz no es la suma de sus partes',
+    'bytesTotal: filas.reduce((a, f) => a + f.bytes, 0),', 'bytesTotal: 0,'],
 
   // ---- tool.ts : el registry y la delegacion ----------------------------
   ['src/tool.js', 'registro: permitir sobreescribir id@version',
@@ -449,6 +463,16 @@ function runTests(dir) {
     .filter((f) => f.endsWith('.test.js'))
     .sort()
     .map((f) => join('dist', 'test', f));
+  // Los tests del PIPELINE tambien cuentan. Antes el pipeline (los scripts que
+  // generan la superficie) no tenia ninguna verificacion, y un mutante que
+  // solo rompia el pipeline no lo detectaba nadie: el harness lo media como
+  // un hueco, no como un sobreviviente.
+  const dirScripts = join(dir, 'scripts');
+  if (existsSync(dirScripts)) {
+    for (const f of readdirSync(dirScripts).filter((f) => f.endsWith('.test.mjs')).sort()) {
+      archivos.push(join('scripts', f));
+    }
+  }
   if (archivos.length === 0) {
     return { ok: false, arranco: false, tests: 0, resumen: 'dist/test no tiene archivos .test.js', status: null };
   }
@@ -492,6 +516,7 @@ function main() {
     // la cuenta de un `node --test` que no encontraba el archivo.
     const dirBase = join(base, 'base');
     cpSync(dist, join(dirBase, 'dist'), { recursive: true });
+    cpSync(join(root, 'scripts'), join(dirBase, 'scripts'), { recursive: true });
     const linea = runTests(dirBase);
     rmSync(dirBase, { recursive: true, force: true });
     if (!linea.arranco) {
@@ -514,8 +539,11 @@ function main() {
       if (solo !== null && indice !== solo) continue;
       const dir = join(base, `m${resultados.length}`);
       cpSync(dist, join(dir, 'dist'), { recursive: true });
+      cpSync(join(root, 'scripts'), join(dir, 'scripts'), { recursive: true });
 
-      const ruta = join(dir, 'dist', archivo);
+      const ruta = archivo.startsWith('scripts/')
+        ? join(dir, archivo)
+        : join(dir, 'dist', archivo);
       const original = readFileSync(ruta, 'utf8');
       if (!original.includes(buscar)) {
         noAplicable++;

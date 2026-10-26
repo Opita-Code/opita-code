@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test \"dist/test/*.test.js\"",
+    "test": "npm run build && node --test \"dist/test/*.test.js\" \"scripts/*.test.mjs\"",
     "mutate": "npm run build && node tools/mutation/run.mjs",
     "budget": "node tools/gate-budget.mjs",
     "content": "node tools/content-guard.mjs",

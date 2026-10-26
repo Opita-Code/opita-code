@@ -35,9 +35,9 @@ que fue escrito y dice si el documento cumple.
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 291 de 291 |
-| Mutantes | 149 de 149 (100%, 29 paquetes) |
-| Unidades juzgables | 114, 0 exceden los 4096 B |
+| Tests | 302 de 302 |
+| Mutantes | 155 de 155 (100%, 30 paquetes) |
+| Unidades juzgables | 117, 0 exceden los 4096 B |
 | Veredicto del juez | 10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
 
 ### Los documentos

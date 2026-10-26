@@ -82,11 +82,19 @@ comparar('presupuesto en bytes', k.presupuesto_bytes, presupuesto.presupuesto);
 
 // 2. TESTS. Informe TAP: el resumen es estable y los subtests de primer nivel
 //    dan el reparto por prefijo.
+//    Se miden LAS DOS suites, porque `npm test` corre las dos: la de dist/ y la
+//    del pipeline (scripts/*.test.mjs). Medir solo una daria un numero que no
+//    es el que corre.
 if (!existsSync(join(root, 'vibe-tools', 'dist', 'test'))) {
   console.error('\n  falta vibe-tools/dist: corre `npm run build` antes de verificar\n');
   process.exit(2);
 }
-const tap = medir('node', ['--test', '--test-reporter=tap', 'dist/test/*.test.js']);
+const tap = medir('node', [
+  '--test',
+  '--test-reporter=tap',
+  'dist/test/*.test.js',
+  'scripts/*.test.mjs',
+]);
 const num = (re) => {
   const m = tap.match(re);
   return m ? Number(m[1]) : null;

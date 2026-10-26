@@ -23,6 +23,9 @@ Documento transversal, no de un loop:
 | Doc | Preocupación |
 |---|---|
 | [gate-veredictos](gate-veredictos.md) | Qué significa cada veredicto, y por qué se para a los dos intentos |
+| [judge-partes](judge-partes.md) | Cómo se juzga una spec partida, qué dice el agregado, y qué NO dice |
+| [judge-direccion](judge-direccion.md) | Dónde está el juez en el framework, qué certifica, y hacia dónde va |
+| [MATRIZ](MATRIZ.md) | Las dimensiones de cada spec: las partes, su afirmación y su tamaño |
 | [controles](../../controles.md) | Qué corre en cada push, qué mide, y qué NO ve cada control |
 | [canal](../../canal.md) | Cómo se distribuye: Facebook, Instagram y LinkedIn, y qué se publicó |
 

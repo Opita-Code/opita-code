@@ -11,8 +11,9 @@ cd vibe-tools
 npm install
 npm run check                     # contenido, prosa, cifras, presupuesto, tests y mutación
 npm run verificar-estado          # el estado publicado, contrastado contra la realidad
-npm run generar-estado -- --check # la superficie escrita, contra la fuente
-npm run generar-sitio -- --check  # el sitio en disco, contra la fuente
+npm run generar-estado -- --check # la superficie contra la fuente
+npm run generar-sitio -- --check  # el sitio contra la fuente
+npm run generar-estado -- --estimar L5 # las dimensiones de una spec por escribir
 npm run cifras                   # el kit del canal
 ```
 
