@@ -2,8 +2,7 @@
 
 > Cada loop se divide por **preocupación**: un documento que mezcla varias deja de
 > ser juzgable de forma estable. El punto de entrada es el
-> [README de la raíz](../../../README.md) —qué es esto, qué hay hoy y la evidencia
-> medida—, el del paquete es el índice técnico del runtime, y este es el catálogo.
+> [README de la raíz](../../../README.md), y este es el catálogo.
 
 | Doc | Preocupación |
 |---|---|
@@ -49,6 +48,7 @@
 | [L3-mindset-no-pedi](L3-mindset-no-pedi.md) | Esto se recogió y yo no lo autoricé |
 | [L3-reconciliacion](L3-reconciliacion.md) | Qué sobrevive de las 8 reglas y los 12 bordes de la spec |
 | [L3-cambios](L3-cambios.md) | Lo que hay que añadir, y lo que queda abierto para el operador |
+| [decisiones](INDICE-decisiones.md) | A5, A6 y A7: las preguntas abiertas del operador, con las opciones |
 
 ## L4 · Identidad, de stub a tres identidades
 

@@ -14,7 +14,7 @@
   comentario. En Instagram el enlace del caption ni siquiera es pulsable: va
   en la bio.
 - **Las cifras son las medidas.** 291 pruebas, 149 de 149 mutaciones
-  detectadas, 109 unidades juzgables. Si un número no está medido, no se
+  detectadas, 114 unidades juzgables. Si un número no está medido, no se
   escribe.
 - **La distribución es manual.** La máquina no publica: la persona copia y
   pega. Por eso no aplican las reglas de sigilo del navegador: no hay
@@ -81,6 +81,8 @@ La fuente es `docs/social-preview.html` y el procedimiento es
 `vibe-tools/tools/render-preview.mjs`, que ademas mide el contraste, comprueba
 que nada se sale del lienzo y falla si el PNG pesa mas de 1 MB.
 
-## Qué falta
+## Las cuentas
 
-- **Qué cuentas.** Las personales o unas del proyecto, en cada plataforma.
+Facebook y LinkedIn en las personales; Instagram en la del proyecto
+(`opita_dev`). Y en la del proyecto el post no dice «mi bio», porque la que
+habla es Opita Code y no una persona.
