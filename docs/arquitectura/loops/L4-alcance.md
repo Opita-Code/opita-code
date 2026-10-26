@@ -24,9 +24,9 @@ L3 dejó tres preguntas abiertas (A5, A6 y A7). El operador las respondió el
 - **El pool cerrado de nicknames.** Es una lista, y el «nunca reciclado» exige
   un registro con estado durable: no es cosa del runtime. Lo que sí está es la
   inmutabilidad, en código: la identidad sale congelada.
-- **El límite de tres empresas por persona** y el fundador como administrador.
-  Son del harness, que es quien sabe de personas; el runtime solo ve
-  identificadores.
+- **El límite de tres empresas por persona**, que el anónimo sea uno por
+  persona, y el fundador como administrador. Son del harness, que es quien sabe
+  de personas; el runtime solo ve identificadores.
 - **El techo de falsos positivos.** A7 = T1: la regla ahora, el techo medido
   cuando exista el clasificador.
 
