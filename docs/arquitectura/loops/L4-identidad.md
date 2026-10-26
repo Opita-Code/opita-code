@@ -21,9 +21,9 @@ empresa, anónimo), la clave de aislamiento —el `projectId`, que es la misma
 clave que usa el mod de dark-memory— y el estado del KYC.
 
 **El stub legal**: una identidad con el KYC **simulado**. Suficiente para que
-una persona tenga su propio mod. El KYC simulado es lo único honesto: decir
-`verificada` sin stack de KYC sería una mentira publicable, y por eso hay un
-test que falla si alguien lo sube de estado a mano.
+una persona tenga su propio mod. Y sigue siendo el único estado sin evidencia:
+decir `documental` o `verificada` sin evidencia sería una mentira publicable, y
+por eso hay una puerta que lo rechaza ([la verificación](L4-verificacion.md)).
 
 **El contexto que la lleva**: `ToolContext.identity` es **obligatoria**. No es
 un campo más: es la que hace que la separación de identidades tenga algo
@@ -54,7 +54,7 @@ en la verificación, no en el código. Hoy ese camino tiene su test.
 | La regla de que el contexto no cruza identidades | Necesita el modelo de selección del harness (boundary, sección 2) y el caso de la empresa con rol verificado (E10) |
 | El caso del anónimo y el antifraude | Resuelto con **A6 = 4**: [el alcance del antifraude](L4-identidades.md) |
 | Los otros dos tipos de identidad | Resueltos en L4-T3: [las tres identidades](L4-identidades.md) |
-| El KYC real | Es L4-T2, y es investigación: el stack OSS viable en Colombia |
+| El KYC real | L4-T2 lo midió y A1 lo decidió: hay verificación documental, y la señal registral queda como costura declarada |
 | El aislamiento con RLS sobre `project_id` | Es del mod de dark-memory. Aquí va la especificación y la verificación, no el SQL |
 | Los permisos por categoría | Es L4-T5, y necesita el modelo de permisos cerrado |
 | El pool de nicknames del anónimo | El modelo del anónimo está en L4-T3; el pool sigue sin cerrarse |

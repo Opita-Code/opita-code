@@ -17,11 +17,11 @@ L3 dejó tres preguntas abiertas (A5, A6 y A7). El operador las respondió el
 
 ## Lo que L4-T3 NO entrega
 
-- **El KYC real.** L4-T2 ya existe, y su conclusión es que el stack libre
-  cubre cuatro de las cinco señales y no la registral. La fábrica legal sigue
-  sin aceptar un KYC y `verificada` sigue rechazada con `E_KYC_SIN_STACK`,
-  porque la señal que falta cuesta dinero. Está en [la decisión del
-  stack](L4-T2-decision.md).
+- **El KYC registral.** L4-T2 confirmó que el stack libre cubre cuatro de las
+  cinco señales y no la registral, porque esa señal es un contrato con la
+  Registraduría. Con A1, la identidad legal lleva verificación **documental**,
+  con su evidencia; la señal registral queda como una costura declarada y
+  opcional. Está en [la verificación](L4-verificacion.md).
 - **El pool cerrado de nicknames.** Es una lista, y el «nunca reciclado» exige
   un registro con estado durable: no es cosa del runtime. Lo que sí está es la
   inmutabilidad, en código: la identidad sale congelada.
@@ -60,6 +60,12 @@ código. Midió once piezas contra la API de GitHub (licencia, estrellas y últi
 subida), dos catálogos de datos abiertos, los límites de AWS Lambda y el README
 de dos proyectos. Su entregable son tres documentos: [la matriz](L4-T2-matriz.md),
 [las piezas](L4-T2-piezas.md) y [la decisión](L4-T2-decision.md).
+
+Y A1, que es su consecuencia: doce tests nuevos y catorce mutantes nuevos, y
+los catorce mueren. La cuenta no cerró a la primera: un mutante sobrevivió
+porque el test usaba una cadena con «cotes» y no con «cotejo», y el mutante no
+tenía nada que distinguir. Un test que no distingue dos comportamientos no
+mira nada.
 
 ## Y lo que queda para el siguiente
 

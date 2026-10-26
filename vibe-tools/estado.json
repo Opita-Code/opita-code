@@ -93,35 +93,35 @@
       "id": "L4",
       "nombre": "Identidad: las tres identidades y la puerta que las comprueba",
       "estado": "siguiente",
-      "resumen": "La identidad deja de ser una cadena suelta: son tres tipos que no se cruzan, con la clave derivada del tipo y del identificador, y una puerta que los comprueba antes de dejar correr una herramienta. Y el KYC ya no es una promesa: cuatro de sus cinco señales tienen dueño libre, y la que falta cuesta dinero.",
-      "puede": "La identidad son tres tipos que no se cruzan, y una puerta que los comprueba antes de dejar correr una herramienta.",
+      "resumen": "La identidad deja de ser una cadena suelta: son tres tipos que no se cruzan, con la clave derivada del tipo y del identificador, y una puerta que los comprueba antes de dejar correr una herramienta. Y su verificacion tiene tres estados, con la evidencia que los respalda: el documento leido, el liveness, el cotejo y el screening.",
+      "puede": "La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening.",
       "mas_tuyo": "Nadie puede apuntar una identidad legal al mod de una empresa: la clave se deriva del tipo, y la puerta lo comprueba en runtime, no una disciplina.",
-      "hallazgo": "La identidad no era un tipo sino tres: con `kind` y `projectId` como cadenas libres, una identidad legal podia apuntar al mod de la empresa, y la separacion de identidades del boundary estaba escrita pero rota. Ahora es un union discriminado, la clave se deriva del tipo y del id, y la puerta comprueba la identidad antes de sellar. Y el camino rapido del sellado devolvia el contexto sin copiarlo: la identidad -la clave de aislamiento- quedaba en la mano del llamador. Congelar la superficie no congela lo que hay dentro: la identidad es un objeto.",
-      "abierto": "En curso: L4-T4 (RLS sobre project_id), L4-T5 (los permisos) y L4-T6 (exportar el .opitpack).",
+      "hallazgo": "El KYC era una cadena: `kyc: 'simulada'` o `kyc: 'verificada'`, y el verificado no tenia quien lo respaldara. Con A1 la identidad legal lleva evidencia (senales, stack y fecha), y la puerta comprueba que el estado y las senales no se contradigan. Y al meter un objeto dentro de la identidad volvio el bug de L4-T1: congelar la superficie no congela lo que hay dentro, asi que la evidencia se copia en cascada.",
+      "abierto": "En curso: L4-T4 (RLS), L4-T5 (permisos) y L4-T6 (export).",
       "documento_cierre": null,
       "indice": "docs/arquitectura/loops/INDICE-L4.md"
     }
   ],
 
   "kpis": {
-    "tests_total": 316,
-    "tests_pasan": 316,
+    "tests_total": 328,
+    "tests_pasan": 328,
     "tests_fallan": 0,
-    "tests_por_prefijo": { "L0": 78, "P": 10, "L1": 87, "L2": 107, "L4": 23, "L5": 11 },
+    "tests_por_prefijo": { "L0": 78, "P": 10, "L1": 87, "L2": 107, "L4": 35, "L5": 11 },
     "tests_agrupacion": "por prefijo del nombre del test. El reparto por archivo da otros numeros, y por eso se declara cual de los dos se usa: una cifra que el lector no puede reconciliar no es un dato, es decoracion.",
-    "mutantes_total": 176,
-    "mutantes_muertos": 176,
+    "mutantes_total": 190,
+    "mutantes_muertos": 190,
     "mutantes_sobrevivientes": 0,
-    "mutantes_paquetes": 33,
+    "mutantes_paquetes": 35,
     "mutantes_score": 100.0,
     "mutantes_umbral": 80,
     "mutantes_nota": "El 142/142 que se reporto desde L0 no era una medida: el harness corria los tests con shell:true, y en Windows el glob no lo expandia nadie, asi que Node no encontraba el archivo y salia con codigo 1, y el harness contaba ese error como «el mutante murio». El numero real de entonces era 123/142, con 19 huecos. Los 19 se cerraron con sus tests, y al hacerlo la mutation testing destapo que el chequeo de secciones de imports duplicadas estaba detras del chequeo de orden, y era codigo muerto. Ver docs/arquitectura/loops/L-CI-arreglo.md.",
-    "unidades_juzgables": 126,
+    "unidades_juzgables": 129,
     "unidades_exceden": 0,
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,
-    "documentos_judge_aligned": 20,
-    "judge_detalle": "28 de 28 partes en aligned: 10 de L3, 14 de L4-T3 y 4 de L4-T2. Confidence 1.0000, nli_label entailment, provider chat-minimax."
+    "documentos_judge_aligned": 21,
+    "judge_detalle": "43 de 43 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2 y 15 de A1. Confidence 1.0000, nli_label entailment, provider chat-minimax."
   },
 
   "superficie": {
@@ -149,7 +149,6 @@
 
   "abiertos": [
     { "id": "A4", "titulo": "Si el documento legal de cumplimiento va publico", "quien": "operador", "bloquea": "la superficie legal publicada" },
-    { "id": "A8", "titulo": "Los bindings reales de Pyodide, WebContainers y Firecracker", "quien": "equipo", "bloquea": "publicar que el sistema ejecuta con red" },
-    { "id": "A9", "titulo": "Que se puede publicar de una identidad legal sin registro oficial", "quien": "operador", "bloquea": "publicar una identidad legal verificada" }
+    { "id": "A8", "titulo": "Los bindings reales de Pyodide, WebContainers y Firecracker", "quien": "equipo", "bloquea": "publicar que el sistema ejecuta con red" }
   ]
 }

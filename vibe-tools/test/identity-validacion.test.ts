@@ -25,7 +25,7 @@ const CRUZADA = {
   kind: 'legal',
   id: 'id-legal',
   projectId: 'identity:org:id-legal',
-  kyc: 'simulada',
+  kyc: { estado: 'simulada' },
 } as const;
 
 function descriptor(): ToolDescriptor {
@@ -74,11 +74,11 @@ test('L4-T3 · el anonimo no puede llevar localizadores', () => {
 });
 
 test('L4-T3 · el KYC verificado no se acepta sin stack', () => {
-  // L4-T2 no existe: no hay quien respalde `verificada`, y declararla seria
-  // una mentira publicable.
-  const verificada = { ...IDENTIDAD, kyc: 'verificada' };
+  // Sin evidencia no hay quien respalde el estado, y declararla seria una
+  // mentira publicable.
+  const verificada = { ...IDENTIDAD, kyc: { estado: 'verificada' } };
   assert.deepEqual(validarIdentidad(verificada), ['E_KYC_SIN_STACK']);
-  const inventado = { ...IDENTIDAD, kyc: 'aprobada' };
+  const inventado = { ...IDENTIDAD, kyc: { estado: 'aprobada' } };
   assert.deepEqual(validarIdentidad(inventado), ['E_KYC_INVALIDO']);
 });
 

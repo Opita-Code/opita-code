@@ -20,7 +20,7 @@ no lleva no se puede llevar.
 
 | Tipo | Lo que lleva | Lo que NO lleva |
 |---|---|---|
-| legal | id, clave, KYC | el rol, el RUT, la empresa a la que pertenece |
+| legal | id, clave, verificación | el rol, el RUT, la empresa a la que pertenece |
 | empresa | id, clave, razón social | el nombre de la persona legal, el rol de quien opera |
 | anónimo | id, clave, nickname | localizadores (psicometría, IP, dispositivo) |
 
@@ -56,9 +56,8 @@ Si la identidad no sirve, la tool no corre: el sandbox devuelve
 `E_IDENTITY_INVALID`. Es una precondición denegada, no un fallo de la tool,
 que ni llegó a ejecutarse.
 
-Los siete motivos: `E_NAMESPACE`, `E_CAMPO_EXTRA`, `E_KYC_INVALIDO`,
-`E_KYC_SIN_STACK`, `E_RAZON_SOCIAL_VACIA`, `E_NICKNAME_VACIO`,
-`E_ANONIMO_LOCALIZABLE`.
+Los nueve motivos: cinco de la forma y los campos vacíos, y cuatro del KYC,
+que están en [la verificación](L4-verificacion.md).
 
 ## Dónde llega el antifraude
 

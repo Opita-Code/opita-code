@@ -62,12 +62,27 @@ export { PREFIJOS, CAMPOS_POR_TIPO, namespaceDe } from './identity.js';
 export type {
   Identity,
   IdentityKind,
-  KycEstado,
   IdentidadLegal,
   IdentidadEmpresa,
   IdentidadAnonimo,
 } from './identity.js';
-export { identidadAnonima, identidadEmpresa, identidadLegal, mismaIdentidad } from './identity/operaciones.js';
+export {
+  identidadAnonima,
+  identidadEmpresa,
+  identidadLegal,
+  identidadLegalDocumental,
+  identidadLegalVerificada,
+  mismaIdentidad,
+  copiarIdentidad,
+} from './identity/operaciones.js';
 export { ALCANCE_ANTIFRAUDE, alcanceAntifraude, LOCALIZADORES } from './identity/antifraude.js';
+export {
+  SENALES_DOCUMENTALES,
+  senalesQueExige,
+  congelarEvidencia,
+} from './identity/kyc.js';
+export type { KycEstado, SenalKyc, EvidenciaKyc, VerificacionKyc } from './identity/kyc.js';
+export { validarKyc } from './identity/kyc-puerta.js';
+export type { MotivoKyc } from './identity/kyc-puerta.js';
 export { validarIdentidad, afirmarIdentidad, IdentidadInvalidaError } from './identity/validacion.js';
 export type { MotivoIdentidad } from './identity/validacion.js';

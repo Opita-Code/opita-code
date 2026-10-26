@@ -17,6 +17,7 @@
 
 import type { Identity } from './identity.js';
 import { afirmarIdentidad } from './identity/validacion.js';
+import { copiarIdentidad } from './identity/operaciones.js';
 
 export type ContextProfile = 'none' | 'minimal';
 
@@ -40,7 +41,7 @@ export function emptyContext(actorId: string, identity: Identity, deadlineMs = 5
     profile: 'none',
     injected: Object.freeze({}),
     actorId,
-    identity: Object.freeze({ ...identity }),
+    identity: copiarIdentidad(identity),
     deadlineMs,
   }) as ToolContext;
   sealed.add(ctx);
@@ -58,14 +59,13 @@ export function emptyContext(actorId: string, identity: Identity, deadlineMs = 5
  * Sellado PROFUNDO, no superficial: sin esto una tool podia mutar un objeto
  * anidado del contexto inyectado.
  *
- * LA IDENTIDAD TAMBIEN, Y EN COPIA. Congelar la superficie del contexto no
- * congela lo que hay dentro: `identity` es un objeto, y con un
- * `Object.freeze` de superficie seguia mutable. Eso no es un detalle: la
- * `projectId` de la identidad es la clave de aislamiento, y si una tool
- * puede cambiarla despues de que el harness decidio el contexto, la
- * separacion de identidades se deshace en vuelo. Por eso la identidad se
- * sella en COPIA: congelar el objeto del llamador lo dejaria a el con un
- * objeto congelado que no pidio, y mutarlo despues no tocaria el contexto.
+ * LA IDENTIDAD TAMBIEN, Y EN COPIA, Y POR DENTRO. Congelar la superficie del
+ * contexto no congela lo que hay dentro: `identity` es un objeto, y ahora
+ * lleva otro dentro, la evidencia del KYC. Si una tool puede mutarla despues
+ * de que el harness decidio el contexto, la separacion de identidades se
+ * deshace en vuelo. Por eso la identidad se copia EN CASCADA: congelar el
+ * objeto del llamador lo dejaria a el con un objeto congelado que no pidio, y
+ * mutarlo despues no tocaria el contexto.
  *
  * Y EL CAMINO RAPIDO TAMBIEN. `emptyContext` marca su resultado como sellado,
  * asi que `sealContext` lo devuelve sin tocarlo. Sin la copia ahi, el contexto
@@ -82,7 +82,7 @@ export function sealContext(ctx: ToolContext): ToolContext {
   const out = Object.freeze({
     ...ctx,
     injected: Object.freeze(deepFreeze({ ...ctx.injected })),
-    identity: Object.freeze({ ...ctx.identity }),
+    identity: copiarIdentidad(ctx.identity),
   }) as ToolContext;
   sealed.add(out);
   return out;

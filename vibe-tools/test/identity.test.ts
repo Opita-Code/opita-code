@@ -14,14 +14,15 @@ type IdentidadEditable = { -readonly [K in keyof (typeof IDENTIDAD)]: (typeof ID
 test('L4-T1 · el stub es una identidad legal con el KYC simulado', () => {
   const id = identidadLegal('id-1');
   assert.equal(id.kind, 'legal');
-  assert.equal(id.kyc, 'simulada');
+  assert.equal(id.kyc.estado, 'simulada');
   assert.equal(id.projectId, 'identity:legal:id-1');
 });
 
 test('L4-T1 · el KYC del stub es simulado, y no verificado', () => {
-  // La distincion importa: `verificada` sin stack de KYC seria una mentira
-  // publicable. Si este test falla, alguien subio el estado a mano.
-  assert.notEqual(identidadLegal('id-1').kyc, 'verificada');
+  // La distincion importa: un estado verificado sin evidencia seria una
+  // mentira publicable. Si este test falla, alguien subio el estado a mano.
+  assert.notEqual(identidadLegal('id-1').kyc.estado, 'documental');
+  assert.notEqual(identidadLegal('id-1').kyc.estado, 'verificada');
 });
 
 test('L4-T1 · el contexto lleva la identidad, y el contexto vacio tambien', () => {
@@ -50,7 +51,7 @@ test('L4-T1 · sellar copia la identidad: mutar el original no cambia el context
     id: 'id-2',
     kind: 'legal',
     projectId: 'identity:legal:id-2',
-    kyc: 'simulada',
+    kyc: { estado: 'simulada' },
   };
   const ctx = sealContext(emptyContext('actor-1', mutable));
   mutable.projectId = 'identity:org:id-2';
@@ -65,7 +66,7 @@ test('L4-T1 · el camino rapido tambien copia la identidad', () => {
     id: 'id-4',
     kind: 'legal',
     projectId: 'identity:legal:id-4',
-    kyc: 'simulada',
+    kyc: { estado: 'simulada' },
   };
   const ctx = emptyContext('actor-1', mutable);
   mutable.projectId = 'identity:org:id-4';
@@ -78,7 +79,7 @@ test('L4-T1 · sellar no congela el objeto del llamador', () => {
     id: 'id-3',
     kind: 'legal',
     projectId: 'identity:legal:id-3',
-    kyc: 'simulada',
+    kyc: { estado: 'simulada' },
   };
   sealContext(emptyContext('actor-1', mutable));
   assert.equal(Object.isFrozen(mutable), false, 'sellar congelo el objeto del llamador, no una copia');
@@ -92,7 +93,7 @@ test('L4-T1 · sellar un contexto ARMADO A MANO tambien sella la identidad', () 
     id: 'id-5',
     kind: 'legal',
     projectId: 'identity:legal:id-5',
-    kyc: 'simulada',
+    kyc: { estado: 'simulada' },
   };
   const ctx = sealContext({
     profile: 'minimal' as const,

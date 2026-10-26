@@ -16,7 +16,7 @@
 | `verificar-estado` | que los números publicados cuadren con la realidad medida, que cada loop cerrado tenga su documento, y que la superficie generada esté al día | que el veredicto del juez sea el que se cita (vive en la base de dark-memory, no en el repo) |
 | `generar-estado --check` | que lo escrito (README, STATUS, avances, la matriz de las specs) sea exactamente lo que sale de la fuente | que los números sean ciertos; eso lo mide `verificar-estado` contra la realidad |
 | `generar-sitio --check` | que las páginas del sitio sean exactamente las que sale de la fuente | que los números sean ciertos; eso lo mide `verificar-estado` contra la realidad |
-| `identidad` (runtime) | que la identidad sea del tipo que dice y con la clave derivada | si el id existe, ni el contenido inyectado, ni el pool |
+| `identidad` (runtime) | que la identidad sea del tipo que dice, con la clave derivada y con la evidencia de su estado | si el id existe, ni el contenido inyectado, ni el pool, ni que el stack sea honesto |
 
 ## QUÉ CORRE, Y EN QUÉ ORDEN
 
@@ -50,5 +50,4 @@ el texto dice la verdad; `budget` no juzga si el contenido es el correcto;
 caza el número, la persona caza el recorte.**
 
 Y hay una tercera, la que importa: lo que no se puede medir no se publica como
-si estuviera medido. Por eso esta tabla dice lo que cada control NO ve: es lo
-que evita citar un control como si cubriera todo.
+si estuviera medido. Por eso esta tabla dice lo que cada control NO ve.

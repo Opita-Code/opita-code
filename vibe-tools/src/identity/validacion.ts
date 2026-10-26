@@ -15,7 +15,8 @@
  *     que viaja de mas: el nombre de la persona legal en la identidad de la
  *     empresa es el cruce que el boundary prohibe.
  *   - El anonimo NO lleva campos localizadores (A6 = opcion 4).
- *   - El KYC no se declara sin stack: `simulada` es lo unico respaldable.
+ *   - El KYC se comprueba con su propia puerta: la evidencia, y que traiga las
+ *     señales que el estado exige.
  *
  * LO QUE NO COMPRUEBA. La FORMA, no la verdad: no sabe si el id existe, ni si
  * el nickname viene de un pool cerrado. Eso lo sabe el harness, el unico actor
@@ -24,13 +25,13 @@
 
 import { CAMPOS_POR_TIPO, namespaceDe, PREFIJOS, type Identity, type IdentityKind } from '../identity.js';
 import { LOCALIZADORES } from './antifraude.js';
+import { validarKyc, type MotivoKyc } from './kyc-puerta.js';
 
 /** Por que una identidad puede no servir. */
 export type MotivoIdentidad =
+  | MotivoKyc
   | 'E_NAMESPACE'
   | 'E_CAMPO_EXTRA'
-  | 'E_KYC_INVALIDO'
-  | 'E_KYC_SIN_STACK'
   | 'E_RAZON_SOCIAL_VACIA'
   | 'E_NICKNAME_VACIO'
   | 'E_ANONIMO_LOCALIZABLE';
@@ -67,9 +68,8 @@ export function validarIdentidad(candidata: unknown): MotivoIdentidad[] {
   }
 
   if (k === 'legal') {
-    const kyc = c['kyc'];
-    if (kyc !== 'simulada' && kyc !== 'verificada') motivos.push('E_KYC_INVALIDO');
-    else if (kyc === 'verificada') motivos.push('E_KYC_SIN_STACK');
+    // El KYC tiene su propia puerta: la evidencia y las señales que exige.
+    motivos.push(...validarKyc(c['kyc']));
   }
   if (k === 'empresa') {
     const rs = c['razonSocial'];

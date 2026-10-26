@@ -10,7 +10,8 @@
  * otro no lleva, y el que no lo lleva no debe poderllo. El union hace que eso
  * sea un error de compilacion y no una disciplina.
  *
- *   - LEGAL: el yo real. KYC simulada hasta que haya stack (L4-T2).
+ *   - LEGAL: el yo real. Su verificacion tiene tres estados, y el KYC vive en
+ *     otro archivo porque es otra preocupacion.
  *   - EMPRESA: la organizacion. Su mod y su razon social (D6).
  *   - ANONIMO: el perfil sin nombre. Un nickname y nada mas.
  *
@@ -21,18 +22,13 @@
  * empresa: la separacion se deshacia en la construccion, no en el uso.
  *
  * LO QUE NO HACE: no verifica de donde salio un dato (eso es del harness), no
- * decide el KYC real, y no conoce a la persona.
+ * decide si el KYC es verdad (la FORMA la comprueba la puerta; la verdad la
+ * sabe el harness), y no conoce a la persona.
  */
+
+import type { VerificacionKyc } from './identity/kyc.js';
 
 export type IdentityKind = 'legal' | 'empresa' | 'anonimo';
-
-/**
- * Que se sabe del KYC. `simulada` es lo unico que el runtime puede respaldar:
- * no hay stack de KYC (L4-T2), y decir `verificada` sin stack seria una
- * mentira publicable. El segundo valor existe para que el validador distinga
- * «estado desconocido» de «estado que nadie respalda todavia».
- */
-export type KycEstado = 'simulada' | 'verificada';
 
 /** Los prefijos de proyecto. Del documento legal, seccion 3.1. */
 export const PREFIJOS: Readonly<Record<IdentityKind, string>> = Object.freeze({
@@ -47,7 +43,8 @@ export interface IdentidadLegal {
   readonly id: string;
   /** La clave de aislamiento. Derivada: `identity:legal:<id>`. */
   readonly projectId: string;
-  readonly kyc: KycEstado;
+  /** La verificacion, con su evidencia. El union esta en identity/kyc.ts. */
+  readonly kyc: VerificacionKyc;
 }
 
 /**

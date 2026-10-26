@@ -44,6 +44,6 @@ Total: 3131 B · 2 medidos · 0 proyectados.
 
 | Parte | Clase | Afirmación | Bytes | De dónde |
 |---|---|---|---|---|
-| L4-avances | avances | La identidad son tres tipos que no se cruzan, y una puerta que los comprueba antes de dejar correr una herramienta. | 1178 | proyectado |
+| L4-avances | avances | La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. | 1178 | proyectado |
 
 Total: 1178 B · 0 medidos · 1 proyectados.

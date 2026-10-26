@@ -49,20 +49,24 @@ que nadie puede entregar.
 - El QR de la cédula digital de 2024 no se midió: la ruta que se comparó es la
   del código PDF417.
 
-## La pregunta que queda para el operador
+## La pregunta, y su respuesta
 
 **A9: ¿qué puede publicar el producto sobre la identidad legal si el registro
-oficial no es libre?**
+oficial no es libre?** El operador respondió **A1** el 2026-10-26.
 
-- **A1 (recomendada).** Se publica **verificación documental**: documento,
+- **A1 (la elegida).** Se publica **verificación documental**: documento,
   liveness, cotejo y screening, con el nombre que no miente. La señal
   registral queda como una costura declarada y opcional, que el usuario puede
   contratar. Es lo único que se puede sostener sin pagar a nadie.
-- **A2.** `verificada` solo con el registro oficial. Entonces el stack libre
+- A2. `verificada` solo con el registro oficial. Entonces el stack libre
   sirve para el antifraude y no para el estado, y la identidad legal del
   producto sigue siendo simulada en la práctica.
-- **A3.** La identidad legal no sale hasta que haya contrato con la
+- A3. La identidad legal no sale hasta que haya contrato con la
   Registraduría, y el producto arranca con las otras dos.
+
+Y A1 se implementó: el runtime tiene tres estados de verificación, y cada uno
+dice qué se comprobó, quién lo comprobó y cuándo. Está en [la
+verificación](L4-verificacion.md).
 
 ## Y el dato sensible
 

@@ -4,7 +4,7 @@
 
 ## Ahora
 
-**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T4 (RLS sobre project_id), L4-T5 (los permisos) y L4-T6 (exportar el .opitpack).
+**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T4 (RLS), L4-T5 (permisos) y L4-T6 (export).
 
 ## Lo que ya funciona
 
@@ -19,11 +19,11 @@
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 316 de 316, 0 fallos |
-| Mutantes | 176 de 176, 100% en 33 paquetes (umbral 80%) |
-| Unidades juzgables | 126, y 0 exceden los 4096 B |
+| Tests | 328 de 328, 0 fallos |
+| Mutantes | 190 de 190, 100% en 35 paquetes (umbral 80%) |
+| Unidades juzgables | 129, y 0 exceden los 4096 B |
 | Gates de loop | 4 loops cerrados |
-| Veredicto del juez | 28 de 28 partes en aligned: 10 de L3, 14 de L4-T3 y 4 de L4-T2. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
+| Veredicto del juez | 43 de 43 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2 y 15 de A1. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 
 ## Abierto
 
@@ -31,7 +31,6 @@
 | --- | --- |
 | Si el documento legal de cumplimiento va publico | operador |
 | Los bindings reales de Pyodide, WebContainers y Firecracker | equipo |
-| Que se puede publicar de una identidad legal sin registro oficial | operador |
 
 ## El detalle
 
