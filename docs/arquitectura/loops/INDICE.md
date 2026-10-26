@@ -39,14 +39,14 @@
 | Doc | Preocupación |
 |---|---|
 | [L3-mindsets](L3-mindsets.md) | Por qué E1-E12 son de mecánica y de dónde salen los seis mindsets |
-| [L3-criterio](L3-criterio.md) | Qué borde se escribe, y hasta dónde llega este razonamiento |
+| [L3-criterio](L3-criterio.md) | Qué borde se escribe y hasta dónde llega |
 | [L3-mindset-espejo](L3-mindset-espejo.md) | La memoria soy yo: rectificar, corregir, borrar |
-| [L3-mindset-empresa](L3-mindset-empresa.md) | La memoria es del proyecto: fundador y empleado, deseos opuestos |
+| [L3-mindset-empresa](L3-mindset-empresa.md) | La memoria del proyecto: fundador y empleado |
 | [L3-mindset-archivo](L3-mindset-archivo.md) | Esto lo van a leer otros: anonimato contra antifraude |
 | [L3-mindset-veredicto](L3-mindset-veredicto.md) | La memoria me juzga: el flag que no se puede impugnar |
 | [L3-mindset-precio](L3-mindset-precio.md) | La memoria es con lo que pago: qué se pierde al retirar |
 | [L3-mindset-no-pedi](L3-mindset-no-pedi.md) | Esto se recogió y yo no lo autoricé |
-| [L3-reconciliacion](L3-reconciliacion.md) | Qué sobrevive de las 8 reglas y los 12 bordes de la spec |
+| [L3-reconciliacion](L3-reconciliacion.md) | Qué sobrevive de las 8 reglas y los 12 bordes |
 | [L3-cambios](L3-cambios.md) | Lo que hay que añadir, y lo que queda abierto para el operador |
 | [decisiones](INDICE-decisiones.md) | A5, A6 y A7: las preguntas abiertas del operador, con las opciones |
 
@@ -55,6 +55,8 @@
 | Doc | Preocupación |
 |---|---|
 | [L4-identidad](L4-identidad.md) | El stub legal, y el contexto sellado que lo lleva |
+| [L4-identidades](L4-identidades.md) | Las tres identidades, la clave y la puerta |
+| [L4-alcance](L4-alcance.md) | Qué cierra y qué no entrega |
 
-La superficie publica, los documentos de L-PUB y los documentos transversales estan en
+La superficie publica y los documentos transversales estan en
 [INDICE-publico.md](INDICE-publico.md).

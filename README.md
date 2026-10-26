@@ -29,16 +29,16 @@ que fue escrito y dice si el documento cumple.
 <!-- GENERADO:estado -->
 ### Ahora
 
-**L4 · Identidad: un stub, y despues tres identidades.** En curso: la identidad ya viaja dentro del contexto sellado, con su clave de aislamiento.
+**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T2 (KYC), L4-T4 (RLS sobre project_id) y L4-T5 (los permisos).
 
 ### La evidencia, medida
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 302 de 302 |
-| Mutantes | 155 de 155 (100%, 30 paquetes) |
-| Unidades juzgables | 117, 0 exceden los 4096 B |
-| Veredicto del juez | 10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
+| Tests | 316 de 316 |
+| Mutantes | 176 de 176 (100%, 33 paquetes) |
+| Unidades juzgables | 122, 0 exceden los 4096 B |
+| Veredicto del juez | 24 de 24 partes en aligned: 10 de L3 y 14 de L4-T3. Confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
 
 ### Los documentos
 

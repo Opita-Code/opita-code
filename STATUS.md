@@ -1,10 +1,10 @@
 # Estado
 
-> Actualizado el 2026-10-25. Generado desde `vibe-tools/estado.json`: no se edita a mano.
+> Actualizado el 2026-10-26. Generado desde `vibe-tools/estado.json`: no se edita a mano.
 
 ## Ahora
 
-**L4 · Identidad: un stub, y despues tres identidades.** En curso: la identidad ya viaja dentro del contexto sellado, con su clave de aislamiento.
+**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T2 (KYC), L4-T4 (RLS sobre project_id) y L4-T5 (los permisos).
 
 ## Lo que ya funciona
 
@@ -19,20 +19,17 @@
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 302 de 302, 0 fallos |
-| Mutantes | 155 de 155, 100% en 30 paquetes (umbral 80%) |
-| Unidades juzgables | 117, y 0 exceden los 4096 B |
+| Tests | 316 de 316, 0 fallos |
+| Mutantes | 176 de 176, 100% en 33 paquetes (umbral 80%) |
+| Unidades juzgables | 122, y 0 exceden los 4096 B |
 | Gates de loop | 4 loops cerrados |
-| Veredicto del juez | 10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
+| Veredicto del juez | 24 de 24 partes en aligned: 10 de L3 y 14 de L4-T3. Confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded. |
 
 ## Abierto
 
 | Que falta | De quien |
 | --- | --- |
 | Si el documento legal de cumplimiento va publico | operador |
-| El eje del corte de L3: por creencia, y no por edad, rol o cohorte | operador |
-| Cual se degrada si hay que elegir: el anonimato o el antifraude | operador |
-| El sexto consentimiento, en contexto de organizacion, y el techo de falsos positivos | operador |
 | Los bindings reales de Pyodide, WebContainers y Firecracker | equipo |
 
 ## El detalle

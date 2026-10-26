@@ -7,7 +7,7 @@
     "repo": "https://github.com/Opita-Code/opita-code",
     "version": "0.4.0",
     "tag": "v0.4.0",
-    "actualizado": "2026-10-25",
+    "actualizado": "2026-10-26",
     "pagina": { "url": "https://opita-code.github.io/opita-code/" },
     "canales": {
       "plataformas": ["Facebook", "Instagram", "LinkedIn"],
@@ -91,37 +91,37 @@
     },
     {
       "id": "L4",
-      "nombre": "Identidad: un stub, y despues tres identidades",
+      "nombre": "Identidad: las tres identidades y la puerta que las comprueba",
       "estado": "siguiente",
       "resumen": "",
       "puede": "",
       "mas_tuyo": "",
-      "hallazgo": "El camino rapido del sellado devolvia el contexto sin copiarlo, y la identidad -la clave de aislamiento- quedaba en la mano del llamador. Congelar la superficie no congela lo que hay dentro: la identidad es un objeto. Y tres mutantes sobre esa linea sobrevivieron, porque los tests no llegaban al camino del sellado completo.",
-      "abierto": "En curso: la identidad ya viaja dentro del contexto sellado, con su clave de aislamiento.",
+      "hallazgo": "La identidad no era un tipo sino tres: con `kind` y `projectId` como cadenas libres, una identidad legal podia apuntar al mod de la empresa, y la separacion de identidades del boundary estaba escrita pero rota. Ahora es un union discriminado, la clave se deriva del tipo y del id, y la puerta comprueba la identidad antes de sellar. Y el camino rapido del sellado devolvia el contexto sin copiarlo: la identidad -la clave de aislamiento- quedaba en la mano del llamador. Congelar la superficie no congela lo que hay dentro: la identidad es un objeto.",
+      "abierto": "En curso: L4-T2 (KYC), L4-T4 (RLS sobre project_id) y L4-T5 (los permisos).",
       "documento_cierre": null,
       "indice": "docs/arquitectura/loops/INDICE.md"
     }
   ],
 
   "kpis": {
-    "tests_total": 302,
-    "tests_pasan": 302,
+    "tests_total": 316,
+    "tests_pasan": 316,
     "tests_fallan": 0,
-    "tests_por_prefijo": { "L0": 78, "P": 10, "L1": 87, "L2": 107, "L4": 9, "L5": 11 },
+    "tests_por_prefijo": { "L0": 78, "P": 10, "L1": 87, "L2": 107, "L4": 23, "L5": 11 },
     "tests_agrupacion": "por prefijo del nombre del test. El reparto por archivo da otros numeros, y por eso se declara cual de los dos se usa: una cifra que el lector no puede reconciliar no es un dato, es decoracion.",
-    "mutantes_total": 155,
-    "mutantes_muertos": 155,
+    "mutantes_total": 176,
+    "mutantes_muertos": 176,
     "mutantes_sobrevivientes": 0,
-    "mutantes_paquetes": 30,
+    "mutantes_paquetes": 33,
     "mutantes_score": 100.0,
     "mutantes_umbral": 80,
     "mutantes_nota": "El 142/142 que se reporto desde L0 no era una medida: el harness corria los tests con shell:true, y en Windows el glob no lo expandia nadie, asi que Node no encontraba el archivo y salia con codigo 1, y el harness contaba ese error como «el mutante murio». El numero real de entonces era 123/142, con 19 huecos. Los 19 se cerraron con sus tests, y al hacerlo la mutation testing destapo que el chequeo de secciones de imports duplicadas estaba detras del chequeo de orden, y era codigo muerto. Ver docs/arquitectura/loops/L-CI-arreglo.md.",
-    "unidades_juzgables": 117,
+    "unidades_juzgables": 122,
     "unidades_exceden": 0,
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,
-    "documentos_judge_aligned": 10,
-    "judge_detalle": "10 de 10 documentos de L3 en aligned, confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded."
+    "documentos_judge_aligned": 16,
+    "judge_detalle": "24 de 24 partes en aligned: 10 de L3 y 14 de L4-T3. Confidence 1.0000, nli_label entailment, provider chat-minimax, model MiniMax-M3, sin degraded."
   },
 
   "superficie": {
@@ -149,9 +149,6 @@
 
   "abiertos": [
     { "id": "A4", "titulo": "Si el documento legal de cumplimiento va publico", "quien": "operador", "bloquea": "la superficie legal publicada" },
-    { "id": "A5", "titulo": "El eje del corte de L3: por creencia, y no por edad, rol o cohorte", "quien": "operador", "bloquea": "el cierre semantico de L3" },
-    { "id": "A6", "titulo": "Cual se degrada si hay que elegir: el anonimato o el antifraude", "quien": "operador", "bloquea": "el diseno del mod antifraude" },
-    { "id": "A7", "titulo": "El sexto consentimiento, en contexto de organizacion, y el techo de falsos positivos", "quien": "operador", "bloquea": "la capa psicometrica" },
     { "id": "A8", "titulo": "Los bindings reales de Pyodide, WebContainers y Firecracker", "quien": "equipo", "bloquea": "publicar que el sistema ejecuta con red" }
   ]
 }

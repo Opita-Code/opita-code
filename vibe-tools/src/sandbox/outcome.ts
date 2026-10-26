@@ -19,6 +19,7 @@ export type SandboxErrorCode =
   | 'E_NOT_BOUND'
   | 'E_HOST_UNSUPPORTED'
   | 'E_MODULE_DENIED'
+  | 'E_IDENTITY_INVALID'
   | 'E_EFFECT_DENIED'
   | 'E_TOOL_ERROR';
 

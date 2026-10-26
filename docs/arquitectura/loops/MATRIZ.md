@@ -40,7 +40,7 @@ Total: 3797 B · 2 medidos · 0 proyectados.
 
 Total: 3131 B · 2 medidos · 0 proyectados.
 
-## L4 · Identidad: un stub, y despues tres identidades
+## L4 · Identidad: las tres identidades y la puerta que las comprueba
 
 | Parte | Clase | Afirmación | Bytes | De dónde |
 |---|---|---|---|---|

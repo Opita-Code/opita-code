@@ -16,6 +16,7 @@
  */
 
 import type { Identity } from './identity.js';
+import { afirmarIdentidad } from './identity/validacion.js';
 
 export type ContextProfile = 'none' | 'minimal';
 
@@ -34,6 +35,7 @@ export interface ToolContext {
 const sealed = new WeakSet<object>();
 
 export function emptyContext(actorId: string, identity: Identity, deadlineMs = 5_000): ToolContext {
+  afirmarIdentidad(identity);
   const ctx = Object.freeze({
     profile: 'none',
     injected: Object.freeze({}),
@@ -66,11 +68,9 @@ export function emptyContext(actorId: string, identity: Identity, deadlineMs = 5
  * objeto congelado que no pidio, y mutarlo despues no tocaria el contexto.
  *
  * Y EL CAMINO RAPIDO TAMBIEN. `emptyContext` marca su resultado como sellado,
- * asi que `sealContext` lo devuelve sin tocarlo. Si la identidad no se copiara
- * ahi, el contexto que nace en el camino rapido llevaria la identidad del
- * llamador, sin congelar: la clave de aislamiento quedaria en su mano. Es el
- * mismo bug de la familia del «camino rapido vuelve a confiar en
- * Object.isFrozen», en la parte que todavia no existia.
+ * asi que `sealContext` lo devuelve sin tocarlo. Sin la copia ahi, el contexto
+ * que nace en el camino rapido llevaria la identidad del llamador sin
+ * congelar, y la clave de aislamiento quedaria en su mano.
  *
  * El camino rapido usa un WeakSet, NO `Object.isFrozen`. `Object.isFrozen` solo
  * mira la superficie: un `injected` congelado que contiene un objeto anidado
@@ -78,6 +78,7 @@ export function emptyContext(actorId: string, identity: Identity, deadlineMs = 5
  */
 export function sealContext(ctx: ToolContext): ToolContext {
   if (sealed.has(ctx)) return ctx;
+  afirmarIdentidad(ctx.identity);
   const out = Object.freeze({
     ...ctx,
     injected: Object.freeze(deepFreeze({ ...ctx.injected })),

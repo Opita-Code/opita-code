@@ -1,68 +1,98 @@
 /**
- * LA IDENTIDAD: bajo que datos corre una tool.
+ * LAS TRES IDENTIDADES: EL MODELO.
  *
  * QUE ES. Una identidad es a quien pertenece la memoria de la que sale el
- * dato inyectado. No es quien ejecuta (eso es `actorId`, que es el actor: una
- * persona, una app, una empresa) ni es la persona: es el proyecto de memoria
- * del que sale el contexto.
+ * dato inyectado. No es quien ejecuta (eso es `actorId`, el actor) ni es la
+ * persona: es el proyecto de memoria del que sale el contexto.
  *
- * POR QUE EXISTE. En L0-L3 el runtime ejecutaba tools sin saber de quien era
- * el dato que les llegaba: `actorId` era una cadena y nada más. Eso no alcanza
- * para la exigencia del boundary: «el contexto inyectado NUNCA cruza
- * identidades». Sin la identidad en el contexto, esa regla no se puede
- * escribir en ninguna parte, porque no hay con qué compararla.
+ * POR QUE UN UNION. Los tres tipos son legal, empresa y anonimo, y estan
+ * decididos. No son tres campos de una misma forma: cada uno lleva lo que el
+ * otro no lleva, y el que no lo lleva no debe poderllo. El union hace que eso
+ * sea un error de compilacion y no una disciplina.
  *
- * POR QUE TRES TIPOS Y POR QUE UN SOLO STUB. Los tres tipos son legal,
- * empresa y anonimo, y estan decididos. Lo que NO esta decidido son tres
- * cosas del operador (A5, A6 y A7), y dos de ellas (el caso de la empresa con
- * rol verificado, E10, y el techo del antifraude) no se pueden escribir sin
- * ellas. Por eso este archivo trae SOLO el stub legal: el unico tipo cuyo
- * comportamiento no depende de una decision pendiente.
+ *   - LEGAL: el yo real. KYC simulada hasta que haya stack (L4-T2).
+ *   - EMPRESA: la organizacion. Su mod y su razon social (D6).
+ *   - ANONIMO: el perfil sin nombre. Un nickname y nada mas.
  *
- * LO QUE ESTE ARCHIVO NO HACE, Y POR QUE.
- *   - No verifica de donde salio un dato. Eso es del harness, que es el unico
- *     actor con autoridad de seleccion (boundary, seccion 2). Aqui lo que se
- *     hace es llevar la identidad de forma que no se pueda cambiar en vuelo.
- *   - No decide el KYC real. El stub dice `simulada`, y decir `verificada` sin
- *     KYC seria una mentira que se puede publicar.
- *   - No conoce a la persona. Que dos identidades sean de la misma persona lo
- *     sabe el harness; el runtime solo ve identificadores.
+ * LA CLAVE SE DERIVA, NO SE PASA. Cada tipo tiene su prefijo (`identity:legal:`,
+ * `identity:org:`, `identity:anon:`, del documento legal seccion 3.1), y la
+ * clave se construye con el tipo y el id. Antes `projectId` era una cadena
+ * libre del llamador, y una identidad legal podia apuntar al mod de la
+ * empresa: la separacion se deshacia en la construccion, no en el uso.
+ *
+ * LO QUE NO HACE: no verifica de donde salio un dato (eso es del harness), no
+ * decide el KYC real, y no conoce a la persona.
  */
 
 export type IdentityKind = 'legal' | 'empresa' | 'anonimo';
 
-/** Que se sabe del KYC. `simulada` es lo unico honesto hasta que haya stack. */
+/**
+ * Que se sabe del KYC. `simulada` es lo unico que el runtime puede respaldar:
+ * no hay stack de KYC (L4-T2), y decir `verificada` sin stack seria una
+ * mentira publicable. El segundo valor existe para que el validador distinga
+ * «estado desconocido» de «estado que nadie respalda todavia».
+ */
 export type KycEstado = 'simulada' | 'verificada';
 
-export interface Identity {
-  /** Identificador de la identidad. No es el de la persona. */
+/** Los prefijos de proyecto. Del documento legal, seccion 3.1. */
+export const PREFIJOS: Readonly<Record<IdentityKind, string>> = Object.freeze({
+  legal: 'identity:legal',
+  empresa: 'identity:org',
+  anonimo: 'identity:anon',
+});
+
+/** La identidad legal: el yo real, con su KYC. */
+export interface IdentidadLegal {
+  readonly kind: 'legal';
   readonly id: string;
-  readonly kind: IdentityKind;
-  /**
-   * La clave de aislamiento: el proyecto de memoria del que sale el dato.
-   * Es la MISMA clave que usa el mod de dark-memory, y por eso es la que
-   * separa una identidad de otra.
-   */
+  /** La clave de aislamiento. Derivada: `identity:legal:<id>`. */
   readonly projectId: string;
   readonly kyc: KycEstado;
 }
 
 /**
- * EL STUB: una identidad legal con el KYC simulado.
+ * La identidad de empresa: la organizacion. Solo lleva la razon social; el
+ * RUT, los roles y el organigrama (D6) viven en el mod de la empresa, y ese mod
+ * no se inyecta entero.
  *
- * Suficiente para una persona con su propio mod: lo que hace falta para que
- * el harness sepa de que proyecto leer, y para que el runtime pueda sellar la
- * identidad junto con el contexto.
+ * Y NO lleva el rol de quien opera: el rol llega como ASERCION verificada,
+ * nunca como contexto (T11). Si fuera contexto, una tool de la empresa sabria
+ * quien es el dueno.
  */
-export function identidadStubLegal(id: string, projectId: string): Identity {
-  return Object.freeze({ id, kind: 'legal', projectId, kyc: 'simulada' });
+export interface IdentidadEmpresa {
+  readonly kind: 'empresa';
+  readonly id: string;
+  /** La clave de aislamiento. Derivada: `identity:org:<id>`. */
+  readonly projectId: string;
+  readonly razonSocial: string;
 }
 
 /**
- * DOS IDENTIDADES SON LA MISMA cuando coinciden las tres cosas que la
- * definen. El tipo no basta: `legal` con otro `projectId` es otro mod, y dos
- * ids distintos son dos identidades aunque se llamen igual.
+ * La identidad anonima: el perfil que no se pega al nombre legal.
+ *
+ * NO TIENE NINGUN CAMPO LOCALIZADOR, y eso es una decision, no un olvido:
+ * A6 = opcion 4, para que el perfil sea anonimo hay que no localizar a la
+ * persona. El precio: el perfil anonimo es el punto mas debil del sistema.
  */
-export function mismaIdentidad(a: Identity, b: Identity): boolean {
-  return a.id === b.id && a.kind === b.kind && a.projectId === b.projectId;
+export interface IdentidadAnonimo {
+  readonly kind: 'anonimo';
+  readonly id: string;
+  /** La clave de aislamiento. Derivada: `identity:anon:<id>`. */
+  readonly projectId: string;
+  /** Del pool cerrado. Inmutable y nunca reciclado. */
+  readonly nickname: string;
+}
+
+export type Identity = IdentidadLegal | IdentidadEmpresa | IdentidadAnonimo;
+
+/** Los campos que cada tipo puede llevar. Lo que no esta, no viaja. */
+export const CAMPOS_POR_TIPO: Readonly<Record<IdentityKind, readonly string[]>> = Object.freeze({
+  legal: Object.freeze(['kind', 'id', 'projectId', 'kyc']),
+  empresa: Object.freeze(['kind', 'id', 'projectId', 'razonSocial']),
+  anonimo: Object.freeze(['kind', 'id', 'projectId', 'nickname']),
+});
+
+/** La clave de aislamiento de una identidad: la construye el tipo, no el llamador. */
+export function namespaceDe(kind: IdentityKind, id: string): string {
+  return `${PREFIJOS[kind]}:${id}`;
 }

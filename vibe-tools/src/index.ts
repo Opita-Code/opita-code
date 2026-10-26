@@ -56,3 +56,18 @@ export { readStructure, hasImportSection } from './sandbox/wasm/structure.js';
 export type { Structure, StructureCode, Section } from './sandbox/wasm/structure.js';
 export { varUint, readName, skipLimits, sectionName, byteAt, allowKey as wasmAllowKey } from './sandbox/wasm/binary.js';
 export type { SandboxOutcome, SandboxErrorCode, Binding, RunRequest } from './sandbox/runner.js';
+
+// L4 · identidad: las tres, sus fabricas, el alcance del antifraude y la puerta
+export { PREFIJOS, CAMPOS_POR_TIPO, namespaceDe } from './identity.js';
+export type {
+  Identity,
+  IdentityKind,
+  KycEstado,
+  IdentidadLegal,
+  IdentidadEmpresa,
+  IdentidadAnonimo,
+} from './identity.js';
+export { identidadAnonima, identidadEmpresa, identidadLegal, mismaIdentidad } from './identity/operaciones.js';
+export { ALCANCE_ANTIFRAUDE, alcanceAntifraude, LOCALIZADORES } from './identity/antifraude.js';
+export { validarIdentidad, afirmarIdentidad, IdentidadInvalidaError } from './identity/validacion.js';
+export type { MotivoIdentidad } from './identity/validacion.js';

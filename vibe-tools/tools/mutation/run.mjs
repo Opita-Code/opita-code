@@ -42,6 +42,64 @@ const MUTANTS = [
   ['src/rules/identity.js', 'R11 borrar el chequeo tier/efecto',
     'if (!tierAllows(t.tier, t.effect)) {', 'if (false) {'],
 
+  // ---- src/identity.ts : las tres identidades, y su clave ---------------
+  ['src/identity.js', 'la clave se deriva sin el id: dos identidades comparten mod',
+    'return `${PREFIJOS[kind]}:${id}`;', 'return `${PREFIJOS[kind]}`;'],
+  ['src/identity.js', 'el prefijo de la empresa es otro',
+    "empresa: 'identity:org',", "empresa: 'identity:enterprise',"],
+  ['src/identity.js', 'la empresa puede llevar el nombre de la persona legal',
+    "empresa: Object.freeze(['kind', 'id', 'projectId', 'razonSocial']),",
+    "empresa: Object.freeze(['kind', 'id', 'projectId', 'razonSocial', 'nombreLegal']),"],
+
+  // ---- src/identity/operaciones.ts : construir y comparar ----------------
+  ['src/identity/operaciones.js', 'la identidad anonima no sale congelada',
+    "Object.freeze({ kind: 'anonimo', id, projectId: namespaceDe('anonimo', id), nickname })",
+    "{ kind: 'anonimo', id, projectId: namespaceDe('anonimo', id), nickname }"],
+  ['src/identity/operaciones.js', 'dos identidades son la misma con solo el id',
+    'return a.id === b.id && a.kind === b.kind && a.projectId === b.projectId;',
+    'return a.id === b.id;'],
+
+  // ---- src/identity/antifraude.ts : donde llega el antifraude -----------
+  ['src/identity/antifraude.js', 'el antifraude alcanza a la empresa',
+    'empresa: false,', 'empresa: true,'],
+  ['src/identity/antifraude.js', 'el antifraude alcanza al anonimo',
+    'anonimo: false,', 'anonimo: true,'],
+  ['src/identity/antifraude.js', 'el antifraude alcanza a todos',
+    'return ALCANCE_ANTIFRAUDE[identity.kind];', 'return true;'],
+
+  // ---- src/identity/validacion.ts : la puerta ---------------------------
+  ['src/identity/validacion.js', 'la clave se comprueba siempre',
+    "if (c['projectId'] !== namespaceDe(k, id))", 'if (false)'],
+  ['src/identity/validacion.js', 'un kind del prototipo pasa el filtro',
+    'if (!Object.hasOwn(PREFIJOS, kind))', 'if (false)'],
+  ['src/identity/validacion.js', 'un campo que no es del tipo pasa',
+    "motivos.push('E_CAMPO_EXTRA');", ''],
+  ['src/identity/validacion.js', 'un localizador en el anonimo pasa',
+    "motivos.push('E_ANONIMO_LOCALIZABLE');", ''],
+  ['src/identity/validacion.js', 'el KYC verificado se acepta sin stack',
+    "else if (kyc === 'verificada')", 'else if (false)'],
+  ['src/identity/validacion.js', 'un KYC que no existe se acepta',
+    "if (kyc !== 'simulada' && kyc !== 'verificada')", 'if (false)'],
+  ['src/identity/validacion.js', 'la razon social vacia pasa',
+    "if (typeof rs !== 'string' || rs.trim().length === 0)", 'if (false)'],
+  ['src/identity/validacion.js', 'el nickname vacio pasa',
+    "if (typeof nick !== 'string' || nick.trim().length === 0)", 'if (false)'],
+  ['src/identity/validacion.js', 'la puerta no cierra: una identidad invalida pasa',
+    'if (motivos.length > 0)', 'if (false)'],
+
+  // ---- src/context.ts : la identidad se comprueba al entrar --------------
+  ['src/context.js', 'el camino rapido no comprueba la identidad',
+    'afirmarIdentidad(identity);', ''],
+  ['src/context.js', 'el sellado no comprueba la identidad',
+    'afirmarIdentidad(ctx.identity);', ''],
+
+  // ---- src/sandbox/runner.ts : la identidad invalida no corre ------------
+  ['src/sandbox/runner.js', 'la identidad invalida no se reporta',
+    'if (e instanceof IdentidadInvalidaError) {', 'if (false) {'],
+  ['src/sandbox/runner.js', 'la identidad invalida se reporta como fallo de la tool',
+    "'E_IDENTITY_INVALID'", "'E_TOOL_ERROR'"],
+
+
   // ---- rules/edges.ts : R2..R6 ------------------------------------------
   ['src/rules/edges.js', 'R2 origen: aceptar arista desde nodo inexistente',
     'if (src === undefined) {', 'if (false) {'],
@@ -106,12 +164,12 @@ const MUTANTS = [
   ['src/context.js', 'boundary: emptyContext sin sellar',
     'const ctx = Object.freeze({', 'const ctx = ({'],
 
-  // ---- identity.ts : la identidad stub y su comparacion ----------------
-  ['src/identity.js', 'L4: el stub nace como empresa, no como legal',
+  // ---- identity/operaciones.ts : la identidad stub y su comparacion ------
+  ['src/identity/operaciones.js', 'L4: el stub nace como empresa, no como legal',
     "kind: 'legal'", "kind: 'empresa'"],
-  ['src/identity.js', 'L4: el stub dice KYC verificado sin stack de KYC',
+  ['src/identity/operaciones.js', 'L4: el stub dice KYC verificado sin stack de KYC',
     "kyc: 'simulada'", "kyc: 'verificada'"],
-  ['src/identity.js', 'L4: toda identidad es la misma',
+  ['src/identity/operaciones.js', 'L4: toda identidad es la misma',
     'return a.id === b.id && a.kind === b.kind && a.projectId === b.projectId;',
     'return true;'],
 

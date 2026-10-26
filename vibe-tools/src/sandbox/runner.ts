@@ -23,6 +23,7 @@ import { scanWasm, T0_ALLOWED } from './wasm/scan.js';
 import type { ToolOutcome, ToolImpl } from '../tool.js';
 import type { ToolDescriptor } from '../contract.js';
 import { sealContext, type ToolContext } from '../context.js';
+import { IdentidadInvalidaError } from '../identity/validacion.js';
 import { fail, type SandboxOutcome } from './outcome.js';
 
 export {
@@ -69,7 +70,19 @@ export function runInSandbox(req: RunRequest): SandboxOutcome {
 
   // Capa 2, dinamica: puerto sin referencia al host.
   const port = createPort(tier, req.backend ?? {});
-  const outcome: ToolOutcome = impl(req.input, sealContext(req.ctx), port);
+  let contexto: ToolContext;
+  try {
+    contexto = sealContext(req.ctx);
+  } catch (e) {
+    // La identidad no se pudo validar: la tool NO corre. No es un fallo de la
+    // tool, que ni llego a ejecutarse: es una precondicion. Y precondicion
+    // denegada se devuelve como veredicto, no como excepcion.
+    if (e instanceof IdentidadInvalidaError) {
+      return fail(tier, 'E_IDENTITY_INVALID', `identidad invalida: ${e.motivos.join(', ')}`, port.attempts);
+    }
+    throw e;
+  }
+  const outcome: ToolOutcome = impl(req.input, contexto, port);
 
   const denegados = port.attempts.filter((a) => !a.granted);
   if (denegados.length > 0) {

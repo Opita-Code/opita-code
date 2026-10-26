@@ -1,6 +1,7 @@
 # L4 · Identidad: el stub y el contexto que lo lleva
 
-> Parte 1 de L4. [El índice](INDICE.md) · [El boundary](../../arquitectura/boundary-memory-v1.md)
+> Parte 1 de L4. [Las tres identidades](L4-identidades.md) · [El alcance](L4-alcance.md) ·
+> [El índice](INDICE.md) · [El boundary](../../arquitectura/boundary-memory-v1.md)
 
 ## Lo que cierra
 
@@ -50,18 +51,18 @@ en la verificación, no en el código. Hoy ese camino tiene su test.
 
 | Queda fuera | Por qué |
 |---|---|
-| La regla de que el contexto no cruza identidades | Necesita el modelo de selección del harness (boundary, sección 2) y el caso de la empresa con rol verificado (E10), que depende de **A7** |
-| El caso del anónimo y el antifraude | Depende de **A6**: cuál de los dos se degrada |
-| Los otros dos tipos de identidad | Dependen de **A5**, el eje del corte: cambiarlo cambia los seis documentos de L3 |
+| La regla de que el contexto no cruza identidades | Necesita el modelo de selección del harness (boundary, sección 2) y el caso de la empresa con rol verificado (E10) |
+| El caso del anónimo y el antifraude | Resuelto con **A6 = 4**: [el alcance del antifraude](L4-identidades.md) |
+| Los otros dos tipos de identidad | Resueltos en L4-T3: [las tres identidades](L4-identidades.md) |
 | El KYC real | Es L4-T2, y es investigación: el stack OSS viable en Colombia |
 | El aislamiento con RLS sobre `project_id` | Es del mod de dark-memory. Aquí va la especificación y la verificación, no el SQL |
 | Los permisos por categoría | Es L4-T5, y necesita el modelo de permisos cerrado |
-| El pool de nicknames del anónimo | Es L4-T3, y el pool sigue sin cerrarse |
+| El pool de nicknames del anónimo | El modelo del anónimo está en L4-T3; el pool sigue sin cerrarse |
 
 ## Lo que se midió
 
-Nueve tests nuevos, y siete mutantes nuevos. Los siete mueren. El total del
-repositorio queda en 149 de 149 mutantes.
+Nueve tests nuevos, y siete mutantes nuevos. Los siete mueren. En aquel
+momento el total del repositorio quedaba en 149 de 149 mutantes.
 
 Y una decisión de diseño que conviene dejar escrita: **la identidad se sella
 en copia, y no se congela el objeto del llamador**. Congelar el objeto de
