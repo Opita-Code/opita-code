@@ -14,7 +14,7 @@
   comentario. En Instagram el enlace del caption ni siquiera es pulsable: va
   en la bio.
 - **Las cifras son las medidas.** 328 pruebas, 190 de 190 mutaciones
-  detectadas, 129 unidades juzgables. Si un número no está medido, no se
+  detectadas, 130 unidades juzgables. Si un número no está medido, no se
   escribe.
 - **La distribución es manual.** La máquina no publica: la persona copia y
   pega. Por eso no aplican las reglas de sigilo del navegador: no hay

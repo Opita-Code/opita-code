@@ -1,12 +1,13 @@
 # Índice de las decisiones del operador
 
-> Las preguntas que L3 dejó abiertas, escritas con la evidencia que el
+> Las preguntas que los loops dejaron abiertas, escritas con la evidencia que el
 > repositorio ya tenía, las opciones y lo que costaría cada una. Cada
-> documento es una decisión: [el catálogo por loop](INDICE.md). Las cinco
+> documento es una decisión: [el catálogo por loop](INDICE.md). Las seis
 > están contestadas desde el 2026-10-26.
 
 | Decisión | Qué pregunta | Respuesta | Documento |
 |---|---|---|---|
+| A4 | Si el documento legal de cumplimiento va público | Opción 2: se publica, con el estado real medido | [A4](decision-A4.md) |
 | A5 | El eje del corte: por creencia, y no por edad, rol o cohorte | Opción 1: se confirma el corte por creencia | [A5](decision-A5.md) |
 | A6 | Cuál se degrada si hay que elegir: el anonimato o el antifraude | Opción 4: se degrada el antifraude | [A6](decision-A6.md) |
 | A7 (C6) | El sexto consentimiento en contexto de organización | A1: un C6 propio y separado | [A7-consentimiento](decision-A7-consentimiento.md) |
@@ -29,6 +30,22 @@ afirmar el producto sobre una identidad legal. El operador respondió A1: se
 publica la verificación documental, y la señal registral queda como una
 costura declarada y opcional. Las tres opciones y la respuesta están en [la
 decisión del stack](L4-T2-decision.md).
+
+## Y la sexta, que salió de la superficie pública
+
+A4 no salió de un loop de código: salió de L-PUB, que la dejó como punto
+abierto. La pregunta «¿el documento legal de cumplimiento va público?» parecía
+de secreto, y medida no lo era: el documento está en el repositorio público
+desde el 2026-10-22 y dentro del release `v0.4.0`, y no tiene ni nombres, ni
+correos, ni credenciales, ni infraestructura. Lo que sí tenía era otro
+problema: describía el sistema **deseado**. De las cuatro condiciones de
+admisibilidad del aislamiento lógico, el sistema cumple una, y las otras tres
+dependen de loops abiertos.
+
+El operador respondió **opción 2**: se publica, y se le pone el estado real.
+Ahora el documento dice qué condiciones faltan y qué loop las cierra, y el
+README lo llama por lo que es. Las cuatro opciones y la respuesta están en
+[A4](decision-A4.md).
 
 ## Y por qué están partidas en cuatro documentos
 

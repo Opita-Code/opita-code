@@ -29,7 +29,15 @@ decidir por él.
    audiencia que no programa.
 3. **La licencia.** Sin licencia, el default legal en un repo público es todos
    los derechos reservados.
-4. **Si el documento legal de cumplimiento va público.**
-5. Las tres decisiones de L3, que este loop no abre ni cierra: el eje por
+4. Las tres decisiones de L3, que este loop no abre ni cierra: el eje por
    creencia, cuál se degrada entre anonimato y antifraude, y el sexto
    consentimiento con su techo de falsos positivos.
+
+## Y lo que se cerró en esta ronda
+
+**El documento legal de cumplimiento ya es público, con su estado real.** No
+era una pregunta de secreto: está en el repositorio público desde el 2026-10-22
+y dentro del release `v0.4.0`, y medido no tiene datos sensibles. Lo que tenía
+era otro problema: describía el sistema deseado. El operador respondió que se
+publique con el estado real de lo que el sistema cumple hoy de lo que el
+documento exige. Está en [A4](decision-A4.md).

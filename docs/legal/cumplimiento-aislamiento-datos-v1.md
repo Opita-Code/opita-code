@@ -2,7 +2,8 @@
 
 > **Estado:** borrador técnico-legal. **NO declara conformidad.**
 > Este documento traduce la normativa colombiana a requisitos de implementación para Opita Code.
-> Requiere revisión de abogado specialization en protección de datos en Colombia antes de declararse conforme.
+> Requiere revisión de abogado especialista en protección de datos en Colombia antes de declararse conforme.
+> **Medido el 2026-10-26:** lo que el sistema cumple hoy de lo que este documento exige está en [la sección 13](#13-el-estado-real-del-sistema). Se publica con su estado, y no como declaración de conformidad.
 
 **Base normativa:** Ley Estatutaria 1581 de 2012 · Decreto 1377 de 2013 · Decreto 1081 de 2015 · C-748 de 2011.
 **Autoridad de control:** SIC (Superintendencia de Industria y Comercio).
@@ -174,6 +175,40 @@ Procedimiento de notificación a la SIC y a los titulares para cualquier inciden
 | 5 | Relación de encargo (responsable vs. encargado) con apps de terceros |
 | 6 | Reglas de supresión cuando hay saldo (derecho de supresión y obligación fiscal) |
 | 7 | **Revisión de abogado** antes de declarar conformidad |
+
+---
+
+## 13. El estado real del sistema
+
+**Medido el 2026-10-26.** Lo que este documento exige y lo que el sistema cumple
+hoy. La admisibilidad del aislamiento lógico (§3.2) depende de cuatro
+condiciones: **hoy se cumple una**.
+
+| Condición (§3.2) | Estado medido | Dónde se mira |
+|---|---|---|
+| 1 · Autorización en la capa de acceso | **No cumple.** Los permisos por identidad son L4-T5, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
+| 2 · Cifrado en reposo (AES-256) y en tránsito (TLS), con KMS y rotación | **No comprobable.** No hay infraestructura en producción | — |
+| 3 · Auditoría de todo acceso | **No cumple.** El registro de acceso es L4-T4, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
+| 4 · Tests de aislamiento automatizados | **Cumple.** La clave se deriva del tipo y del identificador, y la puerta lo comprueba antes de dejar correr una herramienta | [Los tests de aislamiento](../../vibe-tools/test/identity.test.ts) |
+
+Y dos derechos más, que tampoco están:
+
+| Compromiso | Estado medido | Dónde se mira |
+|---|---|---|
+| Portabilidad: exportar el `.opitpack` (§6) | **No cumple.** Es L4-T6, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
+| Consentimientos C1 a C5, cada uno en su pantalla (§8) | **No cumple.** No hay interfaz: el producto no tiene código de frontend | — |
+
+**Lo que sí está resuelto**, y a medias (§3.1): el contexto inyectado nunca
+cruza identidades, y la puerta lo comprueba antes de dejar correr una
+herramienta. La otra mitad —que una app de tercero solo acceda con permiso
+explícito— depende de L4-T5.
+
+**Lo que este estado no mide**: la infraestructura en producción, que todavía no
+existe, y el texto del abogado, que nadie ha revisado. Declarar conformidad
+exige esa revisión (§11), y este documento no la suple.
+
+Los siete abiertos de §12 siguen abiertos. Esta sección no los cierra: dice qué
+se cumple de lo demás.
 
 ---
 

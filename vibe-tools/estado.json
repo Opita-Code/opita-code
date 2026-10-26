@@ -116,12 +116,12 @@
     "mutantes_score": 100.0,
     "mutantes_umbral": 80,
     "mutantes_nota": "El 142/142 que se reporto desde L0 no era una medida: el harness corria los tests con shell:true, y en Windows el glob no lo expandia nadie, asi que Node no encontraba el archivo y salia con codigo 1, y el harness contaba ese error como «el mutante murio». El numero real de entonces era 123/142, con 19 huecos. Los 19 se cerraron con sus tests, y al hacerlo la mutation testing destapo que el chequeo de secciones de imports duplicadas estaba detras del chequeo de orden, y era codigo muerto. Ver docs/arquitectura/loops/L-CI-arreglo.md.",
-    "unidades_juzgables": 129,
+    "unidades_juzgables": 130,
     "unidades_exceden": 0,
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,
     "documentos_judge_aligned": 21,
-    "judge_detalle": "43 de 43 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2 y 15 de A1. Confidence 1.0000, nli_label entailment, provider chat-minimax."
+    "judge_detalle": "48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1 y 5 de A4. Confidence 1.0000, nli_label entailment, provider chat-minimax."
   },
 
   "superficie": {
@@ -139,7 +139,7 @@
       { "texto": "El registro en lenguaje llano, ronda por ronda", "url": "docs/avances.md" },
       { "texto": "Los documentos tecnicos, uno por preocupacion", "url": "docs/arquitectura/loops/INDICE.md" },
       { "texto": "La superficie publica y los documentos transversales", "url": "docs/arquitectura/loops/INDICE-publico.md" },
-      { "texto": "El inventario de datos y los principios que lo rigen", "url": "docs/legal/cumplimiento-aislamiento-datos-v1.md" },
+      { "texto": "El inventario de datos, con el estado real de lo que se cumple", "url": "docs/legal/cumplimiento-aislamiento-datos-v1.md" },
       { "texto": "El paquete de runtime: estructura y comandos", "url": "vibe-tools/README.md" },
       { "texto": "Como contribuir, y que partes del proyecto todavia no estan listas", "url": "CONTRIBUTING.md" },
       { "texto": "Como reportar un problema de seguridad, en silencio", "url": "SECURITY.md" },
@@ -148,7 +148,6 @@
   },
 
   "abiertos": [
-    { "id": "A4", "titulo": "Si el documento legal de cumplimiento va publico", "quien": "operador", "bloquea": "la superficie legal publicada" },
     { "id": "A8", "titulo": "Los bindings reales de Pyodide, WebContainers y Firecracker", "quien": "equipo", "bloquea": "publicar que el sistema ejecuta con red" }
   ]
 }
