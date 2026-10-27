@@ -1,6 +1,6 @@
 # Estado
 
-> Actualizado el 2026-10-26. Generado desde `vibe-tools/estado.json`: no se edita a mano.
+> Actualizado el 2026-10-27. Generado desde `vibe-tools/estado.json`: no se edita a mano.
 
 ## Ahora
 
