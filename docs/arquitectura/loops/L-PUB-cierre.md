@@ -8,7 +8,9 @@ Lo que este loop deja atrás y lo que entrega al siguiente.
 > **El veredicto del gate sobre este documento no se afirma aquí.** Un documento
 > que afirma su propio veredicto no es juzgable de forma estable: la
 > afirmación se convierte en su propia evidencia. El registro autoritativo está
-> en `dark_memory_judgment_history`, en el proyecto `opita-code`.
+> en las tres tablas del juez —`vibe_artifacts`, `vibe_drifts` y
+> `ssd_evaluations`—, en el proyecto `opita-code`. Y `judgment_history` solo
+> muestra la tercera: los veredictos que publica `vibe_publish` no están ahí.
 
 ## QUÉ ENTREGA
 
