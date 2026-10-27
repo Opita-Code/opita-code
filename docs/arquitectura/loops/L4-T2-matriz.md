@@ -1,7 +1,7 @@
 # L4-T2 · La matriz: cinco señales y quién puede probarlas
 
 > Parte 4 de L4. [Las piezas](L4-T2-piezas.md) · [La decisión](L4-T2-decision.md) ·
-> [Las tres identidades](L4-identidades.md) · [El índice de L4](INDICE-L4.md) ·
+> [Las tres identidades](L4-identidades.md) · [El índice de L4](INDICE.md) ·
 > [El plan](../plan-iteracion-mvp.md)
 
 ## Lo que cierra

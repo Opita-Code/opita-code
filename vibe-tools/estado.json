@@ -99,7 +99,7 @@
       "hallazgo": "El KYC era una cadena: `kyc: 'simulada'` o `kyc: 'verificada'`, y el verificado no tenia quien lo respaldara. Con A1 la identidad legal lleva evidencia (senales, stack y fecha), y la puerta comprueba que el estado y las senales no se contradigan. Y al meter un objeto dentro de la identidad volvio el bug de L4-T1: congelar la superficie no congela lo que hay dentro, asi que la evidencia se copia en cascada.",
       "abierto": "En curso: L4-T4 (RLS), L4-T5 (permisos) y L4-T6 (export).",
       "documento_cierre": null,
-      "indice": "docs/arquitectura/loops/INDICE-L4.md"
+      "indice": "docs/arquitectura/loops/INDICE.md"
     }
   ],
 
@@ -116,12 +116,12 @@
     "mutantes_score": 100.0,
     "mutantes_umbral": 80,
     "mutantes_nota": "El 142/142 que se reporto desde L0 no era una medida: el harness corria los tests con shell:true, y en Windows el glob no lo expandia nadie, asi que Node no encontraba el archivo y salia con codigo 1, y el harness contaba ese error como «el mutante murio». El numero real de entonces era 123/142, con 19 huecos. Los 19 se cerraron con sus tests, y al hacerlo la mutation testing destapo que el chequeo de secciones de imports duplicadas estaba detras del chequeo de orden, y era codigo muerto. Ver docs/arquitectura/loops/L-CI-arreglo.md.",
-    "unidades_juzgables": 133,
+    "unidades_juzgables": 132,
     "unidades_exceden": 0,
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,
     "documentos_judge_aligned": 21,
-    "judge_detalle": "48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1 y 5 de A4. Las partes nuevas de esta unidad siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax."
+    "judge_detalle": "40 de las 48 partes de las unidades anteriores siguen en aligned. Las otras 8 caducaron al cambiar su archivo, al unir las partidas que existian solo por el tope. Y 18 partes de esta unidad (las 8 caducadas mas 10 nuevas) siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax."
   },
 
   "superficie": {

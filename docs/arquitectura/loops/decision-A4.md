@@ -1,7 +1,7 @@
 # Decisión A4: si el documento legal de cumplimiento va público
 
 > La pregunta que L-PUB dejó abierta, con lo que ya está medido, las opciones y
-> lo que costaría cada una. Es tuya: [lo que L-PUB dejó abierto](L-PUB-abiertos.md).
+> lo que costaría cada una. Es tuya: [lo que L-PUB dejó abierto](L-PUB-cierre.md).
 > Las otras: [el índice de decisiones](INDICE-decisiones.md).
 >
 > **Contestada el 2026-10-26: opción 2.** Se publica, y se le pone el estado real.

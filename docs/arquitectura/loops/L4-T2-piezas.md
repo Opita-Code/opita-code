@@ -1,7 +1,7 @@
 # L4-T2 · Las piezas libres, medidas
 
 > Parte 5 de L4. [La matriz](L4-T2-matriz.md) · [La decisión](L4-T2-decision.md) ·
-> [El índice de L4](INDICE-L4.md)
+> [El índice de L4](INDICE.md)
 
 ## Las piezas, medidas
 

@@ -1,7 +1,7 @@
 # L4 · La verificación de la identidad legal: los tres estados y su evidencia
 
 > Parte 7 de L4. [Las tres identidades](L4-identidades.md) · [La decisión del stack](L4-T2-decision.md) ·
-> [El alcance](L4-alcance.md) · [El índice de L4](INDICE-L4.md)
+> [El alcance](L4-alcance.md) · [El índice de L4](INDICE.md)
 
 ## Lo que cierra
 

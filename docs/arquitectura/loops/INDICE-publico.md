@@ -7,13 +7,9 @@
 
 | Doc | Preocupación |
 |---|---|
-| [L-PUB-correcciones](L-PUB-correcciones.md) | Lo que estaba mal en la cara pública, medido |
-| [L-PUB-errores](L-PUB-errores.md) | Los errores del propio loop, y los que atrapó el guard |
-| [L-PUB-cierre](L-PUB-cierre.md) | Lo que entrega, y lo que se midió |
-| [L-PUB-abiertos](L-PUB-abiertos.md) | Lo que no se movió, y lo que sigue siendo del operador |
-| [L-PUB2-archivos](L-PUB2-archivos.md) | La imagen que se ve al compartir, y el sitio |
-| [L-PUB2-comunidad](L-PUB2-comunidad.md) | La licencia, los archivos de la comunidad y las plantillas |
-| [L-PUB2-guard](L-PUB2-guard.md) | El hueco del guard, que no miraba la raíz |
+| [L-PUB-correcciones](L-PUB-correcciones.md) | Lo que estaba mal en la cara pública, y los errores que cometí en ella |
+| [L-PUB-cierre](L-PUB-cierre.md) | Lo que entrega, lo que se midió, y lo que no se movió |
+| [L-PUB2-archivos](L-PUB2-archivos.md) | La imagen que se ve al compartir, el sitio, la licencia y los archivos de la comunidad |
 | [L-PUB2-cierre](L-PUB2-cierre.md) | Lo que entrega, lo que se midió, y lo que sigue a mano |
 | [L-CI-verificador](L-CI-verificador.md) | El verificador de mutación no media nada: el 142/142 no era una medida |
 | [L-CI-arreglo](L-CI-arreglo.md) | El arreglo, la verdad medida, y lo que el hallazgo invalida |

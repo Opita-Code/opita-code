@@ -52,7 +52,15 @@
 
 ## L4 · Identidad, de stub a tres identidades
 
-Las cinco piezas de este loop están en su propio [índice de L4](INDICE-L4.md).
+| Doc | Preocupación |
+|---|---|
+| [L4-identidad](L4-identidad.md) | El stub legal, y el contexto sellado que lo lleva |
+| [L4-identidades](L4-identidades.md) | Las tres identidades, la clave y la puerta |
+| [L4-alcance](L4-alcance.md) | Qué cierra y qué no entrega |
+| [L4-T2-matriz](L4-T2-matriz.md) | Las cinco señales del KYC y quién puede probarlas |
+| [L4-T2-piezas](L4-T2-piezas.md) | Las piezas libres, con su licencia y su fecha |
+| [L4-T2-decision](L4-T2-decision.md) | Qué se decide, qué no ve, y la respuesta del operador |
+| [L4-verificacion](L4-verificacion.md) | Los tres estados del KYC, su evidencia y la puerta |
 
 La superficie publica y los documentos transversales estan en
 [INDICE-publico.md](INDICE-publico.md).

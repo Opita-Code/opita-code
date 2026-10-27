@@ -2,7 +2,7 @@
 
 > Parte 6 de L4. [La matriz](L4-T2-matriz.md) · [Las piezas](L4-T2-piezas.md) ·
 > [Las tres identidades](L4-identidades.md) · [El alcance](L4-alcance.md) ·
-> [El índice de L4](INDICE-L4.md)
+> [El índice de L4](INDICE.md)
 
 ## Lo que se decidió
 

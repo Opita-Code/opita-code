@@ -63,6 +63,30 @@ trozo de una idea no es un veredicto sobre la idea.
 Y el tope **no sube**: sigue siendo 4096 B por parte. Lo que cambió es dónde se
 parte, no cuánto.
 
+## Qué pasó con las partidas que existían por el tope
+
+Cinco archivos del repositorio existían solo porque el tope decidía la forma
+del árbol. Medido, no supuesto: cada uno nació en el commit que declaró el tope
+como su razón, o lo escribió un script de un solo uso.
+
+| Archivo | Nació porque | Volvió a |
+|---|---|---|
+| `INDICE-L4.md` | `INDICE.md` estaba en 4084 B y una fila más lo empujaba sobre el tope | `INDICE.md`, con las siete piezas de L4 en su tabla |
+| `L-PUB-errores.md` | `split-lpub.mjs`, una partida de un solo uso | `L-PUB-correcciones.md`, sección 6 |
+| `L-PUB-abiertos.md` | `split-lpub.mjs`, la misma partida | `L-PUB-cierre.md`, sus tres secciones |
+| `L-PUB2-comunidad.md` | `split-lpub2.mjs`, la misma operación | `L-PUB2-archivos.md`, secciones 3 a 5 |
+| `L-PUB2-guard.md` | `split-lpub2.mjs`, la misma operación | `L-PUB2-archivos.md`, sección 6 |
+
+Los dos scripts de la partida se borraron con ella. Un script de un solo uso
+que ya no tiene nada que partir es un arma cargada: su guarda comprobaba que
+la partida **existiera**, y como ya no existe, volver a correrlo habría
+cortado un documento por donde no era.
+
+Lo que **no** se deshizo: los documentos que un loop divide por preocupación
+—L0, L1, L2, L3— siguen siendo varios, con su navegación. Ahí la razón es
+que un documento que mezcla varias cosas deja de ser juzgable de forma
+estable, y esa razón no era el tope.
+
 ## Lo que hace falta para que la coherencia no sea un agujero
 
 **a) Cada parte declara a qué se refiere.** El conjunto sabe si dos partes se

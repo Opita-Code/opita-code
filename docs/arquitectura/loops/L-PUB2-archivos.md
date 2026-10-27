@@ -47,6 +47,54 @@ modo `--check` lo verifica en la CI.
 Cero peticiones de red: ni un CDN de fuentes, ni scripts, ni imágenes
 externas. Un sitio que depende de la red no se ve igual en todas partes.
 
-La licencia, los archivos de la comunidad y las plantillas de GitHub están en
-[comunidad](L-PUB2-comunidad.md). El hueco del guard, que apareció al escribir
-esos archivos, está en [guard](L-PUB2-guard.md).
+## 3. LA LICENCIA
+
+Faltaba. En un repositorio público, sin licencia, el default legal es **todos
+los derechos reservados**: nadie puede usar el código. Y el proyecto es
+explícitamente «open source como base, fork y adaptación», así que la ausencia
+de licencia contradecía lo que el proyecto dice ser.
+
+Se eligió **MIT**, que es lo que corresponde a esa intención: uso, copia,
+modificación y republicación, con la condición de conservar la licencia. Es
+una decisión del operador y basta con una palabra para cambiarla (Apache-2.0 si
+hace falta el grant explícito de patentes).
+
+> **Lo que quedó vigente es otra.** El operador cambió la licencia después de
+> este loop: hoy es **PolyForm Noncommercial 1.0.0**, con la restricción de uso
+> comercial. Está en [la licencia](../../licencia.md). Lo que se eligió aquí
+> fue el primer candidato, y se cambió; lo que no cambió es el motivo.
+
+## 4. LOS ARCHIVOS DE LA COMUNIDAD
+
+Tres, y cada uno dice la verdad sobre el proyecto:
+
+- `CONTRIBUTING.md`: cómo se ejecuta, qué se espera de un cambio, y **qué
+  partes del proyecto todavía no funcionan**. Esa última lista es lo más
+  importante del archivo: sin ella, alguien pierde un día en algo que no está
+  listo.
+- `SECURITY.md`: el canal de reporte, que es la divulgación privada de
+  vulnerabilidades de GitHub (habilitada en el repositorio). El archivo
+  distingue lo que **sí** es una vulnerabilidad aquí —un camino por el que una
+  herramienta lee o escribe la memoria sin permiso— de lo que **no** lo es: un
+  hueco declarado, como la herramienta de búsqueda que todavía no tiene
+  transporte.
+- `CODE_OF_CONDUCT.md`: el Contributor Covenant 2.1.
+
+## 5. LAS PLANTILLAS DE GITHUB
+
+Dos formularios de issue (un bug y una propuesta, con el loop al que pertenece
+cada propuesta), una plantilla de pull request que exige decir **qué no hace**
+el cambio, y dependabot.
+
+## 6. EL GUARD QUE YA NO SE QUEDA EN MIRANDO LO DE ARRIBA
+
+Al escribir estos archivos aparecieron **cinco caracteres de otro sistema de
+escritura dentro de dos palabras**: tres árabes en `CODE_OF_CONDUCT.md` y dos
+en `SECURITY.md`. Los había escrito yo.
+
+El content-guard caza la intrusión de guión, pero **no miraba los archivos de
+la raíz**: la cobertura era `docs/` y `vibe-tools/src/`. Es decir, el guard
+tenía un hueco justo donde estaba la superficie pública.
+
+Corregido: ahora cubre la raíz, el sitio y `estado.json`. Y se **probó**:
+se metió una intrusión de propósito en `SECURITY.md` y el guard la vio.

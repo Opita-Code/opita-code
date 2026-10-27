@@ -21,9 +21,9 @@
 | --- | --- |
 | Tests | 339 de 339, 0 fallos |
 | Mutantes | 190 de 190, 100% en 35 paquetes (umbral 80%) |
-| Unidades juzgables | 133, y 0 exceden los 4096 B |
+| Unidades juzgables | 132, y 0 exceden los 4096 B |
 | Gates de loop | 4 loops cerrados |
-| Veredicto del juez | 48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1 y 5 de A4. Las partes nuevas de esta unidad siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
+| Veredicto del juez | 40 de las 48 partes de las unidades anteriores siguen en aligned. Las otras 8 caducaron al cambiar su archivo, al unir las partidas que existian solo por el tope. Y 18 partes de esta unidad (las 8 caducadas mas 10 nuevas) siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 
 ## Abierto
 
