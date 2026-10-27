@@ -71,6 +71,7 @@ mira nada.
 
 L4-T4 (aislamiento lógico con RLS sobre `project_id`) y L4-T5 (permisos) ya
 no dependen de una decisión abierta del operador: las tres identidades están
-escritas y A5, A6 y A7 están contestadas. L4-T6 (exportar el `.opitpack`) y la
-pregunta A9 —qué se puede publicar de una identidad legal sin registro
-oficial— siguen abiertos.
+escritas y A5, A6 y A7 están contestadas. L4-T6 (exportar el `.opitapack`)
+sigue abierto. De las preguntas del operador sobre la identidad, ninguna: A9
+se respondió con A1 —se publica la verificación documental— y A4 con la
+opción 2 —el documento legal se publica con su estado real—.

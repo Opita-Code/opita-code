@@ -23,7 +23,7 @@
 | Mutantes | 190 de 190, 100% en 35 paquetes (umbral 80%) |
 | Unidades juzgables | 130, y 0 exceden los 4096 B |
 | Gates de loop | 4 loops cerrados |
-| Veredicto del juez | 48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1 y 5 de A4. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
+| Veredicto del juez | 48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1, 5 de A4. 4 caducados (rate limit). Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 
 ## Abierto
 

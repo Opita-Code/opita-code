@@ -121,7 +121,7 @@
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,
     "documentos_judge_aligned": 21,
-    "judge_detalle": "48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1 y 5 de A4. Confidence 1.0000, nli_label entailment, provider chat-minimax."
+    "judge_detalle": "48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1, 5 de A4. 4 caducados (rate limit). Confidence 1.0000, nli_label entailment, provider chat-minimax."
   },
 
   "superficie": {
@@ -139,9 +139,9 @@
       { "texto": "El registro en lenguaje llano, ronda por ronda", "url": "docs/avances.md" },
       { "texto": "Los documentos tecnicos, uno por preocupacion", "url": "docs/arquitectura/loops/INDICE.md" },
       { "texto": "La superficie publica y los documentos transversales", "url": "docs/arquitectura/loops/INDICE-publico.md" },
-      { "texto": "El inventario de datos, con el estado real de lo que se cumple", "url": "docs/legal/cumplimiento-aislamiento-datos-v1.md" },
+      { "texto": "El inventario de datos, con su estado real", "url": "docs/legal/cumplimiento-aislamiento-datos-v1.md" },
       { "texto": "El paquete de runtime: estructura y comandos", "url": "vibe-tools/README.md" },
-      { "texto": "Como contribuir, y que partes del proyecto todavia no estan listas", "url": "CONTRIBUTING.md" },
+      { "texto": "Como contribuir, y que partes no estan listas", "url": "CONTRIBUTING.md" },
       { "texto": "Como reportar un problema de seguridad, en silencio", "url": "SECURITY.md" },
       { "texto": "La licencia, y por que no es «open source»", "url": "docs/licencia.md" }
     ]

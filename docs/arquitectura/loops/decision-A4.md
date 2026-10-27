@@ -41,7 +41,7 @@
 | §3.2 (1) · autorización en la capa de acceso | **no cumple** | L4-T5 |
 | §3.2 (2) · AES-256 en reposo y KMS con rotación | **no comprobable** | L4-T4 |
 | §3.2 (3) · auditoría de todo acceso | **no cumple** | L4-T4 |
-| §6 · portabilidad `.opitpack` | **no cumple** | L4-T6 |
+| §6 · portabilidad `.opitapack` | **no cumple** | L4-T6 |
 | §8 · consentimientos C1 a C5 | **no cumple** | sin UI (0 código frontend) |
 | §3.1 · una app de tercero nunca cruza identidades | **la mitad** | L4-T5 |
 

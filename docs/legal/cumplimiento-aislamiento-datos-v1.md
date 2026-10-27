@@ -43,7 +43,7 @@ inventariado.
 | **Transparencia** (art. 4.1.e) | El titular conoce el tratamiento | Política de privacidad clara + pantalla de consentimiento propia | Revisión del texto por abogado |
 | **Seguridad** (art. 4.1.f, art. 15) | Medidas técnicas y administrativas | Ver §3 | Tests de aislamiento + auditoría |
 | **Confidencialidad** (art. 10) | DutiesQM solo para personal/encargados | dark-memory: los `project_id` son la frontera; nadie accede a un mod ajeno | Test: intento de acceso cruzado entre project_ids |
-| **Acceso y rectificación** (art. 8) | El titular conoce, accede, actualiza, rectifica, suprime | Panel de control en el companion: ver, corregir, descargar (.opitpack), suprimir | E2E del flujo de derechos |
+| **Acceso y rectificación** (art. 8) | El titular conoce, accede, actualiza, rectifica, suprime | Panel de control en el companion: ver, corregir, descargar (.opitapack), suprimir | E2E del flujo de derechos |
 | **Sensibles** (art. 5, art. 9) | Consentimiento **explícito, separado y por escrito** | Pantalla propia y separada para psicometría y biometría. Nunca dentro de "acepto términos" | Verificación de que no están agrupados |
 
 ---
@@ -114,7 +114,7 @@ Decisión cerrada: la memoria **se inyecta como contexto**; la tool nunca la lee
 | Acceso | Panel del companion: ver su mod | — |
 | Rectificación | Editar su perfil; el mod se actualiza | Dato rectificado deja de Circular en inferencias derivadas |
 | Supresión | Borrado del mod | Cuidado:.delete wallet/saldo tiene reglas fiscales propias |
-| **Portabilidad** | **Export `.opitpack`** | **Es un derecho, no un feature** |
+| **Portabilidad** | **Export `.opitapack`** | **Es un derecho, no un feature** |
 
 ---
 
@@ -195,7 +195,7 @@ Y dos derechos más, que tampoco están:
 
 | Compromiso | Estado medido | Dónde se mira |
 |---|---|---|
-| Portabilidad: exportar el `.opitpack` (§6) | **No cumple.** Es L4-T6, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
+| Portabilidad: exportar el `.opitapack` (§6) | **No cumple.** Es L4-T6, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
 | Consentimientos C1 a C5, cada uno en su pantalla (§8) | **No cumple.** No hay interfaz: el producto no tiene código de frontend | — |
 
 **Lo que sí está resuelto**, y a medias (§3.1): el contexto inyectado nunca

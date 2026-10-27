@@ -38,7 +38,7 @@ que fue escrito y dice si el documento cumple.
 | Tests | 328 de 328 |
 | Mutantes | 190 de 190 (100%, 35 paquetes) |
 | Unidades juzgables | 130, 0 exceden los 4096 B |
-| Veredicto del juez | 48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1 y 5 de A4. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
+| Veredicto del juez | 48 de 48 partes en aligned: 10 de L3, 14 de L4-T3, 4 de L4-T2, 15 de A1, 5 de A4. 4 caducados (rate limit). Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 
 ### Los documentos
 
@@ -56,9 +56,9 @@ que fue escrito y dice si el documento cumple.
 - [El registro en lenguaje llano, ronda por ronda](docs/avances.md)
 - [Los documentos tecnicos, uno por preocupacion](docs/arquitectura/loops/INDICE.md)
 - [La superficie publica y los documentos transversales](docs/arquitectura/loops/INDICE-publico.md)
-- [El inventario de datos, con el estado real de lo que se cumple](docs/legal/cumplimiento-aislamiento-datos-v1.md)
+- [El inventario de datos, con su estado real](docs/legal/cumplimiento-aislamiento-datos-v1.md)
 - [El paquete de runtime: estructura y comandos](vibe-tools/README.md)
-- [Como contribuir, y que partes del proyecto todavia no estan listas](CONTRIBUTING.md)
+- [Como contribuir, y que partes no estan listas](CONTRIBUTING.md)
 - [Como reportar un problema de seguridad, en silencio](SECURITY.md)
 - [La licencia, y por que no es «open source»](docs/licencia.md)
 <!-- /GENERADO:estado -->

@@ -95,7 +95,7 @@ Tool emite: { mutation_request: { ... } }
 Harness:     valida permisos → aplica o rechaza → audita
 ```
 
-**Por qué:** si la tool puede escribir, entonces un `.opitpack` malicioso puede **reescribir la memoria de quien lo instala**. La escritura pasa por el harness o no pasa.
+**Por qué:** si la tool puede escribir, entonces un `.opitapack` malicioso puede **reescribir la memoria de quien lo instala**. La escritura pasa por el harness o no pasa.
 
 ---
 
@@ -156,7 +156,7 @@ El contexto inyectado no puede salir del sandbox.
 | E3 | Tool de tercero vs. tool propia | La propia tiene perfil base; la de tercero arranca en `deny`. |
 | E4 | Tool muta en loop | Las solicitudes de mutación pasan por el harness; loop se corta por presupuesto. |
 | E5 | Misma persona, 2 identidades | Contexto de una **nunca** se filtra a la otra. |
-| E6 | `.opitpack` malicioso instalado | No puede pedir contexto: no declara permisos. No puede escribir: pasa por harness. |
+| E6 | `.opitapack` malicioso instalado | No puede pedir contexto: no declara permisos. No puede escribir: pasa por harness. |
 | E7 | Tool que **es** el harness | No puede ocurrir: el harness no es una tool. Separación de roles. |
 | E8 | Tool legítima pide psicometría sin consentimiento | El harness rechaza (falta C3). |
 | E9 | Persona revoca C3 después | Inyecciones psicométricas cesan de inmediato. |
@@ -203,7 +203,7 @@ El contexto inyectado no puede salir del sandbox.
 | T2 | Tool pide psicometría sin C3 | Contexto llega sin psicometría |
 | T3 | Tool intenta cruzar identidades | Contexto vacío para la identidad no autorizada |
 | T4 | Tool intenta escribir memoria | Rechazado; pasa por harness |
-| T5 | `.opitpack` malicioso pide contexto | Ignorado; los permisos no los declara la tool |
+| T5 | `.opitapack` malicioso pide contexto | Ignorado; los permisos no los declara la tool |
 | T6 | Tool exfiltra a dominio no permitido | Bloqueado en el shim |
 | T7 | Persona revoca C3 | Inyección psicométrica cesa |
 | T8 | Misma tool, 2 personas | Cada una recibe solo su contexto |

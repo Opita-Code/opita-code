@@ -41,6 +41,6 @@ plataforma respalda su mayor costo con el único mecanismo que no admite salida.
 No sé el importe ni la forma de la degradación. Diseñar ese estado es trabajo de
 producto y el precio lo pone el operador.
 
-Tampoco sé si el saldo debería salir por `.opitpack` o si la salida física lo
+Tampoco sé si el saldo debería salir por `.opitapack` o si la salida física lo
 convierte en un instrumento que la plataforma no quiere tener. Eso es una decisión de política y no
 la invento.

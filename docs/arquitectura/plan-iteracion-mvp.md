@@ -158,7 +158,12 @@ L9 (Escala)     →  (T2 real, wallet, móvil, multi-idioma)
 | L4-T3 | 3 identidades: legal (KYC real), empresa (máx 3, fundador=admin), anónimo (1, nickname inmutable de pool cerrado) | L4-T2 |
 | L4-T4 | Aislamiento lógico: RLS de PostgreSQL en AWS sobre `project_id`. 4 condiciones de admisibilidad legal | L4-T3 |
 | L4-T5 | Permisos: deny by default, agrupados por categoría, psicométrico separado | L4-T3 |
-| L4-T6 | Export `.opitpack`: derecho de portabilidad (art. 8 Ley 1581) | L4-T4 |
+| L4-T6 | Export `.opitapack`: derecho de portabilidad (art. 8 Ley 1581) | L4-T4 |
+
+**El formato se llama `.opitapack`.** Lo decidió el operador el 2026-10-26 con
+una razón corta: «es mejor para nosotros los humanos». El nombre anterior era
+`.opitpack`, y el formato todavía no existe (es L4-T6), así que el cambio no
+rompe nada publicado.
 
 **KPIs del loop:**
 - KYC stack OSS viable **O** decisión documentada de por qué no

@@ -252,13 +252,13 @@ marketplace.
 
 `[ABIERTO]` ¿Cómo puntúa y se diferencia una **mutación** de una **receta** en el marketplace? Una mutación es reutilizable y testeable; una receta es una promesa, no un artefacto. El juez las trata distinto.
 
-### 7.2 Portabilidad: el `.opitpack`
+### 7.2 Portabilidad: el `.opitapack`
 
 Dado que el usuario es dueño del código, y dado que los AI app builders tienen techo 80/20 en
 deployment, la portabilidad es **una feature, no un afterthought**.
 
 - El mod de dark-memory es **exportable** (derecho de portabilidad, Ley 1581).
-- El bundle de vibe-tools es un **`.opitpack`** exportable: las tools, sus versiones, y sus permisos.
+- El bundle de vibe-tools es un **`.opitapack`** exportable: las tools, sus versiones, y sus permisos.
 
 Hallazgo SOTA que lo respalda: el BuilderProof leaderboard 2026 de portabilidad califica v0/Bolt 8,
 Lovable/Replit 7, Base44 4 (de 10). Y el hallazgo: *"code ownership no es lo mismo que
