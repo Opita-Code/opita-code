@@ -39,8 +39,9 @@ de secreto, y medida no lo era: el documento está en el repositorio público
 desde el 2026-10-22 y dentro del release `v0.4.0`, y no tiene ni nombres, ni
 correos, ni credenciales, ni infraestructura. Lo que sí tenía era otro
 problema: describía el sistema **deseado**. De las cuatro condiciones de
-admisibilidad del aislamiento lógico, el sistema cumple una, y las otras tres
-dependen de loops abiertos.
+admisibilidad del aislamiento lógico, el sistema cumple dos —el aislamiento y
+su auditoría—, y las otras dos dependen de L4-T5 y de que exista la
+infraestructura en producción.
 
 El operador respondió **opción 2**: se publica, y se le pone el estado real.
 Ahora el documento dice qué condiciones faltan y qué loop las cierra, y el

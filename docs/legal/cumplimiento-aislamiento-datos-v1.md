@@ -180,16 +180,16 @@ Procedimiento de notificación a la SIC y a los titulares para cualquier inciden
 
 ## 13. El estado real del sistema
 
-**Medido el 2026-10-26.** Lo que este documento exige y lo que el sistema cumple
+**Medido el 2026-10-27.** Lo que este documento exige y lo que el sistema cumple
 hoy. La admisibilidad del aislamiento lógico (§3.2) depende de cuatro
-condiciones: **hoy se cumple una**.
+condiciones: **hoy se cumplen dos**.
 
 | Condición (§3.2) | Estado medido | Dónde se mira |
 |---|---|---|
 | 1 · Autorización en la capa de acceso | **No cumple.** Los permisos por identidad son L4-T5, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
 | 2 · Cifrado en reposo (AES-256) y en tránsito (TLS), con KMS y rotación | **No comprobable.** No hay infraestructura en producción | — |
-| 3 · Auditoría de todo acceso | **No cumple.** El registro de acceso es L4-T4, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
-| 4 · Tests de aislamiento automatizados | **Cumple.** La clave se deriva del tipo y del identificador, y la puerta lo comprueba antes de dejar correr una herramienta | [Los tests de aislamiento](../../vibe-tools/test/identity.test.ts) |
+| 3 · Auditoría de todo acceso | **Cumple en el código.** La base audita las escrituras y la aplicación las lecturas y las denegaciones. El límite declarado: una lectura que el motor ocultó no deja rastro en la base, porque el filtrado es silencioso | [L4-T4-verificacion](../arquitectura/loops/L4-T4-verificacion.md) |
+| 4 · Tests de aislamiento automatizados | **Cumple.** La clave se deriva del tipo y del identificador, la puerta lo comprueba antes de dejar correr una herramienta, y el aislamiento de la base se midió contra un Postgres real: el acceso cruzado falla en las cuatro operaciones | [Los tests de aislamiento](../../vibe-tools/test/identity.test.ts) |
 
 Y dos derechos más, que tampoco están:
 

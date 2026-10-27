@@ -61,6 +61,8 @@
 | [L4-T2-piezas](L4-T2-piezas.md) | Las piezas libres, con su licencia y su fecha |
 | [L4-T2-decision](L4-T2-decision.md) | Qué se decide, qué no ve, y la respuesta del operador |
 | [L4-verificacion](L4-verificacion.md) | Los tres estados del KYC, su evidencia y la puerta |
+| [L4-T4-aislamiento](L4-T4-aislamiento.md) | El aislamiento lógico: RLS sobre `project_id`, y la auditoría |
+| [L4-T4-verificacion](L4-T4-verificacion.md) | El aislamiento medido contra un Postgres real |
 
 La superficie publica y los documentos transversales estan en
 [INDICE-publico.md](INDICE-publico.md).

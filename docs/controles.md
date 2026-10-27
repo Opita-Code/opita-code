@@ -11,7 +11,7 @@
 | `prosa` | voseo, caracteres invisibles, palabras repetidas, inglés no técnico, espacios al final, tabuladores, falta de salto final, títulos duplicados o de nivel saltado, líneas en blanco de más | la ortografía de una frase; y una línea larga es un aviso, no un fallo |
 | `cifras` | que las cifras del kit del canal coincidan con la fuente: pruebas, pruebas en verde, mutaciones, unidades juzgables, decisiones abiertas y documentos del juez | las cifras que la prosa nombra con otras palabras; un número mal escrito que no esté en la tabla de reglas del guard |
 | `budget` | la parte más grande que vería el juez de cada artefacto juzgable, contra el tope de 4096 B, y que el conteo de partes sea el declarado | si el contenido es el correcto; si la partida es por concepto y no por bytes |
-| `test` | que la suite pase | si los tests afirman lo que dicen afirmar |
+| `test` | que las cuatro suites pasen: la de unidad, la de integración, la del pipeline y la del mecanismo de partes | si los tests afirman lo que dicen afirmar; y sin Docker, el aislamiento no se midió: el test se salta y lo dice en su nombre |
 | `mutate` | que los mutantes mueran: si un test sobrevive a una mutación, no está mirando | que el diseño sea el mejor; el umbral es 80% por paquete |
 | `verificar-estado` | que los números publicados cuadren con la realidad medida, que cada loop cerrado tenga su documento, y que la superficie generada esté al día | que el veredicto del juez sea el que se cita (vive en la base de dark-memory, no en el repo) |
 | `generar-estado --check` | que lo escrito (README, STATUS, avances, la matriz de las specs) sea exactamente lo que sale de la fuente | que los números sean ciertos; eso lo mide `verificar-estado` contra la realidad |

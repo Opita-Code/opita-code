@@ -495,6 +495,26 @@ const MUTANTS = [
     'return sha256HexOfText(topic + String.fromCharCode(0) + nonce);', 'return sha256HexOfText(nonce);'],
   ['src/tools/draft.js', 'draft: la semilla deja de elegir el closer',
     'const closer = CLOSERS[parseInt(d.slice(2, 4), 16) % CLOSERS.length];', 'const closer = CLOSERS[0];'],
+
+  // ---- src/aislamiento/vinculo.ts : el vinculo con la base ---------------
+  ['src/aislamiento/vinculo.js', 'el vinculo se fija con SET, que se pega a la sesion',
+    'SET LOCAL ${AJUSTE_VINCULO}', 'SET ${AJUSTE_VINCULO}'],
+  ['src/aislamiento/vinculo.js', 'el vinculo no abre su transaccion',
+    'BEGIN;\\nSET LOCAL', 'SET LOCAL'],
+  ['src/aislamiento/vinculo.js', 'el vinculo acepta cualquier proyecto',
+    'if (!esUuid(proyectoId)) {', 'if (false) {'],
+  ['src/aislamiento/vinculo.js', 'la denegacion no escapa el texto del recurso',
+    "return texto.replace(/'/g, \"''\");", 'return texto;'],
+  ['src/aislamiento/vinculo.js', 'la denegacion no cierra su transaccion, y se pierde',
+    '`COMMIT;`,', ''],
+  ['src/aislamiento/vinculo.js', 'la denegacion no dice por que se denego',
+    "'${escapar(motivo)}'", "'denegado'"],
+  ['src/aislamiento/vinculo.js', 'la lectura no dice que operacion es',
+    "'SELECT'", "'LECTURA'"],
+  ['src/aislamiento/vinculo.js', 'la lectura no escapa el resultado',
+    "'${escapar(resultado)}'", "'${resultado}'"],
+  ['src/aislamiento/vinculo.js', 'la lectura no cierra su transaccion, y se pierde',
+    'CIERRE_VINCULO,', ''],
 ];
 
 /**

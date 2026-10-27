@@ -20,6 +20,9 @@
  *
  *   JUZGABLE  vibe-tools/src/**      cada archivo es una unidad de codigo juzgada
  *                                    por el gate, con su propio SpecIntent
+ *              vibe-tools/db/**      el SQL tambien: son las politicas que
+ *                                    hacen el aislamiento, y un artefacto que
+ *                                    no se juzga no esta verificado
  *              docs/arquitectura/loops/**   un documento por loop, cada uno
  *                                    su unidad juzgada
  *
@@ -40,7 +43,7 @@ const BUDGET = 4096;
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..', '..');
 
-const ROOTS = ['vibe-tools/src', 'docs/arquitectura/loops', 'docs/avances', 'docs/canal'];
+const ROOTS = ['vibe-tools/src', 'vibe-tools/db', 'docs/arquitectura/loops', 'docs/avances', 'docs/canal'];
 const ALSO_FILES = [
   'vibe-tools/README.md',
   'README.md',
@@ -56,7 +59,7 @@ const ALSO_FILES = [
   '.github/workflows/estado.yml',
   '.github/workflows/release.yml',
 ];
-const EXTS = new Set(['.ts', '.md']);
+const EXTS = new Set(['.ts', '.md', '.sql']);
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.git']);
 
 /** Documentos de la fase 1, fuera del gate. El motivo se imprime en cada corrida. */

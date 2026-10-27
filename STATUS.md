@@ -19,11 +19,11 @@
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 339 de 339, 0 fallos |
-| Mutantes | 190 de 190, 100% en 35 paquetes (umbral 80%) |
-| Unidades juzgables | 132, y 0 exceden los 4096 B |
+| Tests | 354 de 354, 0 fallos |
+| Mutantes | 199 de 199, 100% en 36 paquetes (umbral 80%) |
+| Unidades juzgables | 138, y 0 exceden los 4096 B |
 | Gates de loop | 4 loops cerrados |
-| Veredicto del juez | 40 de las 48 partes de las unidades anteriores siguen en aligned. Las otras 8 caducaron al cambiar su archivo, al unir las partidas que existian solo por el tope. Y 18 partes de esta unidad (las 8 caducadas mas 10 nuevas) siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
+| Veredicto del juez | 39 de las 48 partes de las unidades anteriores siguen en aligned; las otras 9 caducaron al cambiar su archivo. Y 25 partes de las unidades de ayer siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 
 ## Abierto
 

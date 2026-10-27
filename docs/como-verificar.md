@@ -22,6 +22,12 @@ guard de la superficie pública: mide lo que el repositorio afirma de sí mismo 
 **cae si un número no cuadra**. Los dos `--check` comparan lo publicado con lo
 que sale de la fuente, y caen si alguien editó a mano un archivo generado.
 
+Las pruebas son cuatro suites: la de unidad, la de integración, la del pipeline
+y la del mecanismo de partes. **La de integración necesita Docker**: levanta
+un Postgres de verdad para medir el aislamiento, y sin Docker se salta y lo
+dice en el nombre del test. Un aislamiento que no se midió no es un aislamiento
+comprobado.
+
 ## Por qué el estado no se escribe a mano
 
 Porque envejece. El README del paquete decía «Siguiente: L3» cuando L3 ya estaba

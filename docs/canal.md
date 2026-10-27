@@ -13,8 +13,8 @@
   el texto cuesta entre un 40 % y un 60 % de alcance: va en el primer
   comentario. En Instagram el enlace del caption ni siquiera es pulsable: va
   en la bio.
-- **Las cifras son las medidas.** 339 pruebas, 190 de 190 mutaciones
-  detectadas, 132 unidades juzgables. Si un número no está medido, no se
+- **Las cifras son las medidas.** 354 pruebas, 199 de 199 mutaciones
+  detectadas, 138 unidades juzgables. Si un número no está medido, no se
   escribe.
 - **La distribución es manual.** La máquina no publica: la persona copia y
   pega. Por eso no aplican las reglas de sigilo del navegador: no hay

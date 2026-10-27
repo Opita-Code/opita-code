@@ -14,7 +14,7 @@ Runtime de tools componibles para Opita Code.
 **L2 cerrado** — Composicion: encadenar sin equivocarse.
 **L3 cerrado** — Boundary MEMORY: la memoria es tuya y de nadie mas.
 
-339 tests · mutation 190/190 = 100% en 35 paquetes · 132 unidades juzgables.
+354 tests · mutation 199/199 = 100% en 36 paquetes · 138 unidades juzgables.
 Siguiente según el plan: **L4** — Identidad: las tres identidades y la puerta que las comprueba.
 <!-- /GENERADO:estado -->
 
@@ -54,6 +54,9 @@ src/
   tool.ts              ToolRegistry — resuelve y delega
   rules/               identity · edges · terminals · order · types
   graph.ts             orquestador: el orden fijo vive aquí
+  identity.ts          las tres identidades y su clave derivada
+  identity/            kyc · kyc-puerta · validacion · antifraude · operaciones
+  aislamiento/         el vinculo con la base: que proyecto esta conectado
   module/              el grafo pasa de documento a ejecución
     bind.ts            llenar los puertos de entrada
     share.ts           mutación vs receta, y la cache
@@ -82,7 +85,7 @@ src/
 ```bash
 npm install
 npm run budget   # falla si un artefacto juzgable cruza 4096 B
-npm run test     # tsc + 316 tests
+npm run test     # tsc + 354 tests
 npm run mutate   # 176 mutantes; se niega a cerrar si alguno sobrevive
 npm run check    # los tres
 ```
