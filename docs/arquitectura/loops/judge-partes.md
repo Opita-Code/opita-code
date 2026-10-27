@@ -43,6 +43,26 @@ límite técnico.
 de 10 partes en aligned» es un dato verdadero y limitado: cada parte se
 sostiene sola. Quien lo use tiene que saber esa diferencia.
 
+## Dónde ocurre la partida
+
+Decisión del operador (2026-10-27): **la partida es solo para el juez.** En el
+repositorio el documento es uno, entero, con su prosa completa. Lo que se parte
+es lo que el juez ve, en el momento de juzgarse; y un script recompone las
+partes y las verifica contra el original, byte a byte.
+
+El motivo es que partir en el repositorio obligaba a recortar la prosa de
+otros documentos para que un índice quepa. Un tope de bytes terminó decidiendo
+la forma del árbol de archivos, y eso está al revés: el tope existe para que el
+veredicto signifique algo, no para que los documentos se partan.
+
+El corte va en los títulos (un concepto es un título y lo que va debajo), y en
+el código en las declaraciones de nivel superior. Si un concepto no cabe solo,
+el script falla: partirlo por bytes sería amputar, y un veredicto sobre un
+trozo de una idea no es un veredicto sobre la idea.
+
+Y el tope **no sube**: sigue siendo 4096 B por parte. Lo que cambió es dónde se
+parte, no cuánto.
+
 ## Lo que hace falta para que la coherencia no sea un agujero
 
 **a) Cada parte declara a qué se refiere.** El conjunto sabe si dos partes se

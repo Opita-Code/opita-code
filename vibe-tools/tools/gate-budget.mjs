@@ -1,11 +1,16 @@
 /**
  * GATE BUDGET — enforcement de la decision del operador (opcion A).
  *
- * Ningun artefacto que se pase al gate de drift_judge puede superar
- * ConsensusChunkSize = 4096 bytes. Con ese tope el artefacto es UN chunk, el
- * SpecIntent aplica al artefacto completo, y el veredicto es decidible.
+ * Ninguna PARTE que se pase al gate de drift_judge puede superar
+ * ConsensusChunkSize = 4096 bytes. Con ese tope la parte es UN chunk, el
+ * SpecIntent aplica a la parte completa, y el veredicto es decidible.
  *
  * (Fuente: internal/orchestration/drift_judge_consensus.go — ConsensusChunkSize)
+ *
+ * QUE MIDE, DESDE EL 2026-10-27. La parte mas grande que veria el juez, no el
+ * archivo. La partida es SOLO para el juez: en el repositorio el documento es
+ * UNO y entero, y un script recompone las partes y las verifica contra el
+ * original. Un documento de 5000 B que se parte en dos de 2500 B es legal.
  *
  * Este guard es lo que convierte la decision en regla. Sin el, la primera regla
  * nueva cruza el tope en silencio y K3 vuelve a ser inalcanzable sin que nadie
@@ -29,6 +34,7 @@
 import { readdirSync, statSync, readFileSync } from 'node:fs';
 import { join, relative, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { partir, TOPE } from './juez-partes.mjs';
 
 const BUDGET = 4096;
 const here = dirname(fileURLToPath(import.meta.url));
@@ -119,6 +125,34 @@ function artifactBytes(rel) {
  * Y esto no es hipotetico: pasa cada vez que se anade un documento al
  * conjunto juzgable. Tres veces en un dia, y las tres las atrapo la CI.
  */
+/**
+ * LAS PARTES DE UN ARTEFACTO.
+ *
+ * LA REGLA (decision del operador, 2026-10-27). La partida es SOLO para el
+ * juez. En el repositorio el documento es UNO, entero: partirlo ahi obligaba a
+ * recortar la prosa de otros documentos para que un indice quepa, y producia
+ * un arbol de archivos que existen solo por un tope de bytes. Ahora el
+ * documento se queda entero, el juez ve sus partes, y un script las recompone
+ * y las verifica contra el original.
+ *
+ * ASI QUE LO QUE MIDE ESTE GUARD es la parte mas grande que veria el juez, no
+ * el archivo. Un archivo de 5000 B que se parte en dos de 2500 B es legal: lo
+ * que el juez resuelve son las partes.
+ */
+function partesDe(rel) {
+  const abs = join(root, rel);
+  const bytes = artifactBytes(rel);
+  try {
+    const texto = readFileSync(abs, 'utf8');
+    const partes = partir(texto, BUDGET, extname(abs));
+    const mayor = Math.max(...partes.map((p) => Buffer.byteLength(p.texto, 'utf8')));
+    return { partes: partes.length, mayor, error: null };
+  } catch (e) {
+    // Un concepto que solo no cabe: el problema es del documento.
+    return { partes: 1, mayor: bytes ?? 0, error: e.codigo || 'E_LEER' };
+  }
+}
+
 function declaradoUnidades() {
   const p = join(root, 'vibe-tools', 'estado.json');
   try {
@@ -139,14 +173,19 @@ function main() {
   const files = present.flatMap((r) => walk(join(root, r)))
     .concat(ALSO_FILES.filter((f) => artifactBytes(f) !== null).map((f) => join(root, f)));
   const rows = files
-    .map((f) => ({ path: relative(root, f).replace(/\\/g, '/'), bytes: artifactBytes(relative(root, f).replace(/\\/g, '/')) }))
-    .sort((a, b) => b.bytes - a.bytes);
-  const over = rows.filter((r) => r.bytes > BUDGET);
+    .map((f) => {
+      const path = relative(root, f).replace(/\\/g, '/');
+      const bytes = artifactBytes(path);
+      return { path, bytes, ...partesDe(path) };
+    })
+    .sort((a, b) => b.mayor - a.mayor);
+  const over = rows.filter((r) => r.mayor > BUDGET || r.error);
 
   // El declarado, contra el medido. Si no coinciden, la superficie publica
   // un numero que no existe, y eso se cae aqui, no tres pasos despues.
+  const unidades = rows.reduce((a, r) => a + r.partes, 0);
   const declarado = declaradoUnidades();
-  const conteoDescuadrado = declarado !== null && declarado !== rows.length;
+  const conteoDescuadrado = declarado !== null && declarado !== unidades;
 
   // Modo JSON: la superficie publica necesita estos numeros en forma
   // MACHINE-READABLE, no parseando prosa. Un guard que hay que leer con
@@ -155,14 +194,15 @@ function main() {
   if (process.argv.includes('--json')) {
     console.log(JSON.stringify({
       presupuesto: BUDGET,
-      unidades: rows.length,
+      unidades,
+      archivos: rows.length,
       declaradas: declarado,
       exceden: over.length,
-      sobre_el_tope: over.map((r) => ({ ruta: r.path, bytes: r.bytes })),
+      sobre_el_tope: over.map((r) => ({ ruta: r.path, bytes: r.bytes, mayor: r.mayor, error: r.error ?? null })),
     }));
     if (over.length > 0) process.exit(1);
     if (conteoDescuadrado) {
-      console.error(`\n  EL CONTEO DECLARADO NO ES EL MEDIDO: declarado ${declarado}, medido ${rows.length}`);
+      console.error(`\n  EL CONTEO DECLARADO NO ES EL MEDIDO: declarado ${declarado}, medido ${unidades}`);
       console.error('  Actualiza vibe-tools/estado.json (kpis.unidades_juzgables) y regenera la superficie.\n');
       process.exit(1);
     }
@@ -171,13 +211,14 @@ function main() {
 
   console.log(`\n=== GATE BUDGET · ${BUDGET} B por unidad juzgable ===\n`);
   for (const r of rows) {
-    const pct = ((r.bytes / BUDGET) * 100).toFixed(0);
-    const bar = '#'.repeat(Math.min(40, Math.round((r.bytes / BUDGET) * 40)));
-    const flag = r.bytes > BUDGET ? ' EXCEDE' : '        ';
-    console.log(`  ${flag} ${String(r.bytes).padStart(6)} B ${String(pct).padStart(4)}%  ${bar.padEnd(40)} ${r.path}`);
+    const pct = ((r.mayor / BUDGET) * 100).toFixed(0);
+    const bar = '#'.repeat(Math.min(40, Math.round((r.mayor / BUDGET) * 40)));
+    const flag = r.mayor > BUDGET ? ' EXCEDE' : '        ';
+    const partes = r.partes > 1 ? ` ${r.partes} partes` : '';
+    console.log(`  ${flag} ${String(r.mayor).padStart(6)} B ${String(pct).padStart(4)}%  ${bar.padEnd(40)} ${r.path}${partes}`);
   }
 
-  console.log(`\n  ${rows.length} unidades juzgables · ${over.length} exceden el presupuesto`);
+  console.log(`\n  ${unidades} unidades juzgables (partes) en ${rows.length} archivos · ${over.length} exceden el presupuesto`);
 
   console.log('\n  NO juzgables (clasificacion explicita, no silenciosa):');
   for (const [p, motivo] of NO_JUZGABLE) {
@@ -189,18 +230,22 @@ function main() {
   }
 
   if (over.length > 0) {
-    console.log('\n  Para cruzar el tope hay que PARTIR el artefacto por concepto, no subir el limite.');
-    for (const r of over) console.log(`    - ${r.path} (${r.bytes} B, +${r.bytes - BUDGET} sobre el tope)`);
+    console.log('\n  Para cruzar el tope hay que PARTIR POR CONCEPTO, no subir el limite.');
+    console.log('  Un concepto que no cabe solo se dice: partirlo por bytes seria amputar.');
+    for (const r of over) {
+      console.log(`    - ${r.path} (${r.bytes} B, parte mayor ${r.mayor} B${r.error ? `, ${r.error}` : ''})`);
+    }
     process.exit(1);
   }
   if (conteoDescuadrado) {
-    console.error(`\n  EL CONTEO DECLARADO NO ES EL MEDIDO: declarado ${declarado}, medido ${rows.length}`);
+    console.error(`\n  EL CONTEO DECLARADO NO ES EL MEDIDO: declarado ${declarado}, medido ${unidades}`);
     console.error('  La superficie publica un numero que no existe. Actualiza');
     console.error('  vibe-tools/estado.json (kpis.unidades_juzgables) y regenera la superficie.\n');
     process.exit(1);
   }
-  console.log('\n  OK: todo artefacto juzgable cabe en un solo chunk.');
-  console.log(`  Y el conteo declarado (${declarado}) es el medido (${rows.length}).\n`);
+  console.log('\n  OK: toda parte que ve el juez cabe en un solo chunk.');
+  console.log(`  Y el conteo declarado (${declarado}) es el medido (${unidades}).`);
+  console.log('  Los documentos siguen enteros: la partida es solo para el juez.\n');
 }
 
 main();

@@ -10,7 +10,7 @@
 | `content` | intrusión de otro guión, caracteres de reemplazo, marcadores pendientes, tablas con columnas distintas, bloques sin cerrar, enlaces internos rotos, enlaces con la caja equivocada, URLs con acento, comandos npm que no existen, falta de título de primer nivel, finales de línea CRLF | si el texto dice la verdad; si una frase está bien escrita |
 | `prosa` | voseo, caracteres invisibles, palabras repetidas, inglés no técnico, espacios al final, tabuladores, falta de salto final, títulos duplicados o de nivel saltado, líneas en blanco de más | la ortografía de una frase; y una línea larga es un aviso, no un fallo |
 | `cifras` | que las cifras del kit del canal coincidan con la fuente: pruebas, pruebas en verde, mutaciones, unidades juzgables, decisiones abiertas y documentos del juez | las cifras que la prosa nombra con otras palabras; un número mal escrito que no esté en la tabla de reglas del guard |
-| `budget` | los bytes crudos de cada artefacto juzgable, contra el tope de 4096 B | si el contenido es el correcto; si el artefacto está partido por donde tiene una sola responsabilidad |
+| `budget` | la parte más grande que vería el juez de cada artefacto juzgable, contra el tope de 4096 B, y que el conteo de partes sea el declarado | si el contenido es el correcto; si la partida es por concepto y no por bytes |
 | `test` | que la suite pase | si los tests afirman lo que dicen afirmar |
 | `mutate` | que los mutantes mueran: si un test sobrevive a una mutación, no está mirando | que el diseño sea el mejor; el umbral es 80% por paquete |
 | `verificar-estado` | que los números publicados cuadren con la realidad medida, que cada loop cerrado tenga su documento, y que la superficie generada esté al día | que el veredicto del juez sea el que se cita (vive en la base de dark-memory, no en el repo) |
@@ -41,6 +41,35 @@ cuando la fuente ya decía 107. Un número falso, y ni se veía al leerlo.
 Y qué se mide lo decide el índice del canal: lo publicado es un registro y no
 se vuelve a mirar; lo que no sale se mide contra la fuente de hoy. La regla
 está en [canal.md](canal.md).
+
+## LA PARTIDA ES SOLO PARA EL JUEZ
+
+Decisión del operador (2026-10-27). El documento vive entero en el repositorio,
+con su prosa completa. Lo que se parte es lo que ve el juez, en el momento de
+juzgarse: y un script recompone las partes y las verifica contra el original.
+
+El motivo es que partir en el repositorio obligaba a recortar la prosa de
+otros documentos para que un índice quepa. Un tope de bytes terminó decidiendo
+la forma del árbol de archivos, y eso está al revés: el tope existe para que el
+veredicto signifique algo, no para que los documentos se partan.
+
+| Pieza | Qué hace |
+|---|---|
+| `vibe-tools/tools/juez-partes.mjs` | parte un artefacto por concepto, recompone las partes y compara el sha con el original |
+| `vibe-tools/tools/gate-budget.mjs` | mide la parte más grande de cada artefacto y contrasta el conteo de partes con el declarado |
+
+El corte va en los títulos: un concepto es un título y lo que va debajo, y en
+el código una declaración de nivel superior. Si un concepto no cabe solo, el
+script falla y lo dice, porque partir ese concepto por bytes sería amputar: un
+veredicto sobre un trozo de una idea.
+
+Y la comprobación que sostiene todo: **las partes tienen que dar el original
+byte a byte.** Se comprueba con el sha, y una parte editada a mano se delata
+porque no lleva la cabecera.
+
+Lo que esto NO verifica: que las partes sean coherentes entre sí. Eso no lo
+certifica nadie ([el judge por partes](arquitectura/loops/judge-partes.md)), y la
+composición solo demuestra que las partes son el original.
 
 ## POR QUÉ NO ES UNA GARANTÍA
 
