@@ -15,6 +15,7 @@ npm run generar-estado -- --check # la superficie contra la fuente
 npm run generar-sitio -- --check  # el sitio contra la fuente
 npm run generar-estado -- --estimar L5 # las dimensiones de una spec por escribir
 npm run cifras                   # el kit del canal
+npm run coherencia               # las constantes declaradas, en todos los documentos
 ```
 
 `npm run check` es lo que corre en cada push. `npm run verificar-estado` es el

@@ -104,42 +104,47 @@ inventada con otro nombre.
 
 ## La coherencia, y lo que se midió de ella
 
-El punto (a) sigue abierto, y hay una medición que lo explica.
+El punto (a) sigue abierto, pero ya no por falta de mecanismo: ahora se sabe
+**qué capa sirve y cuál no**, y está medido en las dos.
 
-**Lo que no funciona, y está medido: comparar las cifras de un documento
-contra la fuente.** Se probó extender la tabla de métricas del `cifras-guard`
-—que hoy solo mira el kit del canal— a todos los documentos juzgables. El
-resultado fueron **27 hallazgos en 16 documentos, y los 27 son falsos
-positivos**: el repositorio cuenta su propia historia con las cifras de su
-momento. «67 unidades juzgables» es el número que había *antes* de la
-corrección, y está en el documento que explica la corrección. «105 mutantes» y
-«142 mutantes» son los de L1 y L2, y ambos son ciertos en su loop.
+**Lo que no sirve: el juez.** Se le dio el documento entero —8760 B, con el
+sha del documento completo y sin truncar— y se compararon dos veredictos: el
+del documento y el de su versión contradicha. Con dos formulaciones de la
+afirmación:
 
-Esos documentos son **registros**, no descripciones: dicen lo que había en su
-día. Y un registro con la cifra de su día no es un documento incoherente: es
-un documento fiel. Por eso esa comprobación no se activa: no caza
-incoherencias, caza historia.
+| Afirmación | Documento | Versión contradicha |
+|---|---|---|
+| «Este documento no se contradice a sí mismo» | `needs_human`, neutral | `needs_human`, neutral |
+| «El tope del framework son 4096 B por artefacto» | `aligned` | `aligned` |
 
-**Lo que sí funciona, y está medido: darle al juez el documento entero.** El
-tope de 4096 B es **nuestro**, no del framework: medido, un artefacto de 5067 B
-se juzgó entero (`artifact_truncated: false`), `aligned` 1.000, 45,8 s. Y el
-documento recompuesto byte a byte es un artefacto que el juez puede ver. La
-afirmación sería una sola: *este documento no se contradice a sí mismo*.
+Los dos veredictos son iguales en cada fila. El juez **no distingue** un
+documento que se contradice de uno que no. La primera afirmación es *meta* —el
+documento no afirma su propia coherencia— y el juez responde neutral; la
+segunda es factual, y el juez encuentra la frase que la sostiene e ignora la
+que la contradice. Una capa semántica de coherencia, con este juez, no existe.
 
-**Y para probarlo hace falta una contradicción de verdad**, porque un veredicto
-que no se puede falsar no sirve. La contradicción se construye de forma
-mecánica: un número que aparece en dos partes, cambiado en una de ellas. Las
-dos partes pasan a decir cosas distintas de lo mismo, que es exactamente la
-incoherencia que se quiere cazar. Y si un documento no tiene un número
+**Lo que sí sirve: la capa determinista de las constantes.** Un número que la
+fuente declara y que no cambia —el tope— se puede comprobar en todos los
+documentos. Medido: 121 documentos revisados, 19 declaraciones del tope, 19
+correctas, **0 falsos positivos**. Y la contradicción se detecta con archivo
+y línea: el guard dice qué número está mal y cuál es el de la fuente.
+
+**Por qué constantes y no contadores.** Una constante no envejece. Un contador
+sí, y por eso extender las reglas de contadores a todos los documentos dio 27
+falsos positivos: los 27 son registros históricos, donde el número que había
+*antes* de la corrección está en el documento que explica la corrección. Un
+registro con la cifra de su día es fiel, no incoherente. La capa nueva cubre
+constantes en todo el repositorio; los contadores se siguen midiendo donde se
+publican.
+
+**Lo que la capa nueva NO ve**, y lo dice el propio guard: las contradicciones
+sobre lo que nadie declaró (no lee ideas), los contadores en los registros
+históricos, y lo que la prosa no nombra con las palabras del ancla.
+
+**La contradicción se construye de forma mecánica**: un número que aparece en
+dos partes, cambiado en una de ellas. Y si un documento no tiene un número
 compartido entre sus partes, no se inventa uno: se dice, porque un experimento
 que necesita una contradicción que no existe mide otra cosa.
-
-Lo que queda es **medir el veredicto**: que el documento y su versión
-contradicha den veredictos distintos. Eso es una llamada al proveedor, y hoy
-no se puede hacer: la cuenta del proveedor está sin cuota (Token Plan
-agotado, `status_code 2056`). El mecanismo está escrito y medido
-(`vibe-tools/tools/coherencia.mjs`, 9 pruebas); **el veredicto de coherencia
-todavía no existe**, y por eso el punto (a) sigue declarado abierto.
 
 ## Lo que esta regla NO hace
 

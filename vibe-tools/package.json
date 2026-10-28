@@ -16,10 +16,11 @@
     "cifras": "node tools/cifras-guard.mjs",
     "generar-estado": "node scripts/generar-estado.mjs",
     "verificar-estado": "node scripts/verificar-estado.mjs",
-    "check": "npm run content && npm run prosa && npm run cifras && npm run budget && npm run test && npm run mutate",
+    "check": "npm run content && npm run prosa && npm run cifras && npm run coherencia && npm run budget && npm run test && npm run mutate",
     "generar-sitio": "node scripts/generar-sitio.mjs",
     "preview": "node tools/render-preview.mjs",
-    "prosa": "node tools/prosa-guard.mjs"
+    "prosa": "node tools/prosa-guard.mjs",
+    "coherencia": "node tools/coherencia-guard.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

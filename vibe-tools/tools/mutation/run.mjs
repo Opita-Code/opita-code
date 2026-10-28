@@ -526,6 +526,16 @@ const MUTANTS = [
   ['tools/coherencia.mjs', 'la contradiccion cambia la parte equivocada',
     'partesNuevas[elegido.parte] = { ...partes[elegido.parte], texto: textoNuevo };',
     'partesNuevas[0] = { ...partes[0], texto: textoNuevo };'],
+
+  // ---- tools/coherencia-guard.mjs : las constantes declaradas ----------
+  ['tools/coherencia-guard.mjs', 'la comparacion siempre dice que coincide',
+    'coincide: Number(m[1]) === esperado,', 'coincide: true,'],
+  ['tools/coherencia-guard.mjs', 'el ancla no exige la palabra del tope',
+    '/(?:tope|', '/(?:|'],
+  ['tools/coherencia-guard.mjs', 'la linea del hallazgo no es la del numero',
+    'linea: i + 1,', 'linea: i,'],
+  ['tools/coherencia-guard.mjs', 'los hallazgos se descartan',
+    'malas: hallazgos.filter((h) => !h.coincide),', 'malas: [],'],
 ];
 
 /**

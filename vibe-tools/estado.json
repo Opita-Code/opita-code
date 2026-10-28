@@ -7,7 +7,7 @@
     "repo": "https://github.com/Opita-Code/opita-code",
     "version": "0.4.0",
     "tag": "v0.4.0",
-    "actualizado": "2026-10-27",
+    "actualizado": "2026-10-28",
     "pagina": { "url": "https://opita-code.github.io/opita-code/" },
     "canales": {
       "plataformas": ["Facebook", "Instagram", "LinkedIn"],
@@ -104,15 +104,15 @@
   ],
 
   "kpis": {
-    "tests_total": 363,
-    "tests_pasan": 363,
+    "tests_total": 371,
+    "tests_pasan": 371,
     "tests_fallan": 0,
-    "tests_por_prefijo": { "L0": 78, "P": 10, "L1": 87, "L2": 107, "L4": 50, "L5": 31 },
+    "tests_por_prefijo": { "L0": 78, "P": 10, "L1": 87, "L2": 107, "L4": 50, "L5": 39 },
     "tests_agrupacion": "por prefijo del nombre del test. El reparto por archivo da otros numeros, y por eso se declara cual de los dos se usa: una cifra que el lector no puede reconciliar no es un dato, es decoracion.",
-    "mutantes_total": 203,
-    "mutantes_muertos": 203,
+    "mutantes_total": 207,
+    "mutantes_muertos": 207,
     "mutantes_sobrevivientes": 0,
-    "mutantes_paquetes": 37,
+    "mutantes_paquetes": 38,
     "mutantes_score": 100.0,
     "mutantes_umbral": 80,
     "mutantes_nota": "El 142/142 que se reporto desde L0 no era una medida: el harness corria los tests con shell:true, y en Windows el glob no lo expandia nadie, asi que Node no encontraba el archivo y salia con codigo 1, y el harness contaba ese error como «el mutante murio». El numero real de entonces era 123/142, con 19 huecos. Los 19 se cerraron con sus tests, y al hacerlo la mutation testing destapo que el chequeo de secciones de imports duplicadas estaba detras del chequeo de orden, y era codigo muerto. Ver docs/arquitectura/loops/L-CI-arreglo.md.",
@@ -120,8 +120,9 @@
     "unidades_exceden": 0,
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,
-    "documentos_judge_aligned": 21,
-    "judge_detalle": "39 de las 48 partes de las unidades anteriores siguen en aligned; las otras 9 caducaron al cambiar su archivo. Y 25 partes de las unidades de ayer siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax."
+    "documentos_judge_aligned": 51,
+    "documentos_judge_aligned_nota": "Es el numero de documentos cuyas partes tienen todas un veredicto aligned VIGENTE, es decir, judged sobre el sha de hoy. NO lo verifica la CI, y hay que saber por que: el registro del juez vive en el store del MCP, fuera de este repositorio. Asi que este numero es una fotografia, no un hecho permanente: si cambia el archivo de un documento, su veredicto caduca por el sha y hay que volver a juzgar. Se publica con esa limitacion escrita, y no como si un guard lo respaldara.",
+    "judge_detalle": "64 de 64 partes de 51 documentos estan en aligned con el sha de hoy; el registro vive en el store del juez, fuera de este repositorio, y la CI no lo re-verifica. Confidence 1.0000, nli_label entailment, provider chat-minimax."
   },
 
   "superficie": {

@@ -14,7 +14,7 @@ Runtime de tools componibles para Opita Code.
 **L2 cerrado** — Composicion: encadenar sin equivocarse.
 **L3 cerrado** — Boundary MEMORY: la memoria es tuya y de nadie mas.
 
-363 tests · mutation 203/203 = 100% en 37 paquetes · 140 unidades juzgables.
+371 tests · mutation 207/207 = 100% en 38 paquetes · 140 unidades juzgables.
 Siguiente según el plan: **L4** — Identidad: las tres identidades y la puerta que las comprueba.
 <!-- /GENERADO:estado -->
 
@@ -84,10 +84,11 @@ src/
 
 ```bash
 npm install
-npm run budget   # falla si un artefacto juzgable cruza 4096 B
-npm run test     # tsc + 354 tests
-npm run mutate   # 176 mutantes; se niega a cerrar si alguno sobrevive
-npm run check    # los tres
+npm run budget      # falla si un artefacto juzgable cruza 4096 B
+npm run coherencia  # las constantes declaradas, en todos los documentos
+npm run test        # tsc + 371 tests
+npm run mutate      # 207 mutantes; se niega a cerrar si alguno sobrevive
+npm run check       # los cuatro
 ```
 
 Dos reglas de los últimos. Un patrón de mutante que no aparece en el compilado

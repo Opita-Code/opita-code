@@ -35,10 +35,10 @@ que fue escrito y dice si el documento cumple.
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 363 de 363 |
-| Mutantes | 203 de 203 (100%, 37 paquetes) |
+| Tests | 371 de 371 |
+| Mutantes | 207 de 207 (100%, 38 paquetes) |
 | Unidades juzgables | 140, 0 exceden los 4096 B |
-| Veredicto del juez | 39 de las 48 partes de las unidades anteriores siguen en aligned; las otras 9 caducaron al cambiar su archivo. Y 25 partes de las unidades de ayer siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
+| Veredicto del juez | 64 de 64 partes de 51 documentos estan en aligned con el sha de hoy; el registro vive en el store del juez, fuera de este repositorio, y la CI no lo re-verifica. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 
 ### Los documentos
 
