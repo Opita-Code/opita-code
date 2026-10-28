@@ -19,9 +19,9 @@
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 354 de 354, 0 fallos |
-| Mutantes | 199 de 199, 100% en 36 paquetes (umbral 80%) |
-| Unidades juzgables | 139, y 0 exceden los 4096 B |
+| Tests | 363 de 363, 0 fallos |
+| Mutantes | 203 de 203, 100% en 37 paquetes (umbral 80%) |
+| Unidades juzgables | 140, y 0 exceden los 4096 B |
 | Gates de loop | 4 loops cerrados |
 | Veredicto del juez | 39 de las 48 partes de las unidades anteriores siguen en aligned; las otras 9 caducaron al cambiar su archivo. Y 25 partes de las unidades de ayer siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 

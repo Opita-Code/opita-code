@@ -515,6 +515,17 @@ const MUTANTS = [
     "'${escapar(resultado)}'", "'${resultado}'"],
   ['src/aislamiento/vinculo.js', 'la lectura no cierra su transaccion, y se pierde',
     'CIERRE_VINCULO,', ''],
+
+  // ---- tools/coherencia.mjs : el artefacto y la contradiccion -----------
+  ['tools/coherencia.mjs', 'el artefacto mide caracteres y no bytes',
+    "bytes: Buffer.byteLength(texto, 'utf8'),", 'bytes: texto.length,'],
+  ['tools/coherencia.mjs', 'la contradiccion elige un numero que no esta en otra parte',
+    'indice > 0 && lista.some((x) => x.n === n)', 'lista.some((x) => x.n === n)'],
+  ['tools/coherencia.mjs', 'la contradiccion no cambia el numero',
+    'const cambiado = String(Number(elegido.n) + 1);', 'const cambiado = elegido.n;'],
+  ['tools/coherencia.mjs', 'la contradiccion cambia la parte equivocada',
+    'partesNuevas[elegido.parte] = { ...partes[elegido.parte], texto: textoNuevo };',
+    'partesNuevas[0] = { ...partes[0], texto: textoNuevo };'],
 ];
 
 /**
@@ -584,6 +595,15 @@ function runTests(dir) {
       archivos.push(join('scripts', f));
     }
   }
+  // Y los de las HERRAMIENTAS. El mecanismo de partes y el de coherencia
+  // viven en tools/, y sin esto sus pruebas no contaban: un mutante de
+  // tools/ no lo detectaba nadie, y el harness lo media como un hueco.
+  const dirTools = join(dir, 'tools');
+  if (existsSync(dirTools)) {
+    for (const f of readdirSync(dirTools).filter((f) => f.endsWith('.test.mjs')).sort()) {
+      archivos.push(join('tools', f));
+    }
+  }
   if (archivos.length === 0) {
     return { ok: false, arranco: false, tests: 0, resumen: 'dist/test no tiene archivos .test.js', status: null };
   }
@@ -628,6 +648,7 @@ function main() {
     const dirBase = join(base, 'base');
     cpSync(dist, join(dirBase, 'dist'), { recursive: true });
     cpSync(join(root, 'scripts'), join(dirBase, 'scripts'), { recursive: true });
+    cpSync(join(root, 'tools'), join(dirBase, 'tools'), { recursive: true });
     const linea = runTests(dirBase);
     rmSync(dirBase, { recursive: true, force: true });
     if (!linea.arranco) {
@@ -651,10 +672,13 @@ function main() {
       const dir = join(base, `m${resultados.length}`);
       cpSync(dist, join(dir, 'dist'), { recursive: true });
       cpSync(join(root, 'scripts'), join(dir, 'scripts'), { recursive: true });
+      cpSync(join(root, 'tools'), join(dir, 'tools'), { recursive: true });
 
-      const ruta = archivo.startsWith('scripts/')
-        ? join(dir, archivo)
-        : join(dir, 'dist', archivo);
+      // El codigo de src se compila (vive en dist/), y scripts/ y tools/ son
+      // JS plano que se copian tal cual. Antes solo se knew de scripts/.
+      const ruta = archivo.startsWith('src/')
+        ? join(dir, 'dist', archivo)
+        : join(dir, archivo);
       const original = readFileSync(ruta, 'utf8');
       if (!original.includes(buscar)) {
         noAplicable++;

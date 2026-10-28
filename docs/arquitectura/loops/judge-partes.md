@@ -102,6 +102,45 @@ medido se compara con el proyectado, y si la diferencia sale de la banda, la
 estimación estaba mala. Una estimación que nunca se comprueba es una cifra
 inventada con otro nombre.
 
+## La coherencia, y lo que se midió de ella
+
+El punto (a) sigue abierto, y hay una medición que lo explica.
+
+**Lo que no funciona, y está medido: comparar las cifras de un documento
+contra la fuente.** Se probó extender la tabla de métricas del `cifras-guard`
+—que hoy solo mira el kit del canal— a todos los documentos juzgables. El
+resultado fueron **27 hallazgos en 16 documentos, y los 27 son falsos
+positivos**: el repositorio cuenta su propia historia con las cifras de su
+momento. «67 unidades juzgables» es el número que había *antes* de la
+corrección, y está en el documento que explica la corrección. «105 mutantes» y
+«142 mutantes» son los de L1 y L2, y ambos son ciertos en su loop.
+
+Esos documentos son **registros**, no descripciones: dicen lo que había en su
+día. Y un registro con la cifra de su día no es un documento incoherente: es
+un documento fiel. Por eso esa comprobación no se activa: no caza
+incoherencias, caza historia.
+
+**Lo que sí funciona, y está medido: darle al juez el documento entero.** El
+tope de 4096 B es **nuestro**, no del framework: medido, un artefacto de 5067 B
+se juzgó entero (`artifact_truncated: false`), `aligned` 1.000, 45,8 s. Y el
+documento recompuesto byte a byte es un artefacto que el juez puede ver. La
+afirmación sería una sola: *este documento no se contradice a sí mismo*.
+
+**Y para probarlo hace falta una contradicción de verdad**, porque un veredicto
+que no se puede falsar no sirve. La contradicción se construye de forma
+mecánica: un número que aparece en dos partes, cambiado en una de ellas. Las
+dos partes pasan a decir cosas distintas de lo mismo, que es exactamente la
+incoherencia que se quiere cazar. Y si un documento no tiene un número
+compartido entre sus partes, no se inventa uno: se dice, porque un experimento
+que necesita una contradicción que no existe mide otra cosa.
+
+Lo que queda es **medir el veredicto**: que el documento y su versión
+contradicha den veredictos distintos. Eso es una llamada al proveedor, y hoy
+no se puede hacer: la cuenta del proveedor está sin cuota (Token Plan
+agotado, `status_code 2056`). El mecanismo está escrito y medido
+(`vibe-tools/tools/coherencia.mjs`, 9 pruebas); **el veredicto de coherencia
+todavía no existe**, y por eso el punto (a) sigue declarado abierto.
+
 ## Lo que esta regla NO hace
 
 - **No sube el tope.** Un artefacto grande se parte por concepto, no se

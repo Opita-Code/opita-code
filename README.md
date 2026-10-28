@@ -35,9 +35,9 @@ que fue escrito y dice si el documento cumple.
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 354 de 354 |
-| Mutantes | 199 de 199 (100%, 36 paquetes) |
-| Unidades juzgables | 139, 0 exceden los 4096 B |
+| Tests | 363 de 363 |
+| Mutantes | 203 de 203 (100%, 37 paquetes) |
+| Unidades juzgables | 140, 0 exceden los 4096 B |
 | Veredicto del juez | 39 de las 48 partes de las unidades anteriores siguen en aligned; las otras 9 caducaron al cambiar su archivo. Y 25 partes de las unidades de ayer siguen sin veredicto: el proveedor del juez no esta disponible. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
 
 ### Los documentos
