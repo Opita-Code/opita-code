@@ -30,10 +30,20 @@ function filas(resultado: Resultado): string[] {
   return resultado.out.split('\n').map((l) => l.trim()).filter((l) => l.length > 0);
 }
 
-/** Levanta la base, aplica las migraciones y siembra dos proyectos con filas. */
-function preparar(pg: Postgres): void {
+/**
+ * Levanta la base, aplica las migraciones y siembra dos proyectos con filas.
+ *
+ * Y REINTENTA, SOLO SI LA CONEXION FALLA. La migracion no es una asercion: si
+ * el servidor se apaga mientras entra, eso no dice nada del aislamiento. Un
+ * fallo de SQL de verdad no se reintenta: se falla, y se ve.
+ */
+async function preparar(pg: Postgres): Promise<void> {
   for (const archivo of ['001_esquema.sql', '002_politicas.sql']) {
-    const r = pg.exec(readFileSync(join(DB, archivo), 'utf8'));
+    let r = pg.exec(readFileSync(join(DB, archivo), 'utf8'));
+    for (let intento = 0; intento < 3 && !r.ok && esFalloDeConexion(r.err); intento++) {
+      await new Promise((res) => setTimeout(res, 2000));
+      r = pg.exec(readFileSync(join(DB, archivo), 'utf8'));
+    }
     assert.equal(r.ok, true, `la migracion ${archivo} debe aplicar: ${r.err}`);
   }
   const semilla = `
@@ -46,6 +56,11 @@ function preparar(pg: Postgres): void {
   assert.equal(r.ok, true, `la semilla debe aplicar: ${r.err}`);
 }
 
+/** Si lo que fallo es la conexion y no el SQL. */
+function esFalloDeConexion(err: string): boolean {
+  return /connection|shutting down|could not connect|server closed/i.test(err);
+}
+
 test('L4-T4 · el aislamiento real: el acceso cruzado falla en las cuatro operaciones', async (t) => {
   const pg = await iniciarPostgres();
   if (!pg) {
@@ -53,7 +68,7 @@ test('L4-T4 · el aislamiento real: el acceso cruzado falla en las cuatro operac
     return;
   }
   try {
-    preparar(pg);
+    await preparar(pg);
 
     // El acceso propio: funciona, y solo ve lo suyo.
     const propios = comoApp(pg, A, 'SELECT id FROM opita.registro;');
@@ -105,7 +120,7 @@ test('L4-T4 · sin vinculo no se ve nada: el aislamiento falla cerrado', async (
     return;
   }
   try {
-    preparar(pg);
+    await preparar(pg);
     const sinVinculo = comoApp(pg, null, 'SELECT id FROM opita.registro;');
     assert.equal(sinVinculo.ok, true, `la consulta sin vinculo no es un error: ${sinVinculo.err}`);
     assert.equal(filas(sinVinculo).length, 0, 'sin vinculo no hay filas');
@@ -121,7 +136,7 @@ test('L4-T4 · una fila propia no se puede mover al proyecto de otro', async (t)
     return;
   }
   try {
-    preparar(pg);
+    await preparar(pg);
     const mover = comoApp(pg, A, `UPDATE opita.registro SET project_id = '${B}' RETURNING id;`);
     assert.equal(mover.ok, false, 'mover una fila al proyecto de otro tiene que fallar');
   } finally {
@@ -136,7 +151,7 @@ test('L4-T4 · la auditoria queda escrita, y cada proyecto solo ve su log', asyn
     return;
   }
   try {
-    preparar(pg);
+    await preparar(pg);
 
     // Una escritura permitida: la base la audita con su propio disparador.
     const escritura = comoApp(pg, A, `INSERT INTO opita.registro (id, project_id, contenido) VALUES (gen_random_uuid(), '${A}', '{}'::jsonb);`);

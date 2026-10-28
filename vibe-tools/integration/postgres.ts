@@ -16,7 +16,7 @@
  * terminar, y si Docker no esta, esto no se mide y lo dice.
  */
 
-import { execFileSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 
 const IMAGEN = 'postgres:16-alpine';
@@ -38,21 +38,25 @@ export interface Postgres {
   cerrar(): void;
 }
 
-/** Corre un comando de docker. */
+/**
+ * Corre un comando de docker.
+ *
+ * Se usa `spawnSync` y no `execFileSync` a proposito: `execFileSync` solo
+ * devuelve stdout, y el stderr se pierde cuando el comando sale con 0. El log
+ * de Postgres va al stderr, asi que con `execFileSync` la cuenta de arranques
+ * salia siempre en cero.
+ */
 function docker(args: string[], input?: string): Resultado {
-  try {
-    const out = execFileSync('docker', args, {
-      input,
-      encoding: 'utf8',
-      timeout: 180000,
-      stdio: ['pipe', 'pipe', 'pipe'],
-      windowsHide: true,
-    });
-    return { ok: true, out: String(out), err: '' };
-  } catch (e) {
-    const err = e as { stdout?: string; stderr?: string };
-    return { ok: false, out: err.stdout ?? '', err: err.stderr ?? String(e) };
-  }
+  const r = spawnSync('docker', args, {
+    input,
+    encoding: 'utf8',
+    timeout: 180000,
+    windowsHide: true,
+  });
+  const out = r.stdout ?? '';
+  const err = r.stderr ?? '';
+  if (r.error) return { ok: false, out, err: String(r.error).slice(0, 200) };
+  return { ok: r.status === 0, out, err };
 }
 
 /** Si hay un motor de Docker al que hablar. */
@@ -66,6 +70,10 @@ export function hayDocker(): boolean {
  *
  * Devuelve `null` si no hay Docker: la prueba se salta y lo dice, porque un
  * aislamiento que no se midio no es un aislamiento comprobado.
+ *
+ * Y si HAY Docker pero el Postgres no llega, esto LANZA: no se salta. Un salto
+ * con Docker presente esconderia un fallo de infraestructura, y el aislamiento
+ * quedaria sin medir sin que nadie lo notara.
  */
 export async function iniciarPostgres(): Promise<Postgres | null> {
   if (!hayDocker()) return null;
@@ -77,19 +85,37 @@ export async function iniciarPostgres(): Promise<Postgres | null> {
     '-e', `POSTGRES_DB=${BASE}`,
     IMAGEN,
   ]);
-  if (!arranque.ok) return null;
+  if (!arranque.ok) {
+    throw new Error(`no pude levantar el Postgres: ${arranque.err.slice(0, 200)}`);
+  }
 
-  // Postgres tarda unos segundos en aceptar conexiones. Se espera a que lo
-  // diga el propio motor, no a que pase un rato.
+  // LA ESPERA, Y POR QUE NO BASTA UNA.
+  //
+  // Durante el arranque, Postgres levanta un servidor TEMPORAL para crear la
+  // base y lo apaga enseguida. A ese servidor se le puede preguntar tanto
+  // `pg_isready` como un `SELECT 1`: los dos responden bien, y al minuto
+  // siguiente el siguiente comando se encuentra con "the database system is
+  // shutting down". Por eso la seña de que el servidor DE VERDAD esta arriba
+  // es doble: que el log del contenedor diga "ready to accept connections" dos
+  // veces (la del temporal y la del real), y que una consulta entre.
   let listo = false;
-  for (let intento = 0; intento < 60 && !listo; intento++) {
-    const r = docker(['exec', nombre, 'pg_isready', '-U', 'postgres']);
-    listo = r.ok;
-    if (!listo) await new Promise((res) => setTimeout(res, 1000));
+  let ultimo = '';
+  for (let intento = 0; intento < 90 && !listo; intento++) {
+    const avisos = docker(['logs', nombre]);
+    // El log del contenedor va a stderr, y el helper separa stdout de stderr:
+    // por eso se cuentan los dos. Si se mira solo uno, la cuenta sale cero y
+    // la espera no termina nunca.
+    const arranques = ((avisos.out + avisos.err).match(/ready to accept connections/g) ?? []).length;
+    const consulta = docker(['exec', nombre, 'psql', '-U', 'postgres', '-d', BASE, '-t', '-A', '-c', 'SELECT 1']);
+    listo = arranques >= 2 && consulta.ok && consulta.out.trim() === '1';
+    if (!listo) {
+      ultimo = `${arranques} arranque(s) en el log; ${consulta.err || consulta.out}`.trim();
+      await new Promise((res) => setTimeout(res, 1000));
+    }
   }
   if (!listo) {
     docker(['rm', '-f', nombre]);
-    return null;
+    throw new Error(`el Postgres no acepto conexiones: ${ultimo.slice(0, 200)}`);
   }
 
   return {
