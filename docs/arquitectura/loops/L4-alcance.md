@@ -69,9 +69,9 @@ mira nada.
 
 ## Y lo que queda para el siguiente
 
-L4-T4 (aislamiento lógico con RLS sobre `project_id`) y L4-T5 (permisos) ya
-no dependen de una decisión abierta del operador: las tres identidades están
-escritas y A5, A6 y A7 están contestadas. L4-T6 (exportar el `.opitapack`)
-sigue abierto. De las preguntas del operador sobre la identidad, ninguna: A9
-se respondió con A1 —se publica la verificación documental— y A4 con la
-opción 2 —el documento legal se publica con su estado real—.
+L4-T4 (aislamiento lógico con RLS sobre `project_id`), L4-T5 (permisos) y
+L4-T6 (el formato `.opitapack`) están cerradas: este loop se cierra con
+[el cierre](L4-cierre.md), que dice también qué KPI del plan no se cumplen y
+por qué. De las preguntas del operador sobre la identidad, ninguna: A9 se
+respondió con A1 —se publica la verificación documental— y A4 con la opción 2
+—el documento legal se publica con su estado real—.

@@ -180,13 +180,13 @@ Procedimiento de notificación a la SIC y a los titulares para cualquier inciden
 
 ## 13. El estado real del sistema
 
-**Medido el 2026-10-27.** Lo que este documento exige y lo que el sistema cumple
+**Medido el 2026-11-03.** Lo que este documento exige y lo que el sistema cumple
 hoy. La admisibilidad del aislamiento lógico (§3.2) depende de cuatro
-condiciones: **hoy se cumplen dos**.
+condiciones: **hoy se cumplen tres**.
 
 | Condición (§3.2) | Estado medido | Dónde se mira |
 |---|---|---|
-| 1 · Autorización en la capa de acceso | **No cumple.** Los permisos por identidad son L4-T5, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
+| 1 · Autorización en la capa de acceso | **Cumple en el código.** La puerta de permisos es *deny by default* y concede por herramienta (id, versión y autor), con la psicometría en capa aparte y por finalidad. Instalar un paquete no concede nada: las herramientas de un paquete instalado nacen sin concesión, y conceder es un acto aparte del operador. El límite declarado: la concesión es por herramienta, y quien la aplica en producción (el companion) no está en este repositorio | [L4-T5-permisos](../arquitectura/loops/L4-T5-permisos.md) |
 | 2 · Cifrado en reposo (AES-256) y en tránsito (TLS), con KMS y rotación | **No comprobable.** No hay infraestructura en producción | — |
 | 3 · Auditoría de todo acceso | **Cumple en el código.** La base audita las escrituras y la aplicación las lecturas y las denegaciones. El límite declarado: una lectura que el motor ocultó no deja rastro en la base, porque el filtrado es silencioso | [L4-T4-verificacion](../arquitectura/loops/L4-T4-verificacion.md) |
 | 4 · Tests de aislamiento automatizados | **Cumple.** La clave se deriva del tipo y del identificador, la puerta lo comprueba antes de dejar correr una herramienta, y el aislamiento de la base se midió contra un Postgres real: el acceso cruzado falla en las cuatro operaciones | [Los tests de aislamiento](../../vibe-tools/test/identity.test.ts) |
@@ -195,13 +195,13 @@ Y dos derechos más, que tampoco están:
 
 | Compromiso | Estado medido | Dónde se mira |
 |---|---|---|
-| Portabilidad: exportar el `.opitapack` (§6) | **No cumple.** Es L4-T6, abierto | [El plan de iteración](../arquitectura/plan-iteracion-mvp.md) |
+| Portabilidad: exportar el `.opitapack` (§6) | **Cumple en parte.** El formato existe y es dato puro: se exporta, se serializa en canónico, se verifica por huella y se instala validando el módulo con las reglas de composición. Instalar no concede ningún permiso. Lo que no cumple aquí es la otra mitad: los **datos** del titular los exporta el companion (dark-memory), que es quien los tiene, y este repositorio no tiene memoria | [L4-T6-paquete](../arquitectura/loops/L4-T6-paquete.md) |
 | Consentimientos C1 a C5, cada uno en su pantalla (§8) | **No cumple.** No hay interfaz: el producto no tiene código de frontend | — |
 
-**Lo que sí está resuelto**, y a medias (§3.1): el contexto inyectado nunca
-cruza identidades, y la puerta lo comprueba antes de dejar correr una
-herramienta. La otra mitad —que una app de tercero solo acceda con permiso
-explícito— depende de L4-T5.
+**Lo que sí está resuelto** (§3.1): el contexto inyectado nunca cruza
+identidades, la puerta lo comprueba antes de dejar correr una herramienta, y
+una app de tercero solo accede con permiso explícito, porque instalar no
+concede.
 
 **Lo que este estado no mide**: la infraestructura en producción, que todavía no
 existe, y el texto del abogado, que nadie ha revisado. Declarar conformidad

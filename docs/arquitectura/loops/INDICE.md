@@ -65,6 +65,10 @@
 | [L4-T4-verificacion](L4-T4-verificacion.md) | El aislamiento medido contra un Postgres real |
 | [L4-T5-permisos](L4-T5-permisos.md) | La puerta de permisos: contexto, psicometria y escritura |
 | [L4-T5-verificacion](L4-T5-verificacion.md) | Los permisos, medidos: deny by default, los dos techos y la psicometria aparte |
+| [L4-T6-paquete](L4-T6-paquete.md) | El formato `.opitapack`: los cuatro campos y la huella |
+| [L4-T6-instalar](L4-T6-instalar.md) | Instalar un paquete, y por que instalar no concede |
+| [L4-T6-verificacion](L4-T6-verificacion.md) | El paquete, medido: la forma, la huella y el deny by default |
+| [L4-cierre](L4-cierre.md) | El cierre del loop: las seis tareas y los KPIs que no se cumplen |
 
 La superficie publica y los documentos transversales estan en
 [INDICE-publico.md](INDICE-publico.md).
