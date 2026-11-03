@@ -2,7 +2,7 @@
 
 > El registro en lenguaje llano: que se puede hacer ahora que antes no se podia, que se
 > volvio mas seguro, y **lo que nos equivocamos en esta ronda**.
-> Generado desde `vibe-tools/estado.json`. Actualizado el 2026-10-28.
+> Generado desde `vibe-tools/estado.json`. Actualizado el 2026-11-03.
 
 ## De un vistazo
 
