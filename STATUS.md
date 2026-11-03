@@ -4,7 +4,7 @@
 
 ## Ahora
 
-**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T4 (RLS), L4-T5 (permisos) y L4-T6 (export).
+**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T6 (export .opitapack).
 
 ## Lo que ya funciona
 
@@ -19,11 +19,11 @@
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 371 de 371, 0 fallos |
-| Mutantes | 207 de 207, 100% en 38 paquetes (umbral 80%) |
-| Unidades juzgables | 140, y 0 exceden los 4096 B |
+| Tests | 398 de 398, 0 fallos |
+| Mutantes | 223 de 223, 100% en 42 paquetes (umbral 80%) |
+| Unidades juzgables | 152, y 0 exceden los 4096 B |
 | Gates de loop | 4 loops cerrados |
-| Veredicto del juez | 64 de 64 partes de 51 documentos estan en aligned con el sha de hoy; el registro vive en el store del juez, fuera de este repositorio, y la CI no lo re-verifica. Confidence 1.0000, nli_label entailment, provider chat-minimax. |
+| Veredicto del juez | 64 de 64 partes de 51 documentos estan en aligned con el sha de hoy; y los 17 que L4-T5 toco o creo se volvieron a juzgar en el store de esta maquina (confidence 0.93 a 1.00, nli_label entailment, provider chat-minimax). El registro vive en el store del juez, fuera de este repositorio, y la CI no lo re-verifica. |
 
 ## Abierto
 

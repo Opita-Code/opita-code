@@ -1,6 +1,5 @@
 {
   "_comentario": "FUENTE UNICA DE VERDAD de la superficie publica. Lo que se publica fuera del repo (README raiz, STATUS.md, docs/avances.md, notas de release) se GENERA desde aqui. Los numeros de este archivo se VERIFICAN contra la realidad medida por npm run verificar-estado: si un numero no cuadra, la tuberia se cae. La regla es que no se escribe a mano lo que se puede medir. Formato JSON y no YAML a proposito: el repo no tiene dependencias, y un parser de YAML seria magia opaca en el punto de la medicion.",
-
   "proyecto": {
     "nombre": "Opita Code",
     "descripcion": "Opita Code — vibe-studio runtime, arquitectura y cumplimiento",
@@ -8,21 +7,25 @@
     "version": "0.4.0",
     "tag": "v0.4.0",
     "actualizado": "2026-10-28",
-    "pagina": { "url": "https://opita-code.github.io/opita-code/" },
+    "pagina": {
+      "url": "https://opita-code.github.io/opita-code/"
+    },
     "canales": {
-      "plataformas": ["Facebook", "Instagram", "LinkedIn"],
+      "plataformas": [
+        "Facebook",
+        "Instagram",
+        "LinkedIn"
+      ],
       "decidido": "2026-10-25",
       "nota": "Decidido por el operador. GitHub sigue siendo el argumento y el sitio la puerta sin cuenta; el canal es donde alguien se entera de que esto existe. Cada plataforma lleva su propia adaptacion nativa: el mismo texto copiado entre plataformas se detecta, y un enlace externo en el cuerpo de un post de LinkedIn cuesta entre 40% y 60% de alcance, asi que el enlace va en la bio y en el primer comentario, no en el texto."
     }
   },
-
   "vision": {
     "estado": "confirmada-por-el-operador",
     "texto": "**Opita Code es el lugar donde tu memoria te pertenece.**\n\nLa memoria de una persona —su contexto, sus herramientas, lo que ha aprendido de ella— suele vivir en el sitio equivocado: en una sesion que se cierra, en una cuenta que no es suya, o en un perfil que la reduce a un segmento. Opita Code da a cada persona una memoria propia, fiel e incorruptible, que viaja con ella y que sus herramientas pueden usar sin que nadie mas la toque.\n\nLegal, profesional y anonima: las tres son tuyas, y ninguna se mezcla con las otras.\n\nY no hace falta saber programar para tenerla.",
     "nota": "Vision del operador, confirmada el 2026-10-23. La derivo de su psicometria con el corte de L3 aplicado a el, y la confirmo tal cual. La derivacion y sus cuatro limites estan en la memoria 1115.",
     "derivacion": "El corte por creencia aplicado al operador en vez de al usuario: ESPEROJO. Su frase «la memoria es el corazon de todo esto. El diseño debe ser perfecto e incorruptible» mas las tres identidades que no se cruzan, mas el mod por persona, mas 0 codigo y local-first, mas la exigencia de que la confianza se verifique y no se prometa. Y la paradoja que es parte del producto: la identidad anonima es la excepcion deliberada, la mascara donde el espejo se sustituye."
   },
-
   "audiencia": {
     "perfil": "Personas que no programan y personas que programan poco. Curiosas por ver avances, no por leer codigo.",
     "regla": "Lo que se lee sin cuenta llega al cien por ciento; lo que pide cuenta se pierde casi entero. Y un numero tecnico no dice nada sin traducirlo: «142 intentos de romper sus propias reglas, y los 142 la frenaron» si dice.",
@@ -35,7 +38,6 @@
     ],
     "capas_de_release_note": "Capa 1, arriba: resumen en lenguaje llano, que es la unica parte que la mayoria va a leer. Capa 2, en medio: el registro categorizado. Capa 3, abajo: notas de migracion, solo si hay que actuar."
   },
-
   "loops": [
     {
       "id": "L0",
@@ -97,34 +99,39 @@
       "puede": "La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening.",
       "mas_tuyo": "Nadie puede apuntar una identidad legal al mod de una empresa: la clave se deriva del tipo, y la puerta lo comprueba en runtime, no una disciplina.",
       "hallazgo": "El KYC era una cadena: `kyc: 'simulada'` o `kyc: 'verificada'`, y el verificado no tenia quien lo respaldara. Con A1 la identidad legal lleva evidencia (senales, stack y fecha), y la puerta comprueba que el estado y las senales no se contradigan. Y al meter un objeto dentro de la identidad volvio el bug de L4-T1: congelar la superficie no congela lo que hay dentro, asi que la evidencia se copia en cascada.",
-      "abierto": "En curso: L4-T4 (RLS), L4-T5 (permisos) y L4-T6 (export).",
+      "abierto": "En curso: L4-T6 (export .opitapack).",
       "documento_cierre": null,
       "indice": "docs/arquitectura/loops/INDICE.md"
     }
   ],
-
   "kpis": {
-    "tests_total": 371,
-    "tests_pasan": 371,
+    "tests_total": 398,
+    "tests_pasan": 398,
     "tests_fallan": 0,
-    "tests_por_prefijo": { "L0": 78, "P": 10, "L1": 87, "L2": 107, "L4": 50, "L5": 39 },
+    "tests_por_prefijo": {
+      "L0": 78,
+      "L1": 87,
+      "L2": 107,
+      "L4": 77,
+      "L5": 39,
+      "P": 10
+    },
     "tests_agrupacion": "por prefijo del nombre del test. El reparto por archivo da otros numeros, y por eso se declara cual de los dos se usa: una cifra que el lector no puede reconciliar no es un dato, es decoracion.",
-    "mutantes_total": 207,
-    "mutantes_muertos": 207,
+    "mutantes_total": 223,
+    "mutantes_muertos": 223,
     "mutantes_sobrevivientes": 0,
-    "mutantes_paquetes": 38,
+    "mutantes_paquetes": 42,
     "mutantes_score": 100.0,
     "mutantes_umbral": 80,
     "mutantes_nota": "El 142/142 que se reporto desde L0 no era una medida: el harness corria los tests con shell:true, y en Windows el glob no lo expandia nadie, asi que Node no encontraba el archivo y salia con codigo 1, y el harness contaba ese error como «el mutante murio». El numero real de entonces era 123/142, con 19 huecos. Los 19 se cerraron con sus tests, y al hacerlo la mutation testing destapo que el chequeo de secciones de imports duplicadas estaba detras del chequeo de orden, y era codigo muerto. Ver docs/arquitectura/loops/L-CI-arreglo.md.",
-    "unidades_juzgables": 140,
+    "unidades_juzgables": 152,
     "unidades_exceden": 0,
     "presupuesto_bytes": 4096,
     "loops_cerrados": 4,
     "documentos_judge_aligned": 51,
-    "documentos_judge_aligned_nota": "Es el numero de documentos cuyas partes tienen todas un veredicto aligned VIGENTE, es decir, judged sobre el sha de hoy. NO lo verifica la CI, y hay que saber por que: el registro del juez vive en el store del MCP, fuera de este repositorio. Asi que este numero es una fotografia, no un hecho permanente: si cambia el archivo de un documento, su veredicto caduca por el sha y hay que volver a juzgar. Se publica con esa limitacion escrita, y no como si un guard lo respaldara.",
-    "judge_detalle": "64 de 64 partes de 51 documentos estan en aligned con el sha de hoy; el registro vive en el store del juez, fuera de este repositorio, y la CI no lo re-verifica. Confidence 1.0000, nli_label entailment, provider chat-minimax."
+    "documentos_judge_aligned_nota": "Es el numero de documentos cuyas partes tienen todas un veredicto aligned VIGENTE, es decir, judged sobre el sha de hoy. NO lo verifica la CI, y hay que saber por que: el registro del juez vive en el store del MCP, fuera de este repositorio. Asi que este numero es una fotografia, no un hecho permanente: si cambia el archivo de un documento, su veredicto caduca por el sha y hay que volver a juzgar. LO QUE OCURRIO EN L4-T5: este repositorio se retomó en otra maquina, y su store del juez no tiene el registro de los loops anteriores (que vive en el store donde se cerraron). Los 17 documentos que L4-T5 tocó o creó se volvieron a juzgar aqui, y estan en aligned; los demas conservan su veredicto de antes, porque sus bytes no cambiaron. El numero sigue siendo 51 porque es el de los documentos con veredicto vigente, no el de los que estan en este store.",
+    "judge_detalle": "64 de 64 partes de 51 documentos estan en aligned con el sha de hoy; y los 17 que L4-T5 toco o creo se volvieron a juzgar en el store de esta maquina (confidence 0.93 a 1.00, nli_label entailment, provider chat-minimax). El registro vive en el store del juez, fuera de este repositorio, y la CI no lo re-verifica."
   },
-
   "superficie": {
     "readme_raiz": "La puerta. Que es esto, que hay hoy, la evidencia medida, el indice, y que queda abierto.",
     "status": "Que hay hoy. Generado. La respuesta a «que se esta construyendo ahora», con fecha visible.",
@@ -135,20 +142,54 @@
     "social_preview": "Imagen de 1280x640. GitHub solo la acepta por la interfaz web; la autogenerada existe mientras tanto.",
     "licencia": "PolyForm Noncommercial 1.0.0. Codigo abierto (se puede leer, estudiar, modificar y compartir) con una restriccion de uso comercial. NO esta aprobada por la OSI, y por eso el repositorio no se autodenomina «open source»: segun la OSI, toda licencia open source permite el uso comercial.",
     "enlaces": [
-      { "texto": "El ahora, con fecha", "url": "https://opita-code.github.io/opita-code/now.html" },
-      { "texto": "El sitio: el estado completo, con la evidencia medida", "url": "https://opita-code.github.io/opita-code/" },
-      { "texto": "El registro en lenguaje llano, ronda por ronda", "url": "docs/avances.md" },
-      { "texto": "Los documentos tecnicos, uno por preocupacion", "url": "docs/arquitectura/loops/INDICE.md" },
-      { "texto": "La superficie publica y los documentos transversales", "url": "docs/arquitectura/loops/INDICE-publico.md" },
-      { "texto": "El inventario de datos, con el estado real de lo que se cumple", "url": "docs/legal/cumplimiento-aislamiento-datos-v1.md" },
-      { "texto": "El paquete de runtime: estructura y comandos", "url": "vibe-tools/README.md" },
-      { "texto": "Como contribuir, y que partes del proyecto todavia no estan listas", "url": "CONTRIBUTING.md" },
-      { "texto": "Como reportar un problema de seguridad, en silencio", "url": "SECURITY.md" },
-      { "texto": "La licencia, y por que no es «open source»", "url": "docs/licencia.md" }
+      {
+        "texto": "El ahora, con fecha",
+        "url": "https://opita-code.github.io/opita-code/now.html"
+      },
+      {
+        "texto": "El sitio: el estado completo, con la evidencia medida",
+        "url": "https://opita-code.github.io/opita-code/"
+      },
+      {
+        "texto": "El registro en lenguaje llano, ronda por ronda",
+        "url": "docs/avances.md"
+      },
+      {
+        "texto": "Los documentos tecnicos, uno por preocupacion",
+        "url": "docs/arquitectura/loops/INDICE.md"
+      },
+      {
+        "texto": "La superficie publica y los documentos transversales",
+        "url": "docs/arquitectura/loops/INDICE-publico.md"
+      },
+      {
+        "texto": "El inventario de datos, con el estado real de lo que se cumple",
+        "url": "docs/legal/cumplimiento-aislamiento-datos-v1.md"
+      },
+      {
+        "texto": "El paquete de runtime: estructura y comandos",
+        "url": "vibe-tools/README.md"
+      },
+      {
+        "texto": "Como contribuir, y que partes del proyecto todavia no estan listas",
+        "url": "CONTRIBUTING.md"
+      },
+      {
+        "texto": "Como reportar un problema de seguridad, en silencio",
+        "url": "SECURITY.md"
+      },
+      {
+        "texto": "La licencia, y por que no es «open source»",
+        "url": "docs/licencia.md"
+      }
     ]
   },
-
   "abiertos": [
-    { "id": "A8", "titulo": "Los bindings reales de Pyodide, WebContainers y Firecracker", "quien": "equipo", "bloquea": "publicar que el sistema ejecuta con red" }
+    {
+      "id": "A8",
+      "titulo": "Los bindings reales de Pyodide, WebContainers y Firecracker",
+      "quien": "equipo",
+      "bloquea": "publicar que el sistema ejecuta con red"
+    }
   ]
 }

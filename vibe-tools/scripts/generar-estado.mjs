@@ -35,33 +35,18 @@ import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CLASES, cuerpoDe, matriz as matrizSpec, renderMatriz } from './matriz.mjs';
 
-const here = dirname(fileURLToPath(import.meta.url));
-const root = join(here, '..', '..');
-const estado = JSON.parse(readFileSync(join(root, 'vibe-tools', 'estado.json'), 'utf8'));
-const k = estado.kpis;
-const cerrados = estado.loops.filter((l) => l.estado === 'cerrado');
-const siguiente = estado.loops.find((l) => l.estado === 'siguiente');
-const fecha = estado.proyecto.actualizado;
-
-/** Enlace relativo desde un directorio del repo hacia otro. */
-function link(desde, hacia) {
-  return relative(join(root, desde), join(root, hacia)).split(/[\\/]/).join('/');
-}
-
-const t = (s) => String(s ?? '').trim();
-
-/** Tabla de Markdown. Las celdas no pueden traer pipes sueltos. */
-function tabla(cabeceras, filas) {
-  const linea = (c) => `| ${c.join(' | ')} |`;
-  return [linea(cabeceras), linea(cabeceras.map(() => '---')), ...filas.map(linea)].join('\n');
-}
+// EL VOCABULARIO VIENE DE UN SOLO SITIO. `estado-comun.mjs` existe para que
+// los dos generadores digan lo mismo con las mismas palabras: cuando cada uno
+// copiaba el enlace, la tabla y la frase de "que se esta construyendo ahora",
+// la copia podia divergir sin que nadie lo notara, y la divergencia sale
+// publicada. El juez la encontro: la isla del paquete decia "Siguiente segun
+// el plan: L4" mientras la de la raiz decia que L4 estaba en curso.
+import { estado, k, cerrados, siguiente, fecha, root, t, link, tabla, lineaAhora } from './estado-comun.mjs';
 
 // ---------------------------------------------------------------- STATUS.md
 
 function renderStatus() {
-  const ahora = siguiente
-    ? `**${siguiente.id} · ${siguiente.nombre}.** ${t(siguiente.abierto)}`
-    : 'No hay ningun loop en cola.';
+  const ahora = lineaAhora();
 
   const loops = tabla(
     ['Loop', 'Que entrega', 'Cierre'],
@@ -225,10 +210,7 @@ function islaEstadoPaquete() {
   const loops = cerrados
     .map((l) => `**${l.id} cerrado** — ${l.nombre}.`)
     .join('\n');
-  const siguiente = estado.loops.find((l) => l.estado === 'siguiente');
-  const cola = siguiente
-    ? `Siguiente según el plan: **${siguiente.id}** — ${siguiente.nombre}.`
-    : 'Sin loops en cola.';
+  const cola = lineaAhora();
   return `${loops}
 
 ${k.tests_total} tests · mutation ${k.mutantes_muertos}/${k.mutantes_total} = ${k.mutantes_score}% en ${k.mutantes_paquetes} paquetes · ${k.unidades_juzgables} unidades juzgables.
