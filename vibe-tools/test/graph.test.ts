@@ -22,6 +22,8 @@ const mk = (over: Partial<ToolDescriptor>): ToolDescriptor => ({
   determinism: 'deterministic',
   tier: 'T0',
   effect: 'none',
+  context_profile: 'none',
+  psychometrics: false,
   inputs: [],
   outputs: [],
   ...over,

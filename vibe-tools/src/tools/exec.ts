@@ -32,6 +32,8 @@ export const EXEC_DESCRIPTOR: ToolDescriptor = {
   determinism: 'deterministic',
   tier: 'T0',
   effect: 'none',
+  context_profile: 'none',
+  psychometrics: false,
   inputs: [{ name: 'expr', produces: 'code', artifact: false }],
   outputs: [{ name: 'value', produces: 'text', artifact: false }],
 };

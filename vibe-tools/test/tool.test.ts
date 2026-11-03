@@ -16,6 +16,8 @@ const EXEC: ToolDescriptor = {
   determinism: 'deterministic',
   tier: 'T0',
   effect: 'none',
+  context_profile: 'none',
+  psychometrics: false,
   inputs: [p('prompt', 'text')],
   outputs: [p('out', 'code', true)],
 };
@@ -36,7 +38,7 @@ test('L0-T1 · el registry sella un contexto que el llamador dejo mutable', () =
     return { ok: true, outputs: [] };
   });
   // El llamador construye un contexto SIN congelar. El registry debe sellarlo.
-  const mutable = { profile: 'minimal' as const, injected: { secreto: 'x' }, identity: IDENTIDAD, actorId: 'a', deadlineMs: 10 };
+  const mutable = { profile: 'preferences' as const, injected: { secreto: 'x' }, identity: IDENTIDAD, actorId: 'a', deadlineMs: 10 };
   assert.equal(Object.isFrozen(mutable.injected), false, 'precondicion del test');
   reg.run('exec', '0.1.0', {}, mutable);
   const visto = recibidos[0] as ToolContext;
@@ -55,7 +57,7 @@ test('L0-T1 · el sellado es PROFUNDO: congelar solo la superficie no alcanza', 
     return { ok: true, outputs: [] };
   });
   const mutable = {
-    profile: 'minimal' as const,
+    profile: 'preferences' as const,
     injected: { perfil: { nombre: 'ana', edad: 30 } },
     identity: IDENTIDAD, actorId: 'a',
     deadlineMs: 10,
@@ -71,7 +73,7 @@ test('L0-T1 · el sellado es PROFUNDO: congelar solo la superficie no alcanza', 
 
 test('L0-T1 · el sellado no altera el contexto original del llamador', () => {
   const reg = new ToolRegistry().register(EXEC, () => ({ ok: true, outputs: [] }));
-  const mutable = { profile: 'minimal' as const, injected: { a: 1 }, identity: IDENTIDAD, actorId: 'x', deadlineMs: 5 };
+  const mutable = { profile: 'preferences' as const, injected: { a: 1 }, identity: IDENTIDAD, actorId: 'x', deadlineMs: 5 };
   reg.run('exec', '0.1.0', {}, mutable);
   assert.equal(Object.isFrozen(mutable), false, 'el registry congelo el objeto del llamador, no una copia');
 });
@@ -86,7 +88,7 @@ test('L0-T1 · el bypass por Object.isFrozen queda cerrado', () => {
     return { ok: true, outputs: [] };
   });
   const sneaky = Object.freeze({
-    profile: 'minimal' as const,
+    profile: 'preferences' as const,
     injected: Object.freeze({ perfil: { edad: 30 } }),
     identity: IDENTIDAD, actorId: 'a',
     deadlineMs: 10,
@@ -118,7 +120,7 @@ test('L0-T1 · una tool que intenta escribir devuelve fallo en vez de corromper 
       return { ok: false, error: `escritura rechazada: ${excepcion}` };
     }
   });
-  const r = reg.run('exec', '0.1.0', {}, { profile: 'minimal', injected: {}, identity: IDENTIDAD, actorId: 'a', deadlineMs: 1 });
+  const r = reg.run('exec', '0.1.0', {}, { profile: 'preferences', injected: {}, identity: IDENTIDAD, actorId: 'a', deadlineMs: 1 });
   assert.equal(r.ok, false);
   if (!r.ok) assert.match(r.detail, /escritura rechazada/);
 });

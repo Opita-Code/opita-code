@@ -96,7 +96,7 @@ test('L4-T1 · sellar un contexto ARMADO A MANO tambien sella la identidad', () 
     kyc: { estado: 'simulada' },
   };
   const ctx = sealContext({
-    profile: 'minimal' as const,
+    profile: 'none' as const,
     injected: {},
     identity: mutable,
     actorId: 'actor-1',

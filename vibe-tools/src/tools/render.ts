@@ -32,6 +32,8 @@ export const RENDER_DESCRIPTOR: ToolDescriptor = {
   determinism: 'deterministic',
   tier: 'T0',
   effect: 'none',
+  context_profile: 'none',
+  psychometrics: false,
   inputs: [{ name: 'value', produces: 'text', artifact: false }],
   outputs: [{ name: 'svg', produces: 'image', artifact: true }],
 };

@@ -31,6 +31,8 @@ function randTool(r: Rng, i: number): ToolDescriptor {
     determinism: r.pick(DETERMINISM),
     tier,
     effect: tier === 'T0' ? 'none' : r.pick(EFFECTS),
+    context_profile: 'none',
+    psychometrics: false,
     inputs: Array.from({ length: r.int(3) }, (_, k) => randPort(r, k)),
     outputs: Array.from({ length: 1 + r.int(3) }, (_, k) => randPort(r, k)),
   };

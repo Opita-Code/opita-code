@@ -536,6 +536,49 @@ const MUTANTS = [
     'linea: i + 1,', 'linea: i,'],
   ['tools/coherencia-guard.mjs', 'los hallazgos se descartan',
     'malas: hallazgos.filter((h) => !h.coincide),', 'malas: [],'],
+
+  // ---- src/permisos/politica.ts : la concesion tiene tres claves ---------
+  ['src/permisos/politica.js', 'la version no se comprueba: el permiso se hereda',
+    'if (concesion.version !== descriptor.version)', 'if (false)'],
+  ['src/permisos/politica.js', 'el autor no se comprueba: el permiso se hereda',
+    'if (concesion.autor !== descriptor.author)', 'if (false)'],
+
+  // ---- src/permisos/categorias.ts : la escala y sus bordes ---------------
+  ['src/permisos/categorias.js', 'la escala no es monotona: historial no alcanza a preferencias',
+    'return posicion(concedida) >= posicion(pedida);', 'return posicion(concedida) > posicion(pedida);'],
+  ['src/permisos/categorias.js', 'una categoria desconocida vale como la mas baja',
+    'if (i < 0)\n        throw new Error(`categoria de contexto desconocida: ${categoria}`);', 'if (i < 0)\n        return 0;'],
+  ['src/permisos/categorias.js', 'el techo mas bajo no manda: manda el mas alto',
+    'return posicion(a) <= posicion(b) ? a : b;', 'return posicion(a) >= posicion(b) ? a : b;'],
+
+  // ---- src/permisos/puerta.ts : quien decide, y dice por que ------------
+  ['src/permisos/puerta.js', 'sin concesion, el permiso concede todo',
+    'if (concesion === undefined)\n        return SIN_PERMISO;',
+    "if (concesion === undefined)\n        return Object.freeze({ categoria: 'usage_history', psicometria: Object.freeze([]), escritura: true });"],
+  ['src/permisos/puerta.js', 'el techo declarado no acota la concesion',
+    'categoria: menor(concesion.categoria, descriptor.context_profile),',
+    'categoria: concesion.categoria,'],
+  ['src/permisos/puerta.js', 'la categoria no concedida pasa: la puerta concede de mas',
+    "if (!alcanza(permiso.categoria, pedida)) {\n        return { concedido: false, motivo: 'E_CATEGORIA_NO_CONCEDIDA', categoria: 'none' };\n    }", 'if (false) { }'],
+  ['src/permisos/puerta.js', 'el techo declarado no se comprueba',
+    "if (!alcanza(descriptor.context_profile, pedida)) {\n        return { concedido: false, motivo: 'E_TECHO_DECLARADO', categoria: 'none' };\n    }", 'if (false) { }'],
+  ['src/permisos/puerta.js', 'la psicometria se concede sin que la tool la declare',
+    "if (!descriptor.psychometrics) {\n        return { concedido: false, motivo: 'E_PSICOMETRIA_NO_DECLARADA', finalidad: null };\n    }", 'if (false) { }'],
+  ['src/permisos/puerta.js', 'la finalidad no consentida pasa',
+    "if (!concesion.psicometria.includes(finalidad)) {\n        return { concedido: false, motivo: 'E_FINALIDAD_NO_CONSENTIDA', finalidad: null };\n    }", 'if (false) { }'],
+  ['src/permisos/puerta.js', 'la escritura se concede sin estar concedida',
+    "if (!concesion.escritura)\n        return { concedido: false, motivo: 'E_ESCRITURA_NO_CONCEDIDA' };", 'if (false) { }'],
+  ['src/permisos/puerta.js', 'la denegacion no dice por que se denego',
+    "motivo: 'E_SIN_CONCESION', categoria: 'none'", "motivo: 'E_CONCEDIDO', categoria: 'none'"],
+
+  // ---- src/permisos/contexto.ts : lo que llega a la tool -----------------
+  ['src/permisos/contexto.js', 'pedir preferencias mete el historial: la categoria no acota',
+    "case 'preferences':\n            return { ...campos.preferencias };",
+    "case 'preferences':\n            return { ...campos.preferencias, ...campos.historial };"],
+  ['src/permisos/contexto.js', 'el psicometrio entra sin su decision',
+    'if (psicometria.concedido) {', 'if (true) {'],
+  ['src/permisos/contexto.js', 'una categoria no concedible no falla: el deny by default se rompe en silencio',
+    "throw new Error(`categoria no concedible: ${categoria}`);", "return {};"],
 ];
 
 /**

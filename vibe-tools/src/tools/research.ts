@@ -39,6 +39,8 @@ export const RESEARCH_DESCRIPTOR: ToolDescriptor = {
   determinism: 'stochastic',
   tier: 'T1',
   effect: 'read',
+  context_profile: 'none',
+  psychometrics: false,
   inputs: [{ name: 'query', produces: 'text', artifact: false }],
   outputs: [{ name: 'notes', produces: 'text', artifact: true }],
 };

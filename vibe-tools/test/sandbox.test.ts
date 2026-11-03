@@ -29,6 +29,8 @@ function descriptor(tier: 'T0' | 'T1' | 'T2', effect: 'none' | 'read' | 'write' 
     determinism: 'deterministic',
     tier,
     effect,
+    context_profile: 'none',
+    psychometrics: false,
     inputs: [],
     outputs: [OUT],
   };

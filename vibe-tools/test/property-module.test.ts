@@ -58,6 +58,8 @@ const GEN_TOOL: ToolDescriptor = {
   determinism: 'deterministic',
   tier: 'T0',
   effect: 'none',
+  context_profile: 'none',
+  psychometrics: false,
   inputs: [{ name: 'in', produces: 'text', artifact: false }],
   outputs: [{ name: 'out', produces: 'text', artifact: false }],
 };

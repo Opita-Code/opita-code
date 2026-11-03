@@ -15,11 +15,12 @@
  * identidades» tenga algo contra lo que compararse.
  */
 
+import type { ContextProfile } from './contract.js';
 import type { Identity } from './identity.js';
 import { afirmarIdentidad } from './identity/validacion.js';
 import { copiarIdentidad } from './identity/operaciones.js';
 
-export type ContextProfile = 'none' | 'minimal';
+export type { ContextProfile };
 
 export interface ToolContext {
   readonly profile: ContextProfile;
@@ -46,6 +47,39 @@ export function emptyContext(actorId: string, identity: Identity, deadlineMs = 5
   }) as ToolContext;
   sealed.add(ctx);
   return ctx;
+}
+
+/**
+ * Un contexto CON contenido, sellado como el vacio.
+ *
+ * POR QUE EXISTE AHORA Y NO ANTES. Antes el unico contexto que se construia
+ * era el vacio, porque todavia no habia quien decidiera que se podia inyectar.
+ * L4-T5 introduce al que decide (los permisos), y con el aparece el contexto
+ * con contenido: lo que la tool recibe de verdad.
+ *
+ * Y SE SELLA IGUAL QUE EL VACIO, y por el mismo motivo: el sellado no es una
+ * cortesia del camino rapido, es la garantia de que la tool no puede mutar lo
+ * que el harness decidio inyectarle. Un contexto con contenido que llegara
+ * sin sellar seria un contexto con contenido mutable, que es peor que un
+ * contexto vacio: el vacio no puede filtrar nada.
+ *
+ * El perfil es el que se CONCEDIO, no el que se pidio: el contexto describe lo
+ * que lleva, y lo que lleva es lo que la puerta concedio.
+ */
+export function contextoCon(
+  actorId: string,
+  identity: Identity,
+  profile: ContextProfile,
+  injected: Readonly<Record<string, unknown>>,
+  deadlineMs = 5_000,
+): ToolContext {
+  return sealContext({
+    profile,
+    injected,
+    actorId,
+    identity,
+    deadlineMs,
+  } as ToolContext);
 }
 
 /**

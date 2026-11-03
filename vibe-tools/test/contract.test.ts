@@ -133,6 +133,8 @@ const tool = (over: Partial<ToolDescriptor> = {}): ToolDescriptor => ({
   determinism: 'deterministic',
   tier: 'T0',
   effect: 'none',
+  context_profile: 'none',
+  psychometrics: false,
   inputs: [port('prompt', 'text')],
   outputs: [port('out', 'code')],
   ...over,

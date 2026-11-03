@@ -44,6 +44,8 @@ export const DRAFT_DESCRIPTOR: ToolDescriptor = {
   determinism: 'stochastic',
   tier: 'T0',
   effect: 'none',
+  context_profile: 'none',
+  psychometrics: false,
   inputs: [
     { name: 'topic', produces: 'text', artifact: false },
     { name: 'nonce', produces: 'text', artifact: false },

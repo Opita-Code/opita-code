@@ -42,6 +42,8 @@ function desc(tier: Tier): ToolDescriptor {
     determinism: 'deterministic',
     tier,
     effect: 'none',
+    context_profile: 'none',
+    psychometrics: false,
     inputs: [],
     outputs: [OUT],
   };
