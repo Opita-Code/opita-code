@@ -579,6 +579,51 @@ const MUTANTS = [
     'if (psicometria.concedido) {', 'if (true) {'],
   ['src/permisos/contexto.js', 'una categoria no concedible no falla: el deny by default se rompe en silencio',
     "throw new Error(`categoria no concedible: ${categoria}`);", "return {};"],
+
+  // ---- src/paquete/formato.ts : la forma, mirada -------------------------
+  ['src/paquete/formato.js', 'un campo que el formato no define pasa',
+    'if (!CAMPOS_PAQUETE.includes(clave)) {', 'if (false) {'],
+  ['src/paquete/formato.js', 'una version de formato ajena pasa',
+    'if (obj.formato_version !== VERSION_FORMATO) {', 'if (false) {'],
+  ['src/paquete/formato.js', 'un formato ajeno pasa',
+    'if (obj.formato !== FORMATO_PAQUETE) {', 'if (false) {'],
+  ['src/paquete/formato.js', 'un campo ausente pasa',
+    'if (!Object.prototype.hasOwnProperty.call(obj, campo)) {', 'if (false) {'],
+  ['src/paquete/formato.js', 'una huella que no es cadena pasa',
+    "if (typeof obj.huella !== 'string' || obj.huella === '') {", 'if (false) {'],
+  ['src/paquete/formato.js', 'un modulo que no es modulo pasa',
+    'if (!esModulo(obj.modulo)) {', 'if (false) {'],
+  ['src/paquete/formato.js', 'un texto que no es JSON se lee',
+    "motivo: 'E_LECTURA',", "motivo: 'E_CAMPO_AUSENTE',"],
+  ['src/paquete/formato.js', 'las peticiones no se derivan: aparecen las tools que no piden',
+    'if (contexto === null && !tool.psychometrics)', 'if (false)'],
+  ['src/paquete/formato.js', 'la psicometria no se pide',
+    'psicometria: tool.psychometrics,', 'psicometria: false,'],
+  ['src/paquete/formato.js', 'el contexto no se pide',
+    "const contexto = tool.context_profile === 'none' ? null : tool.context_profile;", 'const contexto = null;'],
+
+  // ---- src/paquete/exportar.ts : empaquetar ------------------------------
+  ['src/paquete/exportar.js', 'la huella no es la del modulo',
+    'huella: integrityOf(modulo),', "huella: '',"],
+  ['src/paquete/exportar.js', 'la version del formato no viaja',
+    'formato_version: VERSION_FORMATO,', "formato_version: '0.0.0',"],
+  ['src/paquete/exportar.js', 'el texto no es el canonico: depende del orden con que se armo',
+    'return canonicalize(paquete);', 'return JSON.stringify(paquete);'],
+
+  // ---- src/paquete/instalar.ts : lo que se hace con lo que viene de fuera
+  ['src/paquete/instalar.js', 'la forma del paquete no se comprueba',
+    'if (!forma.ok) {', 'if (false) {'],
+  ['src/paquete/instalar.js', 'la huella no se comprueba: un paquete alterado se instala',
+    'if (huella !== paquete.huella) {', 'if (false) {'],
+  ['src/paquete/instalar.js', 'un modulo invalido se instala',
+    'if (!validacion.ok) {', 'if (false) {'],
+  ['src/paquete/instalar.js', 'el motivo del modulo invalido no lo dice',
+    "motivo: 'E_MODULO_INVALIDO',", "motivo: 'E_LECTURA',"],
+  ['src/paquete/instalar.js', 'instalar concede permisos',
+    'politica: POLITICA_VACIA,',
+    "politica: { concessiones: [{ herramienta: 'x', version: '1.0.0', autor: 'y', categoria: 'usage_history', psicometria: [], escritura: true }] },"],
+  ['src/paquete/instalar.js', 'el orden topologico no viaja',
+    'orden: validacion.plan.executionOrder,', 'orden: [],'],
 ];
 
 /**
