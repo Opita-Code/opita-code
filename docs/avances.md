@@ -12,9 +12,11 @@
 | L1 | Cada herramienta vive en una caja: solo puede hacer lo que su caja le concede, y se comprueba antes de dejarla correr. Si intenta salirse, la ejecucion falla aunque la herramienta hubiera funcionado. |
 | L2 | Puedes encadenar herramientas y el orden nunca se equivoca. Si dos se necesitan entre si, el sistema te dice cuales son, en vez de fallar en silencio. |
 | L3 | La memoria paso a ser tuya y de nadie mas. Las herramientas que instales en tu proyecto no pueden leerla ni reescribirla, y queda registrado quien pidio que y para que. |
+| L4 | La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. Y ya se puede decidir quien accede a que: una puerta que concede por categoria, con la psicometria aparte, y un paquete que se instala sin conceder nada. |
 
 ## Ronda por ronda
 
+- [L4 · Identidad: las tres identidades y la puerta que las comprueba](avances/L4.md)
 - [L3 · Boundary MEMORY: la memoria es tuya y de nadie mas](avances/L3.md)
 - [L2 · Composicion: encadenar sin equivocarse](avances/L2.md)
 - [L1 · Runtime: la caja de cada herramienta](avances/L1.md)

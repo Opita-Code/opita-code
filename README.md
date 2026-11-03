@@ -29,16 +29,16 @@ que fue escrito y dice si el documento cumple.
 <!-- GENERADO:estado -->
 ### Ahora
 
-**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T6 (export .opitapack).
+**L5 · Judge pipeline: publicar con confianza, y medir lo que cuesta.** El pipeline no existe todavia: hoy el juez se llama a mano, un documento por vez. Faltan el orquestador, la whitelist de modulos de backend y la medicion del coste por publicacion.
 
 ### La evidencia, medida
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 398 de 398 |
-| Mutantes | 223 de 223 (100%, 42 paquetes) |
-| Unidades juzgables | 152, 0 exceden los 4096 B |
-| Veredicto del juez | 64 de 64 partes de 51 documentos estan en aligned con el sha de hoy; y los 17 que L4-T5 toco o creo se volvieron a juzgar en el store de esta maquina (confidence 0.93 a 1.00, nli_label entailment, provider chat-minimax). El registro vive en el store del juez, fuera de este repositorio, y la CI no lo re-verifica. |
+| Tests | 426 de 426 |
+| Mutantes | 242 de 242 (100%, 45 paquetes) |
+| Unidades juzgables | 165, 0 exceden los 4096 B |
+| Veredicto del juez | 28 documentos con veredicto aligned vigente sobre el sha de hoy: los que L4-T5 y L4-T6 tocaron o crearon. Confianza 0.93 a 1.00 (nli_label entailment, provider judge-minimax). El registro de los loops anteriores vive en el store donde se cerraron, que esta maquina no tiene, y la CI no re-verifica ninguno de los dos. |
 
 ### Los documentos
 
@@ -48,6 +48,7 @@ que fue escrito y dice si el documento cumple.
 | L1 | Runtime: la caja de cada herramienta |
 | L2 | Composicion: encadenar sin equivocarse |
 | L3 | Boundary MEMORY: la memoria es tuya y de nadie mas |
+| L4 | Identidad: las tres identidades y la puerta que las comprueba |
 
 ### Donde mirar
 

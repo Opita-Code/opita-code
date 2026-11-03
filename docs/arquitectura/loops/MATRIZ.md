@@ -44,6 +44,15 @@ Total: 3131 B · 2 medidos · 0 proyectados.
 
 | Parte | Clase | Afirmación | Bytes | De dónde |
 |---|---|---|---|---|
-| L4-avances | avances | La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. | 1178 | proyectado |
+| L4-avances | avances | La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. Y ya se puede decidir quien accede a que: una puerta que concede por categoria, con la psicometria aparte, y un paquete que se instala sin conceder nada. | 1492 | medido |
+| L4-cierre | cierre | El deny by default tenia DOS defensas: la rama que pregunta «concedido?» y la categoria `none` que no inyecta nada. Cada una tapaba a la otra, y dos defensas del mismo invariante no se miden, se tapan. La solucion fue de codigo y no de tests: uniones discriminadas, y una categoria que no concede falla fuerte en vez de devolver un vacio. | 3049 | medido |
+
+Total: 4541 B · 2 medidos · 0 proyectados.
+
+## L5 · Judge pipeline: publicar con confianza, y medir lo que cuesta
+
+| Parte | Clase | Afirmación | Bytes | De dónde |
+|---|---|---|---|---|
+| L5-avances | avances | Publicar con confianza: cada artefacto pasa por el juez, el veredicto queda en su registro con su confianza y su motivo, y el que no se puede decidir se distingue del que se decidio mal. | 1178 | proyectado |
 
 Total: 1178 B · 0 medidos · 1 proyectados.

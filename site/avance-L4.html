@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L4 · Identidad: las tres identidades y la puerta que las comprueba — Avances de Opita Code</title>
+<meta name="description" content="La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. Y ya se puede decidir quien accede a que: una puerta que concede por categoria, con la psicometria aparte, y un paquete que se instala sin conceder nada.">
+<meta property="og:title" content="L4 · Identidad: las tres identidades y la puerta que las comprueba — Avances de Opita Code">
+<meta property="og:description" content="La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. Y ya se puede decidir quien accede a que: una puerta que concede por categoria, con la psicometria aparte, y un paquete que se instala sin conceder nada.">
+<meta property="og:image" content="https://opita-code.github.io/opita-code/social-preview.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="https://opita-code.github.io/opita-code/social-preview.png">
+<style>
+:root {
+  --ink: #0D0D0D; --paper: #FAFAFA; --accent: #00D084; --accent-dark: #00AC6E;
+  --stone-500: #6B7280; --stone-200: #E5E7EB; --stone-800: #1F2937;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-sans); line-height: 1.6;
+  font-size: 16px; padding: 0 20px 72px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 760px; margin: 0 auto; }
+.hero { padding: 64px 0 40px; border-bottom: 1px solid var(--stone-200); }
+.regla { width: 56px; height: 4px; background: var(--accent); margin-bottom: 22px; }
+h1 { font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
+.sub { color: var(--accent-dark); font-weight: 500; margin-top: 10px; font-size: 18px; }
+.gancho { color: var(--stone-800); font-weight: 500; margin-top: 10px; font-size: 20px; }
+.nota { color: var(--stone-500); margin-top: 10px; font-size: 14px; }
+.fecha { color: var(--stone-500); font-size: 14px; margin-top: 14px; }
+section { padding: 40px 0; border-bottom: 1px solid var(--stone-200); }
+h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+     color: var(--stone-500); font-weight: 600; margin-bottom: 18px; }
+p + p { margin-top: 12px; }
+ul, ol { padding-left: 20px; }
+li { margin-bottom: 12px; }
+li strong { color: var(--ink); }
+.score { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+.carta { background: #fff; border: 1px solid var(--stone-200); border-radius: 10px; padding: 16px; }
+.carta .n { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+.carta .d { font-size: 13px; color: var(--stone-500); margin-top: 2px; }
+.hallazgo { border-left: 3px solid var(--accent); padding-left: 14px; color: var(--stone-800); }
+.bloque { background: #fff; border: 1px dashed var(--stone-200); border-radius: 10px;
+          padding: 16px; color: var(--stone-800); font-size: 15px; }
+.enlaces a { color: var(--accent-dark); }
+footer { padding-top: 36px; color: var(--stone-500); font-size: 13px; }
+footer a { color: var(--accent-dark); }
+@media (max-width: 560px) {
+  h1 { font-size: 32px; }
+  .hero { padding: 40px 0 32px; }
+  section { padding: 30px 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="regla"></div>
+  <h1>L4 · Identidad: las tres identidades y la puerta que las comprueba</h1>
+  <p class="fecha"><a href="now.html">El ahora</a> &middot; <a href="index.html">Volver al estado</a> &middot; actualizado el 2026-11-03</p>
+</header>
+<section>
+  <h2>Que puedes hacer ahora que antes no podias</h2>
+  <p>La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. Y ya se puede decidir quien accede a que: una puerta que concede por categoria, con la psicometria aparte, y un paquete que se instala sin conceder nada.</p>
+</section>
+<section>
+  <h2>Que se volvio mas tuyo o mas seguro</h2>
+  <p>Nadie puede apuntar una identidad legal al mod de una empresa: la clave se deriva del tipo, y la puerta lo comprueba en runtime. Y tu memoria sale contigo: un `.opitapack` es un fichero tuyo, con su huella, y se instala donde quieras.</p>
+</section>
+<section>
+  <h2>Lo que nos equivocamos en esta ronda</h2>
+  <p class="hallazgo">El deny by default tenia DOS defensas: la rama que pregunta «concedido?» y la categoria `none` que no inyecta nada. Cada una tapaba a la otra, y dos defensas del mismo invariante no se miden, se tapan. La solucion fue de codigo y no de tests: uniones discriminadas, y una categoria que no concede falla fuerte en vez de devolver un vacio.</p>
+</section>
+<section>
+  <h2>Lo que quedo abierto</h2>
+  <p>Lo que queda no es de este runtime: el cifrado en reposo y en transito, que necesita infraestructura; el registro durable del pool de nicknames y el limite de tres empresas por persona, que son del harness; y la revision de abogado, que no la suple ningun codigo.</p>
+</section>
+<footer><a href="https://github.com/Opita-Code/opita-code">Repositorio</a></footer>
+</div>
+</body>
+</html>

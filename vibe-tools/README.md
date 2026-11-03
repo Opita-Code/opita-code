@@ -13,9 +13,10 @@ Runtime de tools componibles para Opita Code.
 **L1 cerrado** — Runtime: la caja de cada herramienta.
 **L2 cerrado** — Composicion: encadenar sin equivocarse.
 **L3 cerrado** — Boundary MEMORY: la memoria es tuya y de nadie mas.
+**L4 cerrado** — Identidad: las tres identidades y la puerta que las comprueba.
 
-398 tests · mutation 223/223 = 100% en 42 paquetes · 152 unidades juzgables.
-**L4 · Identidad: las tres identidades y la puerta que las comprueba.** En curso: L4-T6 (export .opitapack).
+426 tests · mutation 242/242 = 100% en 45 paquetes · 165 unidades juzgables.
+**L5 · Judge pipeline: publicar con confianza, y medir lo que cuesta.** El pipeline no existe todavia: hoy el juez se llama a mano, un documento por vez. Faltan el orquestador, la whitelist de modulos de backend y la medicion del coste por publicacion.
 <!-- /GENERADO:estado -->
 
 > Este bloque se **genera** desde `estado.json` y lo verifica `npm run verificar-estado`. El
