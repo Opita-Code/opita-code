@@ -13,9 +13,11 @@
 | L2 | Puedes encadenar herramientas y el orden nunca se equivoca. Si dos se necesitan entre si, el sistema te dice cuales son, en vez de fallar en silencio. |
 | L3 | La memoria paso a ser tuya y de nadie mas. Las herramientas que instales en tu proyecto no pueden leerla ni reescribirla, y queda registrado quien pidio que y para que. |
 | L4 | La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. Y ya se puede decidir quien accede a que: una puerta que concede por categoria, con la psicometria aparte, y un paquete que se instala sin conceder nada. |
+| L5 | Publicar con confianza: cada artefacto se parte por concepto, cada parte se juzga con su propia afirmacion, y el pipeline decide publicar, corregir o parar con la accion para el operador. El coste de cada publicacion queda medido en llamadas, bytes y latencia maxima. |
 
 ## Ronda por ronda
 
+- [L5 · Judge pipeline: publicar con confianza, y medir lo que cuesta](avances/L5.md)
 - [L4 · Identidad: las tres identidades y la puerta que las comprueba](avances/L4.md)
 - [L3 · Boundary MEMORY: la memoria es tuya y de nadie mas](avances/L3.md)
 - [L2 · Composicion: encadenar sin equivocarse](avances/L2.md)

@@ -68,18 +68,18 @@ footer a { color: var(--accent-dark); }
 
 <section>
   <h2>Ahora</h2>
-  <p><strong>L5 · Judge pipeline: publicar con confianza, y medir lo que cuesta.</strong> El pipeline no existe todavia: hoy el juez se llama a mano, un documento por vez. Faltan el orquestador, la whitelist de modulos de backend y la medicion del coste por publicacion.</p>
+  <p>No hay ningun loop en cola.</p>
 </section>
 
 <section>
   <h2>La evidencia, medida</h2>
   <div class="score">
-<div class="carta"><div class="n">426 de 426</div><div class="d">Tests</div></div>
-<div class="carta"><div class="n">242 de 242</div><div class="d">Mutantes</div></div>
-<div class="carta"><div class="n">165</div><div class="d">Unidades juzgables</div></div>
-<div class="carta"><div class="n">5</div><div class="d">Loops cerrados</div></div>
+<div class="carta"><div class="n">512 de 512</div><div class="d">Tests</div></div>
+<div class="carta"><div class="n">272 de 272</div><div class="d">Mutantes</div></div>
+<div class="carta"><div class="n">186</div><div class="d">Unidades juzgables</div></div>
+<div class="carta"><div class="n">6</div><div class="d">Loops cerrados</div></div>
   </div>
-  <p style="margin-top:18px;font-size:14px;color:var(--stone-500)">28 documentos con veredicto aligned vigente sobre el sha de hoy: los que L4-T5 y L4-T6 tocaron o crearon. Confianza 0.93 a 1.00 (nli_label entailment, provider judge-minimax). El registro de los loops anteriores vive en el store donde se cerraron, que esta maquina no tiene, y la CI no re-verifica ninguno de los dos.</p>
+  <p style="margin-top:18px;font-size:14px;color:var(--stone-500)">28 documentos de L4-T5 y L4-T6 mas los 6 de L5, con veredicto aligned vigente sobre el sha de hoy: confianza 0.93 a 1.00 (nli_label entailment, provider judge-minimax). Los tres transversales que L5 toco tambien se juzgaron (6 partes, 0.98 a 1.00) pero no se suman al conteo para no duplicar. El registro de los loops anteriores vive en el store donde se cerraron, que esta maquina no tiene, y la CI no re-verifica ninguno de los dos.</p>
 </section>
 
 <section>
@@ -114,6 +114,12 @@ footer a { color: var(--accent-dark); }
       <strong>L4 · Identidad: las tres identidades y la puerta que las comprueba</strong><br>
       La identidad son tres tipos que no se cruzan, y la legal puede llevar su verificacion real: el documento leido, el rostro cotejado y el screening. Y ya se puede decidir quien accede a que: una puerta que concede por categoria, con la psicometria aparte, y un paquete que se instala sin conceder nada.<br>
       <span class="hallazgo"><em>Lo que nos equivocamos:</em> El deny by default tenia DOS defensas: la rama que pregunta «concedido?» y la categoria `none` que no inyecta nada. Cada una tapaba a la otra, y dos defensas del mismo invariante no se miden, se tapan. La solucion fue de codigo y no de tests: uniones discriminadas, y una categoria que no concede falla fuerte en vez de devolver un vacio.</span>
+    </li>
+
+    <li>
+      <strong>L5 · Judge pipeline: publicar con confianza, y medir lo que cuesta</strong><br>
+      Publicar con confianza: cada artefacto se parte por concepto, cada parte se juzga con su propia afirmacion, y el pipeline decide publicar, corregir o parar con la accion para el operador. El coste de cada publicacion queda medido en llamadas, bytes y latencia maxima.<br>
+      <span class="hallazgo"><em>Lo que nos equivocamos:</em> La misma afirmacion para todas las partes produce deriva falsa: tres documentos correctos salieron drift_detected por juzgar cada fragmento contra el intent del documento entero. Una parte, una afirmacion. Y dos defensas del mismo invariante se tapan: la mutacion destapo dos ramas redundantes, en el ambito y en el empate.</span>
     </li>
   </ol>
 </section>

@@ -29,16 +29,16 @@ que fue escrito y dice si el documento cumple.
 <!-- GENERADO:estado -->
 ### Ahora
 
-**L5 · Judge pipeline: publicar con confianza, y medir lo que cuesta.** El pipeline no existe todavia: hoy el juez se llama a mano, un documento por vez. Faltan el orquestador, la whitelist de modulos de backend y la medicion del coste por publicacion.
+Sin loops en cola.
 
 ### La evidencia, medida
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 426 de 426 |
-| Mutantes | 242 de 242 (100%, 45 paquetes) |
-| Unidades juzgables | 165, 0 exceden los 4096 B |
-| Veredicto del juez | 28 documentos con veredicto aligned vigente sobre el sha de hoy: los que L4-T5 y L4-T6 tocaron o crearon. Confianza 0.93 a 1.00 (nli_label entailment, provider judge-minimax). El registro de los loops anteriores vive en el store donde se cerraron, que esta maquina no tiene, y la CI no re-verifica ninguno de los dos. |
+| Tests | 512 de 512 |
+| Mutantes | 272 de 272 (100%, 51 paquetes) |
+| Unidades juzgables | 186, 0 exceden los 4096 B |
+| Veredicto del juez | 28 documentos de L4-T5 y L4-T6 mas los 6 de L5, con veredicto aligned vigente sobre el sha de hoy: confianza 0.93 a 1.00 (nli_label entailment, provider judge-minimax). Los tres transversales que L5 toco tambien se juzgaron (6 partes, 0.98 a 1.00) pero no se suman al conteo para no duplicar. El registro de los loops anteriores vive en el store donde se cerraron, que esta maquina no tiene, y la CI no re-verifica ninguno de los dos. |
 
 ### Los documentos
 
@@ -49,6 +49,7 @@ que fue escrito y dice si el documento cumple.
 | L2 | Composicion: encadenar sin equivocarse |
 | L3 | Boundary MEMORY: la memoria es tuya y de nadie mas |
 | L4 | Identidad: las tres identidades y la puerta que las comprueba |
+| L5 | Judge pipeline: publicar con confianza, y medir lo que cuesta |
 
 ### Donde mirar
 

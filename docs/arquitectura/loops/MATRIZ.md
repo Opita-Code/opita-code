@@ -53,6 +53,7 @@ Total: 4541 B · 2 medidos · 0 proyectados.
 
 | Parte | Clase | Afirmación | Bytes | De dónde |
 |---|---|---|---|---|
-| L5-avances | avances | Publicar con confianza: cada artefacto pasa por el juez, el veredicto queda en su registro con su confianza y su motivo, y el que no se puede decidir se distingue del que se decidio mal. | 1178 | proyectado |
+| L5-avances | avances | Publicar con confianza: cada artefacto se parte por concepto, cada parte se juzga con su propia afirmacion, y el pipeline decide publicar, corregir o parar con la accion para el operador. El coste de cada publicacion queda medido en llamadas, bytes y latencia maxima. | 1446 | medido |
+| L5-cierre | cierre | La misma afirmacion para todas las partes produce deriva falsa: tres documentos correctos salieron drift_detected por juzgar cada fragmento contra el intent del documento entero. Una parte, una afirmacion. Y dos defensas del mismo invariante se tapan: la mutacion destapo dos ramas redundantes, en el ambito y en el empate. | 4087 | medido |
 
-Total: 1178 B · 0 medidos · 1 proyectados.
+Total: 5533 B · 2 medidos · 0 proyectados.
