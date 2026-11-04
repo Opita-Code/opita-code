@@ -32,3 +32,7 @@ __pycache__/
 *.db-wal
 # Capturas del navegador: las deja el probe en la raiz del repo
 screenshot.png
+
+# Partes temporales del juez: se escriben al juzgar y se borran al terminar.
+# Si un proceso muere a mitad, no se versionan.
+.partes-juez/

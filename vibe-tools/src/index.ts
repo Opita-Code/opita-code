@@ -86,3 +86,38 @@ export { validarKyc } from './identity/kyc-puerta.js';
 export type { MotivoKyc } from './identity/kyc-puerta.js';
 export { validarIdentidad, afirmarIdentidad, IdentidadInvalidaError } from './identity/validacion.js';
 export type { MotivoIdentidad } from './identity/validacion.js';
+
+// L5 · juez: el ambito, la medida, el encargo, la lista blanca y el pipeline
+export { AMBITOS, DEFINICIONES } from './juez/ambitos.js';
+export { ambitoDe, consensoDe } from './juez/ruta-de-ambito.js';
+export type { Ambito, DefinicionDeAmbito } from './juez/ambitos.js';
+export { VEREDICTOS, desviacion, desenlaceDe, agregar, queHacer } from './juez/medida.js';
+export type {
+  Veredicto,
+  Muestra,
+  MedidaDeParte,
+  MotivoDeParada,
+  Desenlace,
+  Agregado,
+} from './juez/medida.js';
+export { EVAL_TYPES_DEL_PIPELINE, TOPE_AFIRMACION, bytesDe, revisarEncargo } from './juez/encargo.js';
+export type { Encargo, MotivoDeRechazo, Revision } from './juez/encargo.js';
+export { WHITELIST_BACKEND, revisarWhitelist } from './juez/whitelist.js';
+export type { RevisionWhitelist } from './juez/whitelist.js';
+export { costeDe, dispersionDeLatencia, cobrar } from './juez/coste.js';
+export type { Volumen, Coste, Tarifa, Cargo } from './juez/coste.js';
+export {
+  planificar,
+  comprobarCorrespondencia,
+  resolver,
+  resumenDe,
+  MedidaIncoherenteError,
+} from './juez/pipeline.js';
+export type {
+  Parte,
+  Plan,
+  Planificacion,
+  OpcionesDePlan,
+  MotivoDePlan,
+  Publicacion,
+} from './juez/pipeline.js';
