@@ -81,5 +81,16 @@
 | [L5-mutacion-juez](L5-mutacion-juez.md) | Mutar el artefacto: 2 de 5 detectadas, y por qué |
 | [L5-cierre](L5-cierre.md) | Las cinco tareas y los KPIs que no se cumplen |
 
+## L6 · Marketplace
+
+| Doc | Preocupación |
+|---|---|
+| [L6-publicar](L6-publicar.md) | El flujo de publicación: los cinco estados y las cuatro validaciones |
+| [L6-licencia](L6-licencia.md) | La licencia de distribución: no transfiere la propiedad |
+| [L6-pin](L6-pin.md) | El pin de las tres propias, y por qué no rota |
+| [L6-catalogo](L6-catalogo.md) | Los dos niveles y el distintivo mutación/receta |
+| [L6-usabilidad](L6-usabilidad.md) | El instrumento de las cinco psicometrías, y lo que falta medir |
+| [L6-cierre](L6-cierre.md) | Las cinco tareas, los KPIs y lo que queda abierto |
+
 La superficie publica y los documentos transversales estan en
 [INDICE-publico.md](INDICE-publico.md).
