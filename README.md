@@ -29,16 +29,16 @@ que fue escrito y dice si el documento cumple.
 <!-- GENERADO:estado -->
 ### Ahora
 
-**L6 · Marketplace: donde se publica, y el pin de las tres propias.** En curso: L6-T1 (publicar un modulo: crear, validar, licencia, publicar). Lo que el plan pide y esta declarado: el pin verificado al 100% de las veces, el flujo de publicacion sin friccion para la persona, el property_check de que las tres propias van antes que cualquier tercero, y el drift_judge sobre el diseno del marketplace.
+**L7 · Reputacion: el ciclo completo.** En curso: L7-T1 (sello de calidad: publicar, sello del juez, insignia visible). Depende de L6-T1, que ya esta hecho.
 
 ### La evidencia, medida
 
 | Medida | Resultado |
 | --- | --- |
-| Tests | 512 de 512 |
-| Mutantes | 272 de 272 (100%, 51 paquetes) |
-| Unidades juzgables | 187, 0 exceden los 4096 B |
-| Veredicto del juez | 28 documentos de L4-T5 y L4-T6 mas los 6 de L5, con veredicto aligned vigente sobre el sha de hoy: confianza 0.93 a 1.00 (nli_label entailment, provider judge-minimax). Los tres transversales que L5 toco tambien se juzgaron (6 partes, 0.98 a 1.00) pero no se suman al conteo para no duplicar. El registro de los loops anteriores vive en el store donde se cerraron, que esta maquina no tiene, y la CI no re-verifica ninguno de los dos. |
+| Tests | 563 de 563 |
+| Mutantes | 312 de 312 (100%, 60 paquetes) |
+| Unidades juzgables | 210, 0 exceden los 4096 B |
+| Veredicto del juez | 34 documentos de L4-T5 y L4-T6 mas los 6 de L5 y los 6 de L6, con veredicto aligned vigente sobre el sha de hoy: confianza 0.93 a 1.00 (nli_label entailment, provider judge-minimax). Los transversales que L5 y L6 tocaron tambien se juzgaron (INDICE.md en ambos, con 6 partes y luego 2, 0.98 en las dos veces) pero no se suman al conteo para no duplicar. El registro de los loops anteriores vive en el store donde se cerraron, que esta maquina no tiene, y la CI no re-verifica ninguno de los dos. |
 
 ### Los documentos
 
@@ -50,6 +50,7 @@ que fue escrito y dice si el documento cumple.
 | L3 | Boundary MEMORY: la memoria es tuya y de nadie mas |
 | L4 | Identidad: las tres identidades y la puerta que las comprueba |
 | L5 | Judge pipeline: publicar con confianza, y medir lo que cuesta |
+| L6 | Marketplace: donde se publica, y el pin de las tres propias |
 
 ### Donde mirar
 

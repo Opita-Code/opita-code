@@ -62,6 +62,17 @@ Total: 5533 B · 2 medidos · 0 proyectados.
 
 | Parte | Clase | Afirmación | Bytes | De dónde |
 |---|---|---|---|---|
-| L6-avances | avances | Publicar un modulo: crear, validar, aceptar la licencia de distribucion y publicarlo, en dos niveles (tools atomicas y modulos). Y encontrarlo: las tres propias siempre en posicion 1, los terceros debajo con el distintivo de mutacion o receta. | 1219 | proyectado |
+| L6-avances | avances | Publicar un modulo o una tool atomica: crear, validar, aceptar la licencia de distribucion y publicar. Y encontrarlos: las tres propias de primero, los terceros debajo con el distintivo de mutacion o receta. | 1465 | medido |
+| L6-cierre | cierre | Un modulo no tiene eje 2 propio, y el mas restrictivo gana: un modulo con un nodo estocastico NO es un fork identico, asi que no puede llamarse mutacion. Y la validacion y el veredicto son dos estados y no uno, porque fallan distinto: uno se arregla cambiando el modulo y el otro cambiando lo que se afirma. | 4151 | medido |
 
-Total: 1219 B · 0 medidos · 1 proyectados.
+Total: 5616 B · 2 medidos · 0 proyectados.
+
+**Fuera del tope:** L6-cierre. Cada una se parte por concepto.
+
+## L7 · Reputacion: el ciclo completo
+
+| Parte | Clase | Afirmación | Bytes | De dónde |
+|---|---|---|---|---|
+| L7-avances | avances | Publicar y que tu trabajo lleve el sello del juez a la vista, con un numero de reputacion que sube con el. | 1180 | proyectado |
+
+Total: 1180 B · 0 medidos · 1 proyectados.

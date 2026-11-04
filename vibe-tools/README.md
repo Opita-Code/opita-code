@@ -15,9 +15,10 @@ Runtime de tools componibles para Opita Code.
 **L3 cerrado** — Boundary MEMORY: la memoria es tuya y de nadie mas.
 **L4 cerrado** — Identidad: las tres identidades y la puerta que las comprueba.
 **L5 cerrado** — Judge pipeline: publicar con confianza, y medir lo que cuesta.
+**L6 cerrado** — Marketplace: donde se publica, y el pin de las tres propias.
 
-512 tests · mutation 272/272 = 100% en 51 paquetes · 187 unidades juzgables.
-**L6 · Marketplace: donde se publica, y el pin de las tres propias.** En curso: L6-T1 (publicar un modulo: crear, validar, licencia, publicar). Lo que el plan pide y esta declarado: el pin verificado al 100% de las veces, el flujo de publicacion sin friccion para la persona, el property_check de que las tres propias van antes que cualquier tercero, y el drift_judge sobre el diseno del marketplace.
+563 tests · mutation 312/312 = 100% en 60 paquetes · 210 unidades juzgables.
+**L7 · Reputacion: el ciclo completo.** En curso: L7-T1 (sello de calidad: publicar, sello del juez, insignia visible). Depende de L6-T1, que ya esta hecho.
 <!-- /GENERADO:estado -->
 
 > Este bloque se **genera** desde `estado.json` y lo verifica `npm run verificar-estado`. El
