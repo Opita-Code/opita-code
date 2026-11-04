@@ -704,6 +704,108 @@ const MUTANTS = [
   ['src/juez/whitelist.js', 'la lista mira T1 en vez de T2',
     "const backend = modulo.nodes.filter((n) => n.tool.tier === 'T2');",
     "const backend = modulo.nodes.filter((n) => n.tool.tier === 'T1');"],
+  // ---- src/marketplace/clase.ts : el distintivo ---------------------------
+  ['src/marketplace/clase.js', 'la clase de una tool no sale del eje 2',
+    'return sharePolicy(determinismo).kind;', "return 'mutation';"],
+  ['src/marketplace/clase.js', 'un modulo con un nodo con estado no es none',
+    "if (delNodo === 'none')", 'if (false)'],
+  ['src/marketplace/clase.js', 'un modulo con un nodo estocastico no es recipe',
+    "if (delNodo === 'recipe')", 'if (false)'],
+
+  // ---- src/marketplace/entrada.ts : lo que la entrada deriva -------------
+  ['src/marketplace/entrada.js', 'el nivel de un modulo no es modulo',
+    "return esModulo(descriptor) ? 'modulo' : 'tool';", "return 'tool';"],
+  ['src/marketplace/entrada.js', 'la huella de la entrada no es la del descriptor',
+    'huella: integrityOf(descriptor),', "huella: 'x'.repeat(64),"],
+  ['src/marketplace/entrada.js', 'el autor de la entrada no es el del descriptor',
+    'autor: descriptor.author,', "autor: 'alguien',"],
+  ['src/marketplace/entrada.js', 'una entrada nace publicada',
+    "estado: 'creado',", "estado: 'publicado',"],
+
+  // ---- src/marketplace/manifiesto.ts : lo que el juez va a leer -----------
+  ['src/marketplace/manifiesto.js', 'el manifiesto no hace una parte por nodo',
+    'for (const nodo of entrada.descriptor.nodes) {',
+    'for (const nodo of entrada.descriptor.nodes.slice(0, 1)) {'],
+  ['src/marketplace/manifiesto.js', 'el sha de la parte no es el de su texto',
+    'sha: sha256HexOfText(c.texto),', "sha: '',"],
+  ['src/marketplace/manifiesto.js', 'el manifiesto no dice el determinismo',
+    'determinismo: ${tool.determinism}', 'determinismo: desconocido'],
+
+  // ---- src/marketplace/validar.ts : lo que se comprueba antes de publicar -
+  ['src/marketplace/validar.js', 'la huella no se comprueba',
+    'if (huella !== entrada.huella) {', 'if (false) {'],
+  ['src/marketplace/validar.js', 'las reglas del modulo no se comprueban',
+    'const reglas = validate(entrada.descriptor);', 'const reglas = { ok: true };'],
+  ['src/marketplace/validar.js', 'la lista blanca no se comprueba',
+    'const lista = revisarWhitelist(entrada.descriptor);', 'const lista = { ok: true };'],
+  ['src/marketplace/validar.js', 'el numero de afirmaciones no se comprueba',
+    'if (partes.length !== entrada.afirmaciones.length) {', 'if (false) {'],
+  ['src/marketplace/validar.js', 'una tool que no entrega nada pasa',
+    'if (deliveries(tool).length === 0) {', 'if (false) {'],
+  ['src/marketplace/validar.js', 'una tool con un efecto que su tier no sostiene pasa',
+    'if (!tierAllows(tool.tier, tool.effect)) {', 'if (false) {'],
+  ['src/marketplace/validar.js', 'una afirmacion vacia se acepta',
+    "if (afirmacion.trim() === '') {", 'if (false) {'],
+  ['src/marketplace/validar.js', 'publicar el trabajo de otro no es riesgo alto',
+    "riesgo: 'alto',", "riesgo: 'normal',"],
+
+  // ---- src/marketplace/licencia.ts : la licencia de distribucion ---------
+  ['src/marketplace/licencia.js', 'la licencia puede transferir la propiedad',
+    'if (licencia.transferencia !== TRANSFERENCIA) {', 'if (false) {'],
+  ['src/marketplace/licencia.js', 'la licencia puede no conceder la distribucion',
+    'for (const concesion of CONCESIONES) {', 'for (const concesion of []) {'],
+  ['src/marketplace/licencia.js', 'la licencia puede no reservar la suspension',
+    'for (const reserva of RESERVAS) {', 'for (const reserva of []) {'],
+  ['src/marketplace/licencia.js', 'la licencia puede ser de otro autor',
+    'if (licencia.propietario !== propietario) {', 'if (false) {'],
+
+  // ---- src/marketplace/publicar.ts : el flujo, paso a paso ---------------
+  ['src/marketplace/publicar.js', 'se puede validar dos veces',
+    "const precondition = exige(entrada, 'creado');", 'const precondition = null;'],
+  ['src/marketplace/publicar.js', 'se puede juzgar sin validar',
+    "const precondition = exige(entrada, 'validado');", 'const precondition = null;'],
+  ['src/marketplace/publicar.js', 'se puede publicar sin estar licenciado',
+    "const precondition = exige(entrada, 'licenciado');", 'const precondition = null;'],
+  ['src/marketplace/publicar.js', 'el veredicto de otra entrada se acepta',
+    'if (juzgada === undefined || juzgada.sha !== parte.sha) {', 'if (false) {'],
+  ['src/marketplace/publicar.js', 'un veredicto con drift publica',
+    "if (publicacion.decision !== 'publicar') {", 'if (false) {'],
+  ['src/marketplace/publicar.js', 'la licencia no se comprueba al aceptarla',
+    'const comprobacion = comprobarLicencia(licencia, entrada.autor);', 'const comprobacion = { ok: true };'],
+  ['src/marketplace/publicar.js', 'una suspension sin motivo se acepta',
+    "if (motivo.trim() === '') {\n        return fallo('estado_invalido', 'una suspension sin motivo no es una suspension: es una extincion');",
+    "if (false) {\n        return fallo('estado_invalido', 'una suspension sin motivo no es una suspension: es una extincion');"],
+  ['src/marketplace/publicar.js', 'una retirada sin motivo se acepta',
+    "if (motivo.trim() === '') {\n        return fallo('estado_invalido', 'una retirada sin motivo no es una retirada: es un borrado');",
+    "if (false) {\n        return fallo('estado_invalido', 'una retirada sin motivo no es una retirada: es un borrado');"],
+
+  // ---- src/marketplace/pin.ts : las propias de primero -------------------
+  ['src/marketplace/pin.js', 'el pin no se aplica: las propias no van primero',
+    'return [...propiasVisibles, ...deTerceros];', 'return [...deTerceros, ...propiasVisibles];'],
+  ['src/marketplace/pin.js', 'lo que no esta publicado se lista',
+    ".filter((e) => e.estado === 'publicado')", '.filter(() => true)'],
+  ['src/marketplace/pin.js', 'cualquier entrada es propia',
+    'return propias.includes(entrada.id);', 'return true;'],
+  ['src/marketplace/pin.js', 'el listado no se ordena por publicacion',
+    '.sort((a, b) => (a.secuencia ?? 0) - (b.secuencia ?? 0));', ''],
+
+  // ---- src/marketplace/catalogo.ts : el catalogo -------------------------
+  ['src/marketplace/catalogo.js', 'el numero de publicacion no avanza',
+    'siguiente: catalogo.siguiente + 1,', 'siguiente: catalogo.siguiente,'],
+  ['src/marketplace/catalogo.js', 'sustituir una entrada que no existe no falla',
+    'if (indice < 0) {', 'if (false) {'],
+  ['src/marketplace/catalogo.js', 'el catalogo publica lo que el flujo no publico',
+    'const resultado = publicarEntrada(entrada, catalogo.siguiente);', 'const resultado = { ok: true, entrada };'],
+
+  // ---- src/marketplace/niveles.ts : los dos niveles ----------------------
+  ['src/marketplace/niveles.js', 'porNivel no separa los niveles',
+    "return entradas.filter((e) => (esModulo(e.descriptor) ? 'modulo' : 'tool') === nivel);",
+    'return entradas;'],
+  ['src/marketplace/niveles.js', 'el descubrimiento son las tools',
+    'return modulos(entradas);', 'return herramientas(entradas);'],
+  ['src/marketplace/niveles.js', 'las tools de un modulo se repiten',
+    'vistas.set(`${nodo.tool.id}@${nodo.tool.version}`, { id: nodo.tool.id, version: nodo.tool.version });',
+    'vistas.set(nodo.node, { id: nodo.tool.id, version: nodo.tool.version });'],
 ];
 
 /**
