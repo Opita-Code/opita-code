@@ -57,3 +57,11 @@ Total: 4541 B · 2 medidos · 0 proyectados.
 | L5-cierre | cierre | La misma afirmacion para todas las partes produce deriva falsa: tres documentos correctos salieron drift_detected por juzgar cada fragmento contra el intent del documento entero. Una parte, una afirmacion. Y dos defensas del mismo invariante se tapan: la mutacion destapo dos ramas redundantes, en el ambito y en el empate. | 4087 | medido |
 
 Total: 5533 B · 2 medidos · 0 proyectados.
+
+## L6 · Marketplace: donde se publica, y el pin de las tres propias
+
+| Parte | Clase | Afirmación | Bytes | De dónde |
+|---|---|---|---|---|
+| L6-avances | avances | Publicar un modulo: crear, validar, aceptar la licencia de distribucion y publicarlo, en dos niveles (tools atomicas y modulos). Y encontrarlo: las tres propias siempre en posicion 1, los terceros debajo con el distintivo de mutacion o receta. | 1219 | proyectado |
+
+Total: 1219 B · 0 medidos · 1 proyectados.

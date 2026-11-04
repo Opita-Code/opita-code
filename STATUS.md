@@ -4,7 +4,7 @@
 
 ## Ahora
 
-No hay ningun loop en cola.
+**L6 · Marketplace: donde se publica, y el pin de las tres propias.** En curso: L6-T1 (publicar un modulo: crear, validar, licencia, publicar). Lo que el plan pide y esta declarado: el pin verificado al 100% de las veces, el flujo de publicacion sin friccion para la persona, el property_check de que las tres propias van antes que cualquier tercero, y el drift_judge sobre el diseno del marketplace.
 
 ## Lo que ya funciona
 
@@ -23,7 +23,7 @@ No hay ningun loop en cola.
 | --- | --- |
 | Tests | 512 de 512, 0 fallos |
 | Mutantes | 272 de 272, 100% en 51 paquetes (umbral 80%) |
-| Unidades juzgables | 186, y 0 exceden los 4096 B |
+| Unidades juzgables | 187, y 0 exceden los 4096 B |
 | Gates de loop | 6 loops cerrados |
 | Veredicto del juez | 28 documentos de L4-T5 y L4-T6 mas los 6 de L5, con veredicto aligned vigente sobre el sha de hoy: confianza 0.93 a 1.00 (nli_label entailment, provider judge-minimax). Los tres transversales que L5 toco tambien se juzgaron (6 partes, 0.98 a 1.00) pero no se suman al conteo para no duplicar. El registro de los loops anteriores vive en el store donde se cerraron, que esta maquina no tiene, y la CI no re-verifica ninguno de los dos. |
 

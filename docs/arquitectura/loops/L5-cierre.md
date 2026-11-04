@@ -37,7 +37,7 @@ juzgó tres veces con el juez real y las tres dijeron `aligned` con confianza
 | Tests del transporte contra el doble | 21 |
 | Tests de todo el repositorio | 512, con 508 en verde y 4 saltados |
 | Mutantes del pipeline | 272, todos muertos |
-| Unidades juzgables | 186, ninguna sobre el tope |
+| Unidades juzgables | 187, ninguna sobre el tope |
 | Llamadas al juez real | 3 para el código, 1 por documento |
 | Latencia máxima medida | 7346 ms (tres muestras de 6763, 3814 y 7346) |
 
