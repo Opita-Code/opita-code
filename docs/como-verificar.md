@@ -24,10 +24,30 @@ guard de la superficie pública: mide lo que el repositorio afirma de sí mismo 
 que sale de la fuente, y caen si alguien editó a mano un archivo generado.
 
 Las pruebas son cuatro suites: la de unidad, la de integración, la del pipeline
-y la del mecanismo de partes. **La de integración necesita Docker**: levanta
-un Postgres de verdad para medir el aislamiento, y sin Docker se salta y lo
-dice en el nombre del test. Un aislamiento que no se midió no es un aislamiento
-comprobado.
+y la de las herramientas, que incluye el mecanismo de partes y el transporte
+del juez. **La de integración necesita Docker**: levanta un Postgres de verdad
+para medir el aislamiento, y sin Docker se salta y lo dice en el nombre del
+test. Un aislamiento que no se midió no es un aislamiento comprobado.
+
+## El juez real
+
+La CI mide el transporte contra un doble del servidor. El juez real se mide a
+mano, porque necesita proveedor y cuota:
+
+```bash
+cd vibe-tools
+node tools/juez-correr.mjs --ruta docs/arquitectura/loops/L5-pipeline.md \
+  --afirmacion "el pipeline convierte un artefacto en una decision" --json
+```
+
+El comando parte el artefacto por concepto, pide el plan, llama al juez una vez
+por muestra con `artifact_ref`, comprueba que las partes recompongan el
+original y decide. Sale con 0 si publica, 1 si hay que corregir, 2 si el
+encargo se rechaza o hay un error, y 3 si hay que parar.
+
+Lo que el comando no hace: no copia el veredicto al repositorio. El registro
+vive en el store de dark-memory, y un documento y su veredicto en el mismo
+sitio son autorreferenciales.
 
 ## Por qué el estado no se escribe a mano
 

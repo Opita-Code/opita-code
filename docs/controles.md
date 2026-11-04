@@ -18,6 +18,7 @@
 | `generar-estado --check` | que lo escrito (README, STATUS, avances, la matriz de las specs) sea exactamente lo que sale de la fuente | que los números sean ciertos; eso lo mide `verificar-estado` contra la realidad |
 | `generar-sitio --check` | que las páginas del sitio sean exactamente las que sale de la fuente | que los números sean ciertos; eso lo mide `verificar-estado` contra la realidad |
 | `identidad` (runtime) | que la identidad sea del tipo que dice, con la clave derivada y con la evidencia de su estado | si el id existe, ni el contenido inyectado, ni el pool, ni que el stack sea honesto |
+| `juez` (runtime) | que el pipeline rechace el encargo sin ámbito, planifique las muestras por riesgo, compruebe que la medida es de este plan y clasifique la parada | si el juez es bueno; si el veredicto es el correcto; la coherencia entre partes |
 
 ## QUÉ CORRE, Y EN QUÉ ORDEN
 
@@ -71,6 +72,20 @@ porque no lleva la cabecera.
 Lo que esto NO verifica: que las partes sean coherentes entre sí. Eso no lo
 certifica nadie ([el judge por partes](arquitectura/loops/judge-partes.md)), y la
 composición solo demuestra que las partes son el original.
+
+## EL PIPELINE DEL JUEZ
+
+El pipeline vive en `vibe-tools/src/juez/` y el transporte en
+`vibe-tools/tools/juez-correr.mjs`. Lo que corre en cada push es el transporte
+contra un doble del servidor (`vibe-tools/tools/juez-falso.mjs`): mide la
+traducción de `verdict_json`, la clasificación de infraestructura frente a
+semántico, que un encargo rechazado no gaste una llamada, y que las partes
+recompongan el original.
+
+Lo que NO corre en la CI es el juez real: necesita proveedor y cuota. Su
+veredicto no se copia al repositorio; vive en el store de dark-memory. Por eso
+la tabla dice lo que este control no ve: si el artefacto dice la verdad, y si
+el juez es bueno.
 
 ## POR QUÉ NO ES UNA GARANTÍA
 

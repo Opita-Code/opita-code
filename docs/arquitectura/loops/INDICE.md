@@ -70,5 +70,16 @@
 | [L4-T6-verificacion](L4-T6-verificacion.md) | El paquete, medido: la forma, la huella y el deny by default |
 | [L4-cierre](L4-cierre.md) | El cierre del loop: las seis tareas y los KPIs que no se cumplen |
 
+## L5 · Judge pipeline
+
+| Doc | Preocupación |
+|---|---|
+| [L5-pipeline](L5-pipeline.md) | El encargo, el plan, la correspondencia y el transporte |
+| [L5-ambitos](L5-ambitos.md) | Qué mide cada clase de artefacto, y por qué se asigna por ruta |
+| [L5-needs-human](L5-needs-human.md) | Infraestructura, semántico y disenso: qué hacer con cada parada |
+| [L5-coste](L5-coste.md) | Llamadas, bytes y latencia medidos; tokens y margen no |
+| [L5-mutacion-juez](L5-mutacion-juez.md) | Mutar el artefacto: 2 de 5 detectadas, y por qué |
+| [L5-cierre](L5-cierre.md) | Las cinco tareas y los KPIs que no se cumplen |
+
 La superficie publica y los documentos transversales estan en
 [INDICE-publico.md](INDICE-publico.md).
